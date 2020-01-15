@@ -1,4 +1,4 @@
-package by.victor.beta.entity;
+package by.victor.beta.logic.entity;
 
 import java.io.Serializable;
 

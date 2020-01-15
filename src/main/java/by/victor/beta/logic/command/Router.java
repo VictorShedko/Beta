@@ -1,4 +1,4 @@
-package by.victor.beta.command;
+package by.victor.beta.logic.command;
 
 public class Router {
     private String pagePath;
@@ -12,7 +12,7 @@ public class Router {
         redirectType=RouterType.FORWARD;
     }
 
-    public void setRedirectType(){
+    public void setRedirect(){
         redirectType=RouterType.REDIRECT;
     }
 
@@ -22,5 +22,13 @@ public class Router {
 
     public void setRedirectType(RouterType redirectType) {
         this.redirectType = redirectType;
+    }
+
+    public String getPagePath() {
+        return pagePath;
+    }
+
+    public RouterType getRedirectType() {
+        return redirectType;
     }
 }
