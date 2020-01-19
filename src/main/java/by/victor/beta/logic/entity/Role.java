@@ -1,7 +1,7 @@
 package by.victor.beta.logic.entity;
 
 public enum  Role {
-    ADMIN("admin"),USER("user"),DEFAULT("default");
+    ADMIN("admin"),USER("user"),EXECUTOR("executor"),DEFAULT("default");
     private final String value;
 
     Role(String v) {

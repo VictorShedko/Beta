@@ -1,9 +1,8 @@
 package by.victor.beta.logic.reposytory;
 
-import by.victor.beta.logic.dbconection.ConnectionProvider;
-import by.victor.beta.logic.dbconection.NoFreeConnectionException;
+import by.victor.beta.logic.reposytory.dbconnection.ConnectionProvider;
+import by.victor.beta.logic.reposytory.dbconnection.NoFreeConnectionException;
 import by.victor.beta.logic.reposytory.specification.Specification;
-import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -19,9 +18,16 @@ public enum Repository {
 
     }
 
-    public void Query(Specification specification) throws NoFreeConnectionException, SQLException {
-        Connection cn= ConnectionProvider.instance.occupyConnection().orElseThrow(NoFreeConnectionException::new);
-        specification.execute(cn);
+    public void query(Specification specification) throws RepositoryException {
+        Connection cn= null;
+        try {
+            cn = ConnectionProvider.instance.occupyConnection().orElseThrow(NoFreeConnectionException::new);
+            specification.execute(cn);
+        } catch (NoFreeConnectionException | SQLException e) {
+            e.printStackTrace();
+            throw new RepositoryException(e);
+        }
+
     }
 
 }

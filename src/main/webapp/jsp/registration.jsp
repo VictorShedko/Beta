@@ -16,25 +16,31 @@
 <body>
 
 <h1>Welcome, fill this form, please</h1>
-<form onsubmit="registrationValidate(this)">
+<form onsubmit="registrationValidate(this)" action="cleaning" method="post">
     <div class="form-row">
         <div class="form-group col-md-6">
-            <label for="inputName">User name</label>
-            <input type="text" class="form-control" id="inputName" placeholder="name">
+            <label for="inputName">Username</label>
+            <input type="text" class="form-control" id="inputName" placeholder="name"  name="username">
         </div>
         <div class="form-group col-md-6">
             <label for="inputPassword">Password</label>
-            <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+            <input type="password" class="form-control" id="inputPassword" placeholder="Password" name="username">
         </div>
     </div>
+    <%--  <div class="form-group">
+          <div class="form-group col-md-6">
+              <label for="inputEmail">User name</label>
+              <input type="email" class="form-control" id="inputEmail" placeholder="name">
+
+          </div>
+      </div>--%>
     <div class="form-group">
         <div class="form-group col-md-6">
-            <label for="inputEmail">User name</label>
-            <input type="email" class="form-control" id="inputEmail" placeholder="name">
+            <label for="inputLogin">Login</label>
+            <input type="text" class="form-control" id="inputLogin" placeholder="login">
 
         </div>
     </div>
-
     <div class="form-group">
         <label>Пожарный</label>
         <div class="form-check form-check-inline">

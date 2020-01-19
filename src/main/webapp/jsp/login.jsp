@@ -32,7 +32,8 @@
                         <div class="col-sm-3">
                             <div class="form-group">
                                 <label for="login" lass="col-sm-2 col-form-label">Name</label>
-                                <input type="text" class="form-control " required minlength="6" id="login" name="username">
+                                <input type="text" class="form-control " required minlength="6" id="login"
+                                       name="login">
                                 <div class="valid-feedback">
                                     Looks good!
                                 </div>
@@ -47,7 +48,7 @@
                                 <input type="password" class="form-control" required minlength="6" maxlength="18"
                                        id="inputPassword"
                                        placeholder="Password"
-                                name="password">
+                                       name="password">
                                 <div class="valid-feedback">
                                     Looks good!
                                 </div>
