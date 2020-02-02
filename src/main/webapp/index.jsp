@@ -1,8 +1,9 @@
-<html>
-<head>login
-</head>
-<body>
-    <jsp:forward page="/jsp/login.jsp"/>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page isELIgnored="false" %>
 
-</body>
-</html>
+<html>
+<head><title>Index</title></head>
+<body>
+<jsp:forward page="/jsp/commonpage/login.jsp"/>
+</body></html>

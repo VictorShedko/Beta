@@ -1,9 +1,9 @@
 package by.victor.beta.controller;
 
 
-import by.victor.beta.logic.command.*;
-import by.victor.beta.logic.entity.Role;
-import by.victor.beta.logic.service.ServiceFacade;
+import by.victor.beta.command.*;
+import by.victor.beta.entity.Role;
+import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -13,7 +13,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -38,33 +37,36 @@ public class MainServlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (CommandException e) {
-            e.printStackTrace();
+            //todo
         }
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, CommandException {
         CommandProvider commandProvider = new CommandProvider();
-        SessionAction sessionAction = new SessionAction();
-        String requestCommand = request.getParameter(AttributeNameProvider.COMMAND);
-        HttpSession session = request.getSession();
-        Role requesterRole = sessionAction.getRole(session);
+
+        RequestSessionContent content = new RequestSessionContent(request,getServletContext());
+
+        String requestCommand = (String)content.getRequestParameter(AttributeNameProvider.COMMAND);
+        Role requesterRole = content.getRole();
         Optional<AbstractCommand> optionalCommand = commandProvider.findCommand(requesterRole, requestCommand);
-        AbstractCommand command = optionalCommand.orElseThrow(IllegalArgumentException::new);
-        Transmitter transmitter = new Transmitter();
-        RequestSessionContent content = transmitter.buildContent(request, session);
+        logger.log(Level.DEBUG,"role:"+requesterRole+" command:"+optionalCommand);
+        AbstractCommand command = optionalCommand.orElseThrow(CommandException::new);
         Router router = command.execute(content);
-        transmitter.addContent(request,session,content);
-        RedirectionAction redirectionAction = new RedirectionAction();
-        redirectionAction.redirect(request, response, router);
+        content.addContent(request);
+        switch (router.getRedirectType()) {
+            case FORWARD:
+                request.getRequestDispatcher(router.getPagePath()).forward(request, response);
+                break;
+            case REDIRECT:
+                response.sendRedirect(router.getPagePath());
+        }
     }
 
     @Override
     public void destroy() {
         super.destroy();
-        ServiceFacade.instance.destroy();
+
     }
-
-
 }
 
 
