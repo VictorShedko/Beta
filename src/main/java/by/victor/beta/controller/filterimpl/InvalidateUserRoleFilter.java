@@ -34,7 +34,7 @@ public class InvalidateUserRoleFilter implements Filter {
             session.setAttribute(AttributeNameProvider.ROLE,Role.DEFAULT);
             logger.log(Level.DEBUG,"login redirect role invalidation");
         }
-        if(CommandType.REGISTER.name().equalsIgnoreCase(command )&&(role!=Role.DEFAULT)) {
+        if(CommandType.TO_REGISTRATION.name().equalsIgnoreCase(command )&&(role!=Role.DEFAULT)) {
             session.setAttribute(AttributeNameProvider.ROLE,Role.DEFAULT);
             logger.log(Level.DEBUG,"registration redirect role invalidation");
         }

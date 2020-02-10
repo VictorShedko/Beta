@@ -30,6 +30,7 @@ public class LoginCommand implements AbstractCommand {
                     content.setSessionAttribute(AttributeNameProvider.USERNAME,user.getUsername());
                     content.setSessionAttribute(AttributeNameProvider.ROLE,user.getRole());
                     content.setSessionAttribute(AttributeNameProvider.BALANCE,user.getBalance());
+                    content.setSessionAttribute(AttributeNameProvider.STATUS,user.getStatus());
                     if(user.getPhotoPath()!=null) {//todo optional
                         content.setSessionAttribute(AttributeNameProvider.PHOTO_PATH, user.getPhotoPath());
                     }else {

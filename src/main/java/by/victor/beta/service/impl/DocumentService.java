@@ -9,7 +9,7 @@ import by.victor.beta.repository.specification.impl.doсumentspecification.Chang
 import by.victor.beta.repository.specification.impl.doсumentspecification.FindDocumentByIdSpecification;
 import by.victor.beta.repository.specification.impl.doсumentspecification.FindDocumentByUsernameSpecification;
 import by.victor.beta.service.AbstractDocumentService;
-import by.victor.beta.service.CleanerEntutyProvider;
+import by.victor.beta.service.CleanerEntityProvider;
 import by.victor.beta.service.FileManager;
 import by.victor.beta.service.ServiceException;
 
@@ -19,7 +19,7 @@ import java.util.List;
 public class DocumentService implements AbstractDocumentService {
     @Override
     public void addDocument(User user, File file){
-        CleanerEntutyProvider factory=new CleanerEntutyProvider();
+        CleanerEntityProvider factory=new CleanerEntityProvider();
         FileManager manager=new FileManager();
         String UUID=manager.generateUUIDNameWithSameExtension(file);
         File movedFile=manager.moveFileToUserDir(file,user.getUsername(),UUID);

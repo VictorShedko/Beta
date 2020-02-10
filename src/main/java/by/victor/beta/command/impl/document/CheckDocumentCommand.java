@@ -9,16 +9,16 @@ import java.io.File;
 public class CheckDocumentCommand implements AbstractCommand {//todo
     @Override
     public Router execute(RequestSessionContent content) throws CommandException {
-        Router router = new Router(PagePathProvider.USER_LIST);
+        Router router = new Router(PagePathProvider.RESULT);
         String username = (String) content.getSessionAttribute(AttributeNameProvider.USERNAME);
         int id = Integer.parseInt((String) content.getRequestParameter(AttributeNameProvider.DOCUMENT_ID));
         try {
             ServiceFacade.instance.checkDocument(id, username);
-            content.setRequestAttribute("acceptOrderResult", "успешно ");//todo в константы
+            content.setRequestAttribute(AttributeNameProvider.COMMAND_RESULT, "успешно ");//todo в константы
 
         } catch (ServiceException repositoryException) {
             repositoryException.printStackTrace();//todo
-            content.setRequestAttribute("acceptOrderResult", "провал ");//todo в константы
+            content.setRequestAttribute(AttributeNameProvider.COMMAND_RESULT, "провал ");//todo в константы
 
         }
 

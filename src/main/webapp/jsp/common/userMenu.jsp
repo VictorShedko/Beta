@@ -111,7 +111,15 @@
                 </form>
             </div>
         </div>
-        <c:if test="${status == VERIFIED}">
+        <div class="col">
+            <form action="cleaning" method="POST">
+                <div class="form-group">
+                    <input type="hidden" name="command" value="to_add_info"/>
+                    <button type="submit" class="btn btn-primary"><fmt:message key="userMenu.customer.addInfo.text"/></button>
+                </div>
+            </form>
+        </div>
+        <c:if test="${status.toString() == 'VERIFIED'}">
         <div class="row">
             <c:if test="${role.value() == 'customer'}">
                 <div class="col">
@@ -127,14 +135,6 @@
                         <div class="form-group">
                             <input type="hidden" name="command" value="show_orders_customer"/>
                             <button type="submit" class="btn btn-primary"><fmt:message key="userMenu.customer.history.text"/></button>
-                        </div>
-                    </form>
-                </div>
-                <div class="col">
-                    <form action="cleaning" method="POST">
-                        <div class="form-group">
-                            <input type="hidden" name="command" value="to_add_info"/>
-                            <button type="submit" class="btn btn-primary"><fmt:message key="userMenu.customer.addInfo.text"/></button>
                         </div>
                     </form>
                 </div>

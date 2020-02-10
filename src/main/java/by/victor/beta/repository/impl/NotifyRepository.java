@@ -2,7 +2,7 @@ package by.victor.beta.repository.impl;
 
 import by.victor.beta.entity.Notification;
 import by.victor.beta.repository.Repository;
-import by.victor.beta.service.CleanerEntutyProvider;
+import by.victor.beta.service.CleanerEntityProvider;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -29,7 +29,7 @@ public class NotifyRepository extends Repository<Notification> {
     }
 
     @Override
-    protected Notification buildEntity(ResultSet resultSet, CleanerEntutyProvider factory) throws SQLException {
+    protected Notification buildEntity(ResultSet resultSet, CleanerEntityProvider factory) throws SQLException {
         return factory.getNotify(resultSet);
     }
 

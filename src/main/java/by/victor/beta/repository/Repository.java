@@ -1,7 +1,7 @@
 package by.victor.beta.repository;
 
 import by.victor.beta.repository.specification.Specification;
-import by.victor.beta.service.CleanerEntutyProvider;
+import by.victor.beta.service.CleanerEntityProvider;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -14,7 +14,7 @@ import java.util.List;
 
 public abstract class Repository<T> {
     private static final Logger logger= LogManager.getLogger(Repository.class);
-    abstract protected  T buildEntity(ResultSet resultSet, CleanerEntutyProvider factory) throws SQLException;
+    abstract protected  T buildEntity(ResultSet resultSet, CleanerEntityProvider factory) throws SQLException;
 
     public List<T> findQuery(Specification specification) throws RepositoryException {
 
@@ -25,7 +25,7 @@ public abstract class Repository<T> {
             try(PreparedStatement preparedStatement=specification.specify(cn)) {
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     entities = new ArrayList<>();
-                    CleanerEntutyProvider factory = new CleanerEntutyProvider();
+                    CleanerEntityProvider factory = new CleanerEntityProvider();
                     while (resultSet.next()) {
                         T entity = buildEntity(resultSet,factory);
                         entities.add(entity);

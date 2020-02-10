@@ -1,7 +1,7 @@
 package by.victor.beta.repository.impl;
 
 import by.victor.beta.repository.Repository;
-import by.victor.beta.service.CleanerEntutyProvider;
+import by.victor.beta.service.CleanerEntityProvider;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -28,7 +28,7 @@ public class TimeRepository extends Repository<Date> {
     }
 
     @Override
-    protected Date buildEntity(ResultSet resultSet, CleanerEntutyProvider factory) throws SQLException {
+    protected Date buildEntity(ResultSet resultSet, CleanerEntityProvider factory) throws SQLException {
         return factory.getUtilDate(resultSet);
     }
 }

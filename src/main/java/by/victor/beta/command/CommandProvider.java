@@ -23,7 +23,7 @@ public class CommandProvider {
 
         List<CommandType> adminCommands = List.of(CommandType.DELETE_USER,CommandType.LOGOUT,
                 CommandType.CHANGE_LOCALE,CommandType.SHOW_USER_BY_STATUS,CommandType.SHOW_USER_PROFILE,
-                CommandType.CHECK_DOCUMENT,CommandType.VERIFY_USER,
+                CommandType.CHECK_DOCUMENT,CommandType.VERIFY_USER,CommandType.TO_USER_MENU,
                 CommandType.SHOW_USER_BY_ROLE,CommandType.DELETE_USER);
         roleCommandMapping.put(Role.ADMIN, adminCommands);
 

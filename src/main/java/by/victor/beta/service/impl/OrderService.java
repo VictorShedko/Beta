@@ -7,7 +7,7 @@ import by.victor.beta.repository.impl.OrderRepository;
 import by.victor.beta.repository.impl.UserRepository;
 import by.victor.beta.repository.specification.impl.orderspecification.*;
 import by.victor.beta.service.AbstractOrderService;
-import by.victor.beta.service.CleanerEntutyProvider;
+import by.victor.beta.service.CleanerEntityProvider;
 import by.victor.beta.service.ServiceException;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
@@ -122,7 +122,7 @@ public class OrderService implements AbstractOrderService {
         try {
             UserService userService=new UserService();
             NotifyService notifyService=new NotifyService();
-            CleanerEntutyProvider cleanerEntutyProvider =new CleanerEntutyProvider();
+            CleanerEntityProvider cleanerEntityProvider =new CleanerEntityProvider();
             List<Order> orders =OrderRepository.getInstance().findQuery(specification);
             NotifyMessageBuilder builder=new NotifyMessageBuilder();
             NotifyMessageBuilder notifyMessageBuilder=new NotifyMessageBuilder();

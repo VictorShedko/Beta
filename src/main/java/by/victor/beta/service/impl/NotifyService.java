@@ -8,7 +8,7 @@ import by.victor.beta.repository.impl.NotifyRepository;
 import by.victor.beta.repository.specification.impl.notifyspecification.AddNotifySpecification;
 import by.victor.beta.repository.specification.impl.notifyspecification.FindNotifyByUsername;
 import by.victor.beta.service.AbstractNotifyService;
-import by.victor.beta.service.CleanerEntutyProvider;
+import by.victor.beta.service.CleanerEntityProvider;
 import by.victor.beta.service.ServiceException;
 
 import java.util.List;
@@ -27,7 +27,7 @@ public class NotifyService implements AbstractNotifyService {
 
     @Override
     public void addNotify(String text, User receiver, NotifyType type) throws ServiceException {
-        CleanerEntutyProvider factory = new CleanerEntutyProvider();
+        CleanerEntityProvider factory = new CleanerEntityProvider();
         Notification notification = factory.getNotify(text, receiver, type);
         AddNotifySpecification specification = new AddNotifySpecification(notification);
         try {

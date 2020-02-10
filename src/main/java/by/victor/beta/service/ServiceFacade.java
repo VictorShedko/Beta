@@ -66,7 +66,7 @@ public enum ServiceFacade {
         List<User> users = userService.findUserByLogin(login);
         users.addAll(userService.findUserByUsername(username));
         if (users.isEmpty()) {
-            CleanerEntutyProvider factory = new CleanerEntutyProvider();
+            CleanerEntityProvider factory = new CleanerEntityProvider();
             User user = factory.getUser(username, password, login, role, email, 0);
             userService.addUser(user);
             user = findSingleUser(username);
@@ -106,7 +106,7 @@ public enum ServiceFacade {
                 User user = users.get(0);
 
                 if (userService.debitUser(user, price)) {
-                    CleanerEntutyProvider factory = new CleanerEntutyProvider();
+                    CleanerEntityProvider factory = new CleanerEntityProvider();
                     Order order = factory.getOrder(username, null, price, startTime, endTime, address, description, user);
                     orderService.addOrder(order);
 

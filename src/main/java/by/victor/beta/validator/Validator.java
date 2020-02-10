@@ -31,13 +31,37 @@ public class Validator {
     }
 
     private boolean isValidName(String username) {
-        return username.matches(VALID_USERNAME_REGEXP) && username.length() <= MAX_USERNAME_SIZE
-                && username.length() >= MIN_USERNAME_SIZE;
+        boolean result = true;
+        if (!username.matches(VALID_USERNAME_REGEXP)) {
+            addToFeedBack("не корректное имя");//todo вынести в константы а еще лучше в ключи сообщений об ошибке
+            result = false;
+        }
+        if ( username.length() > MAX_USERNAME_SIZE) {
+            addToFeedBack("превышена максимальная длинна имени");
+            result = false;
+        }
+        if (username.length() < MIN_USERNAME_SIZE) {
+            addToFeedBack("имя должено быть длинее 7 символов");
+            result = false;
+        }
+        return result;
     }
 
-    private boolean isValidLogin(String username) {
-        return username.matches(VALID_LOGIN_REGEXP) && username.length() <= MAX_LOGIN_SIZE
-                && username.length() >= MIN_LOGIN_SIZE;
+    private boolean isValidLogin(String login) {
+        boolean result = true;
+        if (!login.matches(VALID_LOGIN_REGEXP)) {
+            addToFeedBack("логин должен содержать циферы и буквы ");
+            result = false;
+        }
+        if ( login.length() > MAX_LOGIN_SIZE) {
+            addToFeedBack("превышена максимальная длинна логина");
+            result = false;
+        }
+        if (login.length() < MIN_LOGIN_SIZE) {
+            addToFeedBack("логин должен быть длинее 7 символов");
+            result = false;
+        }
+        return result;
     }
 
     private boolean isValidPassword(String password) {
@@ -58,7 +82,7 @@ public class Validator {
         return result;
     }
 
-    public boolean isValidRegistrationForm(String username, String password, String login) {
+    public boolean isValidRegistrationForm(String username, String password, String login) {//todo email
         return isValidLogin(login) && isValidName(username) && isValidPassword(password);
     }
 

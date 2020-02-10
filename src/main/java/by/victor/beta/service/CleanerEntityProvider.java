@@ -13,7 +13,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
-public class CleanerEntutyProvider {
+public class CleanerEntityProvider {
 
 
     public User getUser(String username, String password, String login, Role role,String email,int balance) {
@@ -28,9 +28,9 @@ public class CleanerEntutyProvider {
             case CUSTOMER:
             case ADMIN:
                 user.setStatus(UserStatus.VERIFIED);
-                break;//todo так можно?
+                break;
             case EXECUTOR:
-                user.setStatus(UserStatus.NEW);
+                user.setStatus(UserStatus.EMAIL_VERIFIED);
                 break;
 
         }
