@@ -1,6 +1,7 @@
 package by.victor.beta.command.impl.user;
 
 import by.victor.beta.command.*;
+import by.victor.beta.entity.User;
 import by.victor.beta.service.ServiceException;
 import by.victor.beta.service.ServiceFacade;
 
@@ -13,8 +14,8 @@ public class UploadPhotoCommand implements AbstractCommand {
         String username=(String)  content.getSessionAttribute(AttributeNameProvider.USERNAME);
         File file=content.getFile();
         try {
-            ServiceFacade.instance.uploadPhoto(file, username);
-            content.setRequestAttribute("acceptOrderResult","успешно ");//todo в константы
+           User user= ServiceFacade.instance.uploadPhoto(file, username);
+            content.setRequestAttribute(AttributeNameProvider.PHOTO_PATH,user.getPhotoPath());//todo в константы
 
         } catch (ServiceException ex) {
             ex.printStackTrace();//todo

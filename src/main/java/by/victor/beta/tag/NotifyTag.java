@@ -1,26 +1,29 @@
 package by.victor.beta.tag;
 
 import by.victor.beta.command.AttributeNameProvider;
-import by.victor.beta.entity.Notify;
-import by.victor.beta.entity.NotifyType;
-import by.victor.beta.service.notifyservice.NotifyMessageBuilder;
+import by.victor.beta.entity.Notification;
+import by.victor.beta.service.impl.NotifyMessageBuilder;
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Locale;
 
 public class NotifyTag extends TagSupport {
-
+    private final static Logger logger= LogManager.getLogger(NotifyTag.class);
     private String messageText;
-    private Notify notify;
+    private Notification notification;
 
 
-    private void buildMessageTextWithLocale(Notify notify, Locale locale) {
+    private void buildMessageTextWithLocale(Notification notification, Locale locale) {
+
         NotifyMessageBuilder builder = new NotifyMessageBuilder();
-        messageText = builder.buildByPatter(notify.getValues(), notify.getType(), locale);
+
+        messageText = builder.buildByPatter(notification.getValues(), notification.getType(), locale);
 
 
     }
@@ -34,10 +37,12 @@ public class NotifyTag extends TagSupport {
     @Override
     public int doStartTag() throws JspException {
         try {
-            pageContext.getOut().write("<hr/>" + notify.getDate() + "<hr/>");
+
+            pageContext.getOut().write("<hr/>" + notification.getDate() + "<hr/>");
             Locale locale = getLocale((String) pageContext.getSession().
                     getAttribute(AttributeNameProvider.LOCALE));
-            buildMessageTextWithLocale(notify, locale);
+            logger.log(Level.DEBUG,"notify tag"+ notification +" locale:"+locale);
+            buildMessageTextWithLocale(notification, locale);
             pageContext.getOut().write("<hr/>" + messageText + "<hr/>");
         } catch (IOException e) {
             throw new JspException(e.getMessage());
@@ -49,11 +54,11 @@ public class NotifyTag extends TagSupport {
         return EVAL_PAGE;
     }
 
-    public Notify getNotify() {
-        return notify;
+    public Notification getNotification() {
+        return notification;
     }
 
-    public void setNotify(Notify notify) {
-        this.notify = notify;
+    public void setNotification(Notification notification) {
+        this.notification = notification;
     }
 }

@@ -4,7 +4,6 @@ import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -21,8 +20,8 @@ public enum ConnectionProvider {
     private int pool_size;
     private ReentrantLock gateOperationLock = new ReentrantLock();
     private Semaphore semaphore;
-    private Queue<Connection> freeConnection = new ArrayDeque();
-    private List<Connection> lockedConnection = new ArrayList();
+    private Queue<ProxiConfection> freeConnection = new ArrayDeque();
+    private List<ProxiConfection> lockedConnection = new ArrayList();
 
     ConnectionProvider(){
         ResourceBundle connectionInfo = ResourceBundle.getBundle(DB_BUNDLE_NAME);
@@ -31,7 +30,7 @@ public enum ConnectionProvider {
 
         try {
              for(int i=0;i<pool_size;i++) {
-                Connection newConnection = ConnectionCreator.getConnection();
+                 ProxiConfection newConnection = ConnectionCreator.getConnection();
                 freeConnection.add(newConnection);
             }
         } catch (SQLException e) {
@@ -40,8 +39,8 @@ public enum ConnectionProvider {
 
     }
 
-    public Optional<Connection> occupyConnection() {
-        Connection connection=null;
+    public Optional<ProxiConfection> occupyConnection() {
+        ProxiConfection connection=null;
         try {
             if(semaphore.tryAcquire(timeWait, TimeUnit.MILLISECONDS)) {
                 gateOperationLock.lock();
@@ -57,6 +56,8 @@ public enum ConnectionProvider {
                }
 
 
+            }else {
+                logger.log(Level.DEBUG,"no free connection ");
             }
         } catch (InterruptedException e) {
             logger.log(Level.DEBUG,"can't get connection",e);
@@ -64,7 +65,7 @@ public enum ConnectionProvider {
         return Optional.ofNullable(connection);
     }
 
-    public void freeConnection(Connection connection) {
+    public void freeConnection(ProxiConfection connection) {
         gateOperationLock.lock();
         try {
             freeConnection.add(connection);
@@ -80,7 +81,7 @@ public enum ConnectionProvider {
         gateOperationLock.lock();
         freeConnection.forEach(t-> {
             try {
-                t.close();
+                t.delete();
             } catch (SQLException e) {
                 logger.log(Level.ERROR,"destroy error",e);
             }

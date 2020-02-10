@@ -11,7 +11,7 @@ public class VerifyExecutorCommand implements AbstractCommand {
     @Override
     public Router execute(RequestSessionContent content) throws CommandException {
         Router router=new Router(PagePathProvider.USER_MAIN_PAGE);
-        String username=(String)  content.getSessionAttribute(AttributeNameProvider.USERNAME);
+        String username=(String)  content.getRequestParameter(AttributeNameProvider.USERNAME);
         try {
             ServiceFacade.instance.validateUser(username);
             content.setRequestAttribute("acceptOrderResult","успешно ");//todo в константы

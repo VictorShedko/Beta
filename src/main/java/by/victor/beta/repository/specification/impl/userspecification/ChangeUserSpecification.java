@@ -12,7 +12,7 @@ public class ChangeUserSpecification implements Specification {
 
     private String sql = "UPDATE user SET user.login=?," +
             "user.global_id=?,user.password=?,user.role=?,user.username=?,user.registration_time=?," +
-            "user.status=?,user.balance=?,user.email=?,user.photo=?" +
+            "user.status=?,user.balance=?,user.email=?,user.photo=? " +
             "WHERE user.global_id=?";
 
     public ChangeUserSpecification(User user) {

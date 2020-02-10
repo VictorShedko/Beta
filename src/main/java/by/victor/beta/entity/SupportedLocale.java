@@ -1,7 +1,7 @@
 package by.victor.beta.entity;
 
 public enum  SupportedLocale {
-    BE("be_BY"),EN("en_UK");
+    BE("be_BY"),EN("en_EN");
     private String localeName;
 
     SupportedLocale(String localeName){

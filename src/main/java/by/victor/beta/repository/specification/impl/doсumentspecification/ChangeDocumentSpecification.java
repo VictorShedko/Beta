@@ -12,7 +12,7 @@ public class ChangeDocumentSpecification implements Specification {
     private Document document;
 
     private String CHANGE_DOCUMENT = "UPDATE document SET document.file=?," +
-            "document.admin_check_id=?,document.iddocument=?,document.user_id=?" +
+            "document.admin_check_id=?,document.iddocument=?,document.user_id=? " +
             "WHERE document.iddocument=?";
 
 

@@ -1,8 +1,10 @@
 package by.victor.beta.command;
 
+import by.victor.beta.command.impl.ChangeLocaleCommand;
 import by.victor.beta.command.impl.DebugCommand;
 import by.victor.beta.command.impl.LoginCommand;
 import by.victor.beta.command.impl.LogoutCommand;
+import by.victor.beta.command.impl.document.CheckDocumentCommand;
 import by.victor.beta.command.impl.document.UploadDocumentCommand;
 import by.victor.beta.command.impl.notify.ToNotifyCommand;
 import by.victor.beta.command.impl.order.*;
@@ -27,8 +29,8 @@ public enum CommandType {
     UPLOAD_PHOTO(new UploadPhotoCommand()),
     UPLOAD_DOCUMENT(new UploadDocumentCommand()),
     LOGOUT(new LogoutCommand()),
-    VERIFY(new VerifyExecutorCommand()),
-    USER_LIST_BY_ROLE(new DebugCommand()),
+    VERIFY_USER(new VerifyExecutorCommand()),
+    CHECK_DOCUMENT(new CheckDocumentCommand()),
     TO_ADD_NOTIFY_FORM(new DebugCommand()),
     ADD_NOTIFY(new DebugCommand()),
     DELETE_USER(new DeleteUserCommand()),
@@ -39,10 +41,10 @@ public enum CommandType {
     ACCEPT_ORDER(new AcceptOrderCommand()),
     DELETE_ORDER(new CancelOrderCustomerCommand()),
     REFUSE_ORDER(new RefuseOrderExecutorCommand()),
-    SHOW_USER_PROFILE(new ShowUserProfile()),
-    SHOW_USER_BY_ROLE(new ShowUserByRole()),
-    SHOW_USER_BY_STATUS(new ShowUserByStatus()),
-    CHANGE_LOCALE(new DebugCommand());
+    SHOW_USER_PROFILE(new ShowUserProfileCommand()),
+    SHOW_USER_BY_ROLE(new ShowUserByRoleCommand()),
+    SHOW_USER_BY_STATUS(new ShowUserByStatusCommand()),
+    CHANGE_LOCALE(new ChangeLocaleCommand());
 
     private AbstractCommand command;
     CommandType(AbstractCommand command){

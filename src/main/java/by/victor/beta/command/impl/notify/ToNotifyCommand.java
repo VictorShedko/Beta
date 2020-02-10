@@ -1,8 +1,7 @@
 package by.victor.beta.command.impl.notify;
 
 import by.victor.beta.command.*;
-import by.victor.beta.entity.Notify;
-import by.victor.beta.repository.RepositoryException;
+import by.victor.beta.entity.Notification;
 import by.victor.beta.service.ServiceException;
 import by.victor.beta.service.ServiceFacade;
 
@@ -13,7 +12,7 @@ public class ToNotifyCommand implements AbstractCommand {
     public Router execute(RequestSessionContent content) throws CommandException {
         Router router ;
         String username = (String) content.getSessionAttribute(AttributeNameProvider.USERNAME);
-        List<Notify> notifies = null;
+        List<Notification> notifies = null;
         try {
             notifies = ServiceFacade.instance.showNotifyList(username);
             router= new Router(PagePathProvider.NOTIFY_LIST);

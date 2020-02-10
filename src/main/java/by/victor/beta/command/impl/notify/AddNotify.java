@@ -1,12 +1,8 @@
 package by.victor.beta.command.impl.notify;
 
 import by.victor.beta.command.*;
-import by.victor.beta.entity.Notify;
-import by.victor.beta.repository.RepositoryException;
 import by.victor.beta.service.ServiceException;
 import by.victor.beta.service.ServiceFacade;
-
-import java.util.List;
 
 public class AddNotify implements AbstractCommand {
 

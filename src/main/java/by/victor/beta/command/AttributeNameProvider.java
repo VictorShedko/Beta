@@ -46,6 +46,12 @@ public class AttributeNameProvider {
     public static final String USER_LIST="userList";
 
     public static final String FEEDBACK="feedback";
+    public static final String USER_SEARCH_PARAMETER="searchParameter";
+    public static final String USER_SEARCH_PARAMETER_VALUE="searchParameterValue";
+    public static final String DOCUMENT_LIST="documentList";
+    public static final String USER_PROFILE_PHOTO_PATH = "profilePhoto";
+    public static final String DOCUMENT_ID = "documentId";
+
     private AttributeNameProvider() {
 
     }

@@ -14,7 +14,6 @@ public class ChangeLocaleCommand implements AbstractCommand {
         } else {
              newLocale = SupportedLocale.BE;
         }
-
         content.setSessionAttribute(AttributeNameProvider.LOCALE,newLocale.getLocaleName());
         return new Router(PagePathProvider.USER_MAIN_PAGE);
     }

@@ -14,16 +14,16 @@ public class FindOrderById implements Specification {
             "left join user as executor on cleaning_order.executor_id=executor.global_id " +
             "where cleaning_order.idcleaning_order=?;";
 
-    private int status;
+    private long status;
 
-    public FindOrderById(int status) {
+    public FindOrderById(long status) {
         this.status = status;
     }
 
     @Override
     public PreparedStatement specify(Connection connection) throws SQLException {
         PreparedStatement ps = connection.prepareStatement(sql);
-        ps.setInt(1, status);
+        ps.setLong(1, status);
         return ps;
 
     }

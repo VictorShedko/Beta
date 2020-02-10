@@ -28,7 +28,8 @@ public class MainServlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (CommandException e) {
-            e.printStackTrace();
+            logger.log(Level.ERROR,"do get command ex",e);
+            throw new IllegalArgumentException(e);
         }
     }
 
@@ -37,7 +38,8 @@ public class MainServlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (CommandException e) {
-            //todo
+            logger.log(Level.ERROR,"do post command ex",e);
+            throw new IllegalArgumentException(e);
         }
     }
 

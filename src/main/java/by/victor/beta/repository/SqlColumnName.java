@@ -33,12 +33,14 @@ public class SqlColumnName {
     public static final String NOTIFY_TIME ="time";
 
     public static final String DOCUMENT_ID="iddocument";
-    public static final String DOCUMENT_ADMIN_NAME="admin_name";
-    public static final String DOCUMENT_ADMIN_ID="admin_id";
-    public static final String DOCUMENT_FILE_PATH="file_path";
-    public static final String DOCUMENT_USERNAME="username";
+    public static final String DOCUMENT_ADMIN_NAME="admin";
+    public static final String DOCUMENT_ADMIN_ID="admin_check_id";
+    public static final String DOCUMENT_FILE_PATH="file";
+    public static final String DOCUMENT_USERNAME="user";
     public static final String DOCUMENT_USER_ID="user_id";
     public static final String TIME_FOR_TIMER="time_before_action";
+
+    public static final String NOTIFY_TYPE="type";
     private SqlColumnName(){
 
     }

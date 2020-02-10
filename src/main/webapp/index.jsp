@@ -5,5 +5,5 @@
 <html>
 <head><title>Index</title></head>
 <body>
-<jsp:forward page="/jsp/commonpage/login.jsp"/>
+<jsp:forward page="/jsp/common/login.jsp"/>
 </body></html>

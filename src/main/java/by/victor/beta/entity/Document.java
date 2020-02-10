@@ -4,7 +4,7 @@ import java.io.File;
 
 public class Document implements Entity{
     private long id;
-    private long adminId;
+    private Long adminId;
     private long userId;
     private String username;
     private String adminName;
@@ -56,6 +56,25 @@ public class Document implements Entity{
 
     public void setFile(String file) {
         this.filePath = file;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder("Document ");
+        builder.append("id=");
+        builder.append(  id);
+        builder.append(", adminId=");
+        builder.append(adminId);
+        builder.append(", userId=");
+        builder.append(userId);
+        builder.append(", username=");
+        builder.append(username);
+        builder.append(", adminName=");
+        builder.append(adminName);
+        builder.append("  , filePath=");
+        builder.append(filePath);
+
+        return builder.toString();
     }
 }
 

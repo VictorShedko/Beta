@@ -1,23 +1,16 @@
 package by.victor.beta.repository.impl;
 
-import by.victor.beta.entity.Notify;
-import by.victor.beta.repository.ConnectionProvider;
+import by.victor.beta.entity.Notification;
 import by.victor.beta.repository.Repository;
-import by.victor.beta.repository.RepositoryException;
-import by.victor.beta.repository.specification.Specification;
-import by.victor.beta.service.CleanerFactory;
+import by.victor.beta.service.CleanerEntutyProvider;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class NotifyRepository extends Repository<Notify> {
+public class NotifyRepository extends Repository<Notification> {
 
     private static AtomicBoolean created = new AtomicBoolean(false);
     private static NotifyRepository notifyRepository = null;
@@ -36,7 +29,7 @@ public class NotifyRepository extends Repository<Notify> {
     }
 
     @Override
-    protected Notify buildEntity(ResultSet resultSet, CleanerFactory factory) throws SQLException {
+    protected Notification buildEntity(ResultSet resultSet, CleanerEntutyProvider factory) throws SQLException {
         return factory.getNotify(resultSet);
     }
 

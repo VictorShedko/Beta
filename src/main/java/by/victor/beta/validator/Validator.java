@@ -1,79 +1,151 @@
 package by.victor.beta.validator;
 
-import by.victor.beta.command.AttributeNameProvider;
-import by.victor.beta.command.RequestSessionContent;
-import by.victor.beta.entity.Role;
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.concurrent.TimeUnit;
 
 public class Validator {
-    public static final String VALID_USERNAME_REGEXP="[a-zA-Z0-9/-]+([ ]*[a-zA-Z0-9/-]+)";
-    public static final String VALID_LOGIN_REGEXP="[a-zA-Z0-9/-]+";
-    public static final String VALID_PASSWORD_REGEXP="[a-zA-Z0-9/-]+([0-9]*[a-zA-Z0-9/-]+)";
-    private static final int MAX_USERNAME_SIZE=30;
-    private static final int MIN_USERNAME_SIZE=8;
-    private static final int MAX_LOGIN_SIZE=30;
-    private static final int MIN_LOGIN_SIZE=8;
-    private static final int MAX_PASSWORD_SIZE=160;
-    private static final int MIN_PASSWORD_SIZE=8;
-    private static final long ONE_HOUR= TimeUnit.HOURS.toMillis(1);
-    private static final long ONE_YEAR=TimeUnit.DAYS.toMillis(365);
+    private StringBuilder invalidFeedback = new StringBuilder();//todo error message to constant
 
-    private boolean isValidName(String username){
-        return username.matches(VALID_USERNAME_REGEXP)&&username.length()<=MAX_USERNAME_SIZE
-                &&username.length()>=MIN_USERNAME_SIZE;
+    private static final String VALID_USERNAME_REGEXP = "[a-zA-Z0-9/-]+([ ]*[a-zA-Z0-9/-]+)";
+    private static final String VALID_LOGIN_REGEXP = "[a-zA-Z0-9/-]+";
+    private static final String TEXT_WITH_NUMBERS_REGEXP = "[a-zA-Z0-9/-]+([0-9]*[a-zA-Z0-9/-]+)";
+    private static final String VALID_DESCRIPTION_REGEXP = "[a-zA-Z0-9/-/(/)]+)";
+
+    private static final int MAX_USERNAME_SIZE = 30;
+    private static final int MIN_USERNAME_SIZE = 8;
+    private static final int MAX_LOGIN_SIZE = 30;
+    private static final int MIN_LOGIN_SIZE = 8;
+    private static final int MAX_PASSWORD_SIZE = 160;
+    private static final int MIN_PASSWORD_SIZE = 8;
+    private static final int MAX_DESCRIPTION_SIZE = 140;
+    private static final int MAX_NOTIFY_SIZE = 140;
+    private static final long MAX_SUM = Integer.MAX_VALUE;
+    private static final long MAX_ADDRESS_SIZE = 140;
+
+    private static final long ONE_HOUR = TimeUnit.HOURS.toMillis(1);
+    private static final long ONE_YEAR = TimeUnit.DAYS.toMillis(365);
+
+    private void addToFeedBack(String errorMessage) {
+        invalidFeedback.append(errorMessage);
+        invalidFeedback.append(" ");
     }
 
-    private boolean isValidLogin(String username){
-        return username.matches(VALID_LOGIN_REGEXP)&&username.length()<=MAX_LOGIN_SIZE
-                &&username.length()>=MIN_LOGIN_SIZE;
+    private boolean isValidName(String username) {
+        return username.matches(VALID_USERNAME_REGEXP) && username.length() <= MAX_USERNAME_SIZE
+                && username.length() >= MIN_USERNAME_SIZE;
     }
 
-    private boolean isValidPassword(String username){
-        return username.matches(VALID_PASSWORD_REGEXP)&&username.length()<=MAX_PASSWORD_SIZE
-                &&username.length()>=MIN_PASSWORD_SIZE;
+    private boolean isValidLogin(String username) {
+        return username.matches(VALID_LOGIN_REGEXP) && username.length() <= MAX_LOGIN_SIZE
+                && username.length() >= MIN_LOGIN_SIZE;
     }
 
-    public boolean isValidRegistrationForm(String username,String password,String login){
-        return isValidLogin(login)&&isValidName(username)&&isValidPassword(password);
+    private boolean isValidPassword(String password) {
+        boolean result = true;
+
+        if (!password.matches(TEXT_WITH_NUMBERS_REGEXP)) {
+            addToFeedBack("пароль должен содержать циферы и буквы ");
+            result = false;
+        }
+        if ( password.length() > MAX_PASSWORD_SIZE) {
+            addToFeedBack("превышена максимальная длинна пароля");
+            result = false;
+        }
+        if (password.length() < MIN_PASSWORD_SIZE) {
+            addToFeedBack("пароль должен быть длинее 7 символов");
+            result = false;
+        }
+        return result;
     }
 
-    public boolean isValidNotifyForm(){
+    public boolean isValidRegistrationForm(String username, String password, String login) {
+        return isValidLogin(login) && isValidName(username) && isValidPassword(password);
+    }
+
+    public boolean isValidNotifyForm() {
         return true;
     }
 
 
-    public boolean isValidTime(Date startDate,Date endDate)//todo correct?
+    private boolean isValidOrderTime(Date startDate, Date endDate)//todo correct?
     {
-        Date currentDate=new Date();
+        boolean result = true;
+        Date currentDate = new Date();
 
-        if(currentDate.getTime()-startDate.getTime()>ONE_HOUR){
-         return false;
+        if (currentDate.getTime() - startDate.getTime() > ONE_HOUR) {
+            addToFeedBack("bad time ");
+            result = false;
         }
-        if(startDate.after(endDate)){ return false;
+        if (startDate.after(endDate)) {
+            addToFeedBack("start time must be before end time ");
+            result = false;
         }
-        if(endDate.getTime()>startDate.getTime()+ONE_YEAR){
-            return false;
+        if (endDate.getTime() > startDate.getTime() + ONE_YEAR) {
+            addToFeedBack("bad time ");
+            result = false;
         }
-        return true;
+        return result;
     }
 
-    public boolean isValidAddress(String address){
-        return true;
+    private boolean isValidAddress(String address) {
+        boolean result = true;
+        if (!address.matches(VALID_USERNAME_REGEXP)) {
+            addToFeedBack("exceeded max notify size");
+            result = false;
+        }
+
+        if (address.length() > MAX_ADDRESS_SIZE) {
+            addToFeedBack("exceeded max description size");
+            result = false;
+        }
+        return result;
     }
 
-    public boolean isValidDescription(String description){
-        return true;
+    private boolean isValidCreditSum(long sum) {
+        boolean result = true;
+        if (sum > MAX_SUM) {
+            addToFeedBack("");
+            result = false;
+        }
+        if (sum <= 0) {
+            addToFeedBack("");
+            result = false;
+        }
+
+        return result;
     }
 
-    public boolean isValidOrderForm(Date start,Date end,String address,String description){
-        return isValidTime(start,end)&&(end.after(start))&&(isValidAddress(address))&&(isValidDescription(description));
+
+    private boolean isValidDescription(String description) {
+        boolean result = true;
+        if (!description.matches(VALID_USERNAME_REGEXP)) {
+            addToFeedBack("exceeded max notify size");
+            result = false;
+        }
+
+        if (description.length() > MAX_DESCRIPTION_SIZE) {
+            addToFeedBack("exceeded max description size");
+            result = false;
+        }
+        return result;
 
     }
 
+    public boolean isValidOrderForm(Date start, Date end, String address, String description) {
+        return isValidOrderTime(start, end) && (end.after(start)) && (isValidAddress(address)) && (isValidDescription(description));
+    }
+
+    public boolean isValidNotify(String notifyText) {
+        boolean result = true;
+        if (notifyText.length() > MAX_NOTIFY_SIZE) {
+            addToFeedBack("exceeded max notify size");
+            result = false;
+        }
+        return result;
+    }
+
+
+    public String getInvalidFeedback() {
+        return invalidFeedback.toString();
+    }
 }

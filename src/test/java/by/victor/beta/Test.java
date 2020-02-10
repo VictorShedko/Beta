@@ -1,7 +1,6 @@
 package by.victor.beta;
 
 import by.victor.beta.entity.User;
-import by.victor.beta.repository.impl.TimeRepository;
 import by.victor.beta.service.mail.MailService;
 import javax.mail.*;
 
@@ -9,24 +8,42 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.security.SecureRandom;
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.Properties;
+import java.util.*;
 
 public class Test {
 
     @org.testng.annotations.Test
     public void lol() {
+        int a=0;
+        try{
+
+        }finally {
+        a++;
+        }
+
+
+
+        SecureRandom random = new SecureRandom();
+        byte[]salt = new byte[16];
+        random.nextBytes(salt);
+
+        ResourceBundle connectionInfo = ResourceBundle.getBundle("hash");
+
+
         Date date=new Date();
         Timestamp stamp=new Timestamp(date.getTime());
         Date newdate=new Date(stamp.getTime());
         MailService.init();
-        MailService service=new MailService();
-        service.sendRegistrationNotify(new User());
+
+      //todo   service.sendRegistrationNotify(());
     }
 
     @org.testng.annotations.Test
     public static void dd() {
+
+
         Properties props = new Properties();
         props.put("mail.smtp.host" , "smtp.gmail.com");
         props.put("mail.stmp.user" , "bandarlogvictor@gmail.com");

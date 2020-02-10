@@ -1,20 +1,13 @@
 package by.victor.beta.repository.impl;
 
 import by.victor.beta.entity.Order;
-import by.victor.beta.repository.ConnectionProvider;
 import by.victor.beta.repository.Repository;
-import by.victor.beta.repository.RepositoryException;
-import by.victor.beta.repository.specification.Specification;
-import by.victor.beta.service.CleanerFactory;
+import by.victor.beta.service.CleanerEntutyProvider;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class OrderRepository extends Repository<Order> {
@@ -36,7 +29,7 @@ public class OrderRepository extends Repository<Order> {
 
 
     @Override
-    protected Order buildEntity(ResultSet resultSet, CleanerFactory factory) throws SQLException {
+    protected Order buildEntity(ResultSet resultSet, CleanerEntutyProvider factory) throws SQLException {
         return factory.getOrder(resultSet);
     }
 }

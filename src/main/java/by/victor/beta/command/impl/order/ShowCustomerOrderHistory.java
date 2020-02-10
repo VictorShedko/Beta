@@ -20,9 +20,10 @@ public class ShowCustomerOrderHistory implements AbstractCommand {
         orderList.forEach(t -> {
             switch (t.getStatus()) {
                 case NEW:
+                case ACCEPTED:
                     notStarted.add(t);
                     break;
-                case ACCEPTED:
+
                 case IN_PROGRESS:
                 case COMPLETED:
                 case NOT_CLAIMED:

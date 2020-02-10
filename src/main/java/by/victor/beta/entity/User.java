@@ -15,7 +15,6 @@ public class User implements Entity {
     private String email;
     private Date registrationTime;
     private String photoPath;
-    private Locale locale=Locale.getDefault();
 
     public User(Role role, String password, String login, long id,
                 UserStatus status, long balance, String email,
@@ -34,13 +33,6 @@ public class User implements Entity {
     public User() {
     }
 
-    public Locale getLocale() {
-        return locale;
-    }
-
-    public void setLocale(Locale locale) {
-        this.locale = locale;
-    }
 
     public String getPhotoPath() {
         return photoPath;
@@ -146,14 +138,27 @@ public class User implements Entity {
 
     @Override
     public String toString() {
-        return "User{" +
-                "role=" + role +
-                ", password='" + password + '\'' +
-                ", login='" + login + '\'' +
-                ", id=" + id +
-                ", status=" + status +
-                ", balance=" + balance +
-                ", username='" + username + '\'' +
-                '}';
+        StringBuilder builder = new StringBuilder("Order");
+        builder.append("role=");
+        builder.append(role);
+        builder.append(", password=");
+        builder.append(password);
+        builder.append(", login=");
+        builder.append(login);
+        builder.append(", id=");
+        builder.append(id);
+        builder.append(", status=");
+        builder.append(status);
+        builder.append("  , balance=");
+        builder.append(balance);
+        builder.append("  , email=");
+        builder.append(email);
+        builder.append(", registrationTime=");
+        builder.append(registrationTime);
+        builder.append("  , price=");
+        builder.append(photoPath);
+        builder.append("  , photoPath=");
+        builder.append(status);
+        return builder.toString();
     }
 }

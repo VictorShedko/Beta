@@ -18,7 +18,6 @@ public class LoginCommand implements AbstractCommand {
         Router router;
         String login = (String) content.getRequestParameter(AttributeNameProvider.LOGIN);
         String password = (String) content.getRequestParameter(AttributeNameProvider.PASSWORD);
-
         Optional<User> userOptional = ServiceFacade.instance.login(login, password);
         if (userOptional.isPresent()) {
             User user=userOptional.get();

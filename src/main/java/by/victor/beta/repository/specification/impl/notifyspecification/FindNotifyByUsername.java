@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class FindNotifyByUsername implements Specification {
-    private String SELECT_NOTIFY ="SELECT notify.message_id ,notify.text,notify.receiver,notify.time FROM notify " +
+    private String SELECT_NOTIFY ="SELECT notify.message_id ,notify.text,notify.receiver,notify.time,notify.type FROM notify " +
             "JOIN user   on notify.receiver = user.global_id " +
             "where user.username=?;";
     private String customerName;

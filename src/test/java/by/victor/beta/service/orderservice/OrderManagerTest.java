@@ -1,8 +1,6 @@
 package by.victor.beta.service.orderservice;
 
-import by.victor.beta.entity.Order;
-import by.victor.beta.entity.User;
-import by.victor.beta.service.notifyservice.NotifyMessageBuilder;
+import by.victor.beta.service.impl.OrderManager;
 
 public class OrderManagerTest {
     @org.testng.annotations.Test

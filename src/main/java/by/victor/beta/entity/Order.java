@@ -4,16 +4,16 @@ import java.util.Date;
 import java.util.Objects;
 
 public class Order implements Entity{
-    private int orderId;
+    private long orderId;
     private String customer;
-    private String executor;//todo можно ли хранить в виде имен (иначе при создании сначало надо найти пользователя)
-    private Long customerId;
-    private Long executorId;
+    private String executor;
+    private long customerId;
+    private long executorId;
     private String address;
     private String description;
     private Date startTime;
     private Date endTime;
-    private int price;//todo int в топку
+    private int price;
     private OrderStatus status;
 
     public long getCustomerId() {
@@ -96,7 +96,7 @@ public class Order implements Entity{
         this.status=status;
     }
 
-    public int getOrderId() {
+    public long getOrderId() {
         return orderId;
     }
 
@@ -126,16 +126,27 @@ public class Order implements Entity{
 
     @Override
     public String toString() {
-        return "Order{" +
-                "orderId=" + orderId +
-                ", customer='" + customer + '\'' +
-                ", executor='" + executor + '\'' +
-                ", address='" + address + '\'' +
-                ", description='" + description + '\'' +
-                ", startTime=" + startTime +
-                ", endTime=" + endTime +
-                ", price=" + price +
-                ", status=" + status +
-                '}';
+        StringBuilder builder = new StringBuilder("Order");
+        builder.append("orderId=");
+        builder.append(orderId);
+        builder.append(", customer=");
+        builder.append(customer);
+        builder.append(", executor=");
+        builder.append(executor);
+        builder.append(", customerId=");
+        builder.append(customerId);
+        builder.append(", executorId=");
+        builder.append(executorId);
+        builder.append("  , address=");
+        builder.append(address);
+        builder.append("  , startTime=");
+        builder.append(startTime);
+        builder.append(", endTime=");
+        builder.append(endTime);
+        builder.append("  , price=");
+        builder.append(price);
+        builder.append("  , status=");
+        builder.append(status);
+        return builder.toString();
     }
 }
