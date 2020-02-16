@@ -22,9 +22,8 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
           crossorigin="anonymous">
 
-    <nav id="navbar-example2" class="navbar navbar-light bg-light">
-        <div class="container">
-            <div class="row">
+    <nav id="navbar" class="navbar navbar-light bg-light">
+
 
                 <ul class="nav nav-pills">
                     <div class="col">
@@ -70,8 +69,7 @@
                 </ul>
 
 
-            </div>
-        </div>
+
     </nav>
 
     <div class="container">
@@ -81,10 +79,11 @@
                 <img src="<c:url value="${photoPath}"/>" alt="not found">
             </div>
             <div class="col">
+                <ctg:userInfo/>
                 <p><fmt:message key="userMenu.name.text"/></p>
             </div>
             <div class="col">
-                <p>${username}</p>
+                <p><c:out value="${username}"/></p>
             </div>
         </div>
         <div class="row">
@@ -93,7 +92,7 @@
                 <p><fmt:message key="userMenu.status.text"/></p>
             </div>
             <div class="col">
-                <c:out value="${status}"/>
+                <c:out value="${status.toString()}"/>
             </div>
             <div class="col">
                 <p><fmt:message key="userMenu.balance.text"/></p>
@@ -119,6 +118,25 @@
                 </div>
             </form>
         </div>
+        <div class="col">
+            <form action="cleaning" method="GET">
+                <div class="form-group">
+                    <input type="hidden" name="command" value="refresh"/>
+                    <button type="submit" class="btn btn-primary"><fmt:message key="userMenu.new.refresh.text"/></button>
+                </div>
+            </form>
+        </div>
+        <c:if test="${status.toString() == 'NEW'}">
+        <div class="col">
+            <form action="cleaning" method="GET">
+                <div class="form-group">
+                    <input type="hidden" name="command" value="resend_email"/>
+                    <button type="submit" class="btn btn-primary"><fmt:message key="userMenu.new.resend.text"/></button>
+                </div>
+            </form>
+        </div>
+        </c:if>
+
         <c:if test="${status.toString() == 'VERIFIED'}">
         <div class="row">
             <c:if test="${role.value() == 'customer'}">
@@ -153,14 +171,6 @@
                         <div class="form-group">
                             <input type="hidden" name="command" value="show_orders_executor"/>
                             <button type="submit" class="btn btn-primary"><fmt:message key="userMenu.executor.history.button.text"/></button>
-                        </div>
-                    </form>
-                </div>
-                <div class="col">
-                    <form action="cleaning" method="POST">
-                        <div class="form-group">
-                            <input type="hidden" name="command" value="to_add_info"/>
-                            <button type="submit" class="btn btn-primary"><fmt:message key="userMenu.executor.addInfo.button.text"/></button>
                         </div>
                     </form>
                 </div>
@@ -227,7 +237,6 @@
                     </form>
                 </div>
             </c:if>
-            <ctg:userInfo/>
         </div>
         </c:if>
     </div>

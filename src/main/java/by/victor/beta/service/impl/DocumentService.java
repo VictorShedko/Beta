@@ -8,27 +8,27 @@ import by.victor.beta.repository.specification.impl.doсumentspecification.AddDo
 import by.victor.beta.repository.specification.impl.doсumentspecification.ChangeDocumentSpecification;
 import by.victor.beta.repository.specification.impl.doсumentspecification.FindDocumentByIdSpecification;
 import by.victor.beta.repository.specification.impl.doсumentspecification.FindDocumentByUsernameSpecification;
-import by.victor.beta.service.AbstractDocumentService;
+import by.victor.beta.service.IDocumentService;
 import by.victor.beta.service.CleanerEntityProvider;
-import by.victor.beta.service.FileManager;
+import by.victor.beta.service.util.FileManager;
 import by.victor.beta.service.ServiceException;
 
 import java.io.File;
 import java.util.List;
 
-public class DocumentService implements AbstractDocumentService {
+public class DocumentService implements IDocumentService {
+
+    private CleanerEntityProvider factory=new CleanerEntityProvider();
     @Override
-    public void addDocument(User user, File file){
-        CleanerEntityProvider factory=new CleanerEntityProvider();
-        FileManager manager=new FileManager();
-        String UUID=manager.generateUUIDNameWithSameExtension(file);
-        File movedFile=manager.moveFileToUserDir(file,user.getUsername(),UUID);
+    public void addDocument(User user, File file) throws ServiceException {
+        String uuid=FileManager.INSTANCE.generateUUIDNameWithSameExtension(file);
+        File movedFile=FileManager.INSTANCE.moveFileToUserDir(file,user.getUsername(),uuid);
         Document document=factory.getDocument(user,movedFile.getName());
         AddDocumentSpecification specification=new AddDocumentSpecification(document);
         try {
             DocumentRepository.getInstance().createQuery(specification);
         } catch (RepositoryException e) {
-            e.printStackTrace();//todo sdcs
+            throw new ServiceException(e);
         }
     }
     @Override
@@ -61,7 +61,11 @@ public class DocumentService implements AbstractDocumentService {
         FindDocumentByIdSpecification specification=new FindDocumentByIdSpecification(id);
         try {
             List<Document> documents=DocumentRepository.getInstance().findQuery(specification);
-            return documents.get(0);//todo или проверка
+            if (documents.size()>0) {
+                return documents.get(0);//todo или проверка
+            }else {
+                throw new ServiceException();//todo const
+            }
         } catch (RepositoryException e) {
            throw new ServiceException(e);
         }

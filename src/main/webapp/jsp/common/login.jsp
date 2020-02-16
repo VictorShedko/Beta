@@ -85,9 +85,6 @@
         </div>
 
     </div>
-    </body>
-    </html>
-
     <script type="text/javascript">
         const form = document.querySelector('.needs-validation')
 
@@ -96,7 +93,19 @@
                 e.preventDefault();
             }
 
+            if (form.license.checked === false) {
+                e.preventDefault();
+            }
+            alert("lol");
             form.classList.add('was-validated');
         })
+
     </script>
+
+    <script type="text/javascript" src="../../js/common.js"/>
+    </body>
+    </html>
+
+
+
 </fmt:bundle>

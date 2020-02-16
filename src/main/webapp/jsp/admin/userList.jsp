@@ -21,6 +21,56 @@
           crossorigin="anonymous">
 </head>
 <body>
+<nav id="navbar" class="navbar navbar-light bg-light">
+
+
+    <ul class="nav nav-pills">
+        <div class="col">
+            <li class="nav-item justify-content-start">
+                <form action="cleaning" method="POST">
+                    <div class="form-group">
+                        <input type="hidden" name="command" value="to_user_menu"/>
+                        <button type="submit" class="btn btn-primary"><fmt:message key="navbar.usermenu"/></button>
+                    </div>
+                </form>
+            </li>
+        </div>
+        <div class="col justify-content-end">
+            <li class="nav-item">
+                <form action="cleaning" method="POST">
+                    <div class="form-group">
+                        <input type="hidden" name="command" value="logout"/>
+                        <button type="submit" class="btn btn-primary"><fmt:message key="navbar.logout"/></button>
+                    </div>
+                </form>
+            </li>
+        </div>
+        <div class="col">
+            <li class="nav-item justify-content-start">
+                <form action="cleaning" method="POST">
+                    <div class="form-group">
+                        <input type="hidden" name="command" value="to_notify"/>
+                        <button type="submit" class="btn btn-primary"><fmt:message key="navbar.notification"/></button>
+                    </div>
+                </form>
+            </li>
+        </div>
+        <div class="col">
+            <li class="nav-item justify-content-start">
+                <form action="cleaning" method="POST">
+                    <div class="form-group">
+                        <input type="hidden" name="command" value="change_locale"/>
+                        <button type="submit" class="btn btn-primary"><fmt:message key="navbar.changelaguge"/></button>
+                    </div>
+                </form>
+            </li>
+        </div>
+    </ul>
+
+
+
+</nav>
+
 <p>${searchParameter}</p>
 <p>${searchParameterValue}</p>
 

@@ -2,6 +2,7 @@ package by.victor.beta.command;
 
 import by.victor.beta.controller.MainServlet;
 import by.victor.beta.entity.Role;
+import by.victor.beta.entity.User;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -24,7 +25,6 @@ public class RequestSessionContent {
     private Map<String, Object> sessionAttribute = new HashMap<>();
     private boolean invalidate;
     private File file;
-    private String UPLOAD_PATH = "/tmp";//todo
     private static AtomicInteger tempNumber = new AtomicInteger(0);
     private ServletContext servletContext;
 
@@ -106,8 +106,7 @@ public class RequestSessionContent {
         getRequestAttribute().forEach(request::setAttribute);
     }
 
-    private void setSessionAttribute(HttpSession session
-    ) {
+    private void setSessionAttribute(HttpSession session) {
         getSessionAttribute().forEach(session::setAttribute);
     }
 
@@ -151,7 +150,7 @@ public class RequestSessionContent {
         try {
 
 
-            if (request.getContentType()!=null&&request.getContentType().startsWith("multipart/form-data")) {
+            if (request.getContentType() != null && request.getContentType().startsWith("multipart/form-data")) {
 
 
                 request.getParts().forEach(part -> {
@@ -160,12 +159,12 @@ public class RequestSessionContent {
                         String fileName = part.getSubmittedFileName();
                         String name = part.getName();
                         if ("file".equals(name)) {
-                            String n = part.getHeader("");
+
                             String newFileName = "temp" + tempNumber.addAndGet(1) +
                                     fileName.substring(fileName.lastIndexOf("."));
-                            downloadedFile = new File(servletContext.getRealPath("")
-                                    + UPLOAD_PATH + File.separator + newFileName);
-                            part.write(servletContext.getRealPath("") + UPLOAD_PATH +
+                            downloadedFile = new File(
+                                    ApplicationParameter.FILE_UPLOAD_PATH + File.separator + newFileName);
+                            part.write(ApplicationParameter.FILE_UPLOAD_PATH +
                                     File.separator + newFileName);
 
 
@@ -184,17 +183,31 @@ public class RequestSessionContent {
         }
     }
 
-
+    @Deprecated
     public Role getRole() {
-        if (getSessionAttribute(AttributeNameProvider.ROLE) == null) {
-            setSessionAttribute(AttributeNameProvider.ROLE, Role.DEFAULT);
+        if (getSessionAttribute(AttributeName.ROLE) == null) {
+            setSessionAttribute(AttributeName.ROLE, Role.DEFAULT);
         }
-        return (Role) getSessionAttribute(AttributeNameProvider.ROLE);
+        return (Role) getSessionAttribute(AttributeName.ROLE);
     }
 
+    @Deprecated
     public void checkLocale() {
-        if (getSessionAttribute(AttributeNameProvider.LOCALE) == null) {
-            setSessionAttribute(AttributeNameProvider.LOCALE, "be_BY");//todo const
+        if (getSessionAttribute(AttributeName.LOCALE) == null) {
+            setSessionAttribute(AttributeName.LOCALE, PageContentKey.RU_LOCALE);
+        }
+    }
+
+    public void addUserToSession(User user){
+        setSessionAttribute(AttributeName.STATUS, user.getStatus());
+        setSessionAttribute(AttributeName.USERNAME, user.getUsername());
+        setSessionAttribute(AttributeName.ROLE, user.getRole());
+        setSessionAttribute(AttributeName.BALANCE, user.getBalance());
+        if (user.getPhotoPath() != null) {
+            setSessionAttribute(AttributeName.PHOTO_PATH, user.getPhotoPath());
+        } else {
+            setSessionAttribute(AttributeName.PHOTO_PATH,
+                    AttributeName.DEFAULT_PHOTO_PATH);
         }
     }
 }

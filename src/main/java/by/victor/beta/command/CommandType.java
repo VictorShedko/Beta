@@ -44,13 +44,16 @@ public enum CommandType {
     SHOW_USER_PROFILE(new ShowUserProfileCommand()),
     SHOW_USER_BY_ROLE(new ShowUserByRoleCommand()),
     SHOW_USER_BY_STATUS(new ShowUserByStatusCommand()),
-    CHANGE_LOCALE(new ChangeLocaleCommand());
+    CHANGE_LOCALE(new ChangeLocaleCommand()),
+    REFRESH(new RefreshSessionCommand()),
+    RESEND_EMAIL(new ResendVerificationEmailCommand()),
+    EMAIL_VERIFY(new EmailVerifyCommand());
 
-    private AbstractCommand command;
-    CommandType(AbstractCommand command){
+    private Command command;
+    CommandType(Command command){
         this.command=command;
     }
-    public AbstractCommand getCommand(){
+    public Command getCommand(){
         return command;
     }
 }

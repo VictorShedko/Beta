@@ -10,27 +10,27 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
-public enum ConnectionProvider {
-    instance;
+public enum ConnectionPool {
+    INSTANCE;
 
-    private final Logger logger= LogManager.getLogger(ConnectionProvider.class);
+    private final Logger logger= LogManager.getLogger(ConnectionPool.class);
     private static final String DB_BUNDLE_NAME = "database";
     private static final String DB_POOL_SIZE_PARAMETER_NAME ="db.poolsize";
     private static final int timeWait=50;
     private int pool_size;
     private ReentrantLock gateOperationLock = new ReentrantLock();
     private Semaphore semaphore;
-    private Queue<ProxiConfection> freeConnection = new ArrayDeque();
-    private List<ProxiConfection> lockedConnection = new ArrayList();
+    private Queue<ProxyConfection> freeConnection = new ArrayDeque();
+    private List<ProxyConfection> lockedConnection = new ArrayList();
 
-    ConnectionProvider(){
+    ConnectionPool(){
         ResourceBundle connectionInfo = ResourceBundle.getBundle(DB_BUNDLE_NAME);
         pool_size=Integer.parseInt(connectionInfo.getString(DB_POOL_SIZE_PARAMETER_NAME));
         semaphore= new Semaphore(pool_size,true);
 
         try {
              for(int i=0;i<pool_size;i++) {
-                 ProxiConfection newConnection = ConnectionCreator.getConnection();
+                 ProxyConfection newConnection = ConnectionCreator.getConnection();
                 freeConnection.add(newConnection);
             }
         } catch (SQLException e) {
@@ -39,8 +39,8 @@ public enum ConnectionProvider {
 
     }
 
-    public Optional<ProxiConfection> occupyConnection() {
-        ProxiConfection connection=null;
+    public Optional<ProxyConfection> occupyConnection() {
+        ProxyConfection connection=null;
         try {
             if(semaphore.tryAcquire(timeWait, TimeUnit.MILLISECONDS)) {
                 gateOperationLock.lock();
@@ -65,7 +65,7 @@ public enum ConnectionProvider {
         return Optional.ofNullable(connection);
     }
 
-    public void freeConnection(ProxiConfection connection) {
+    public void freeConnection(ProxyConfection connection) {
         gateOperationLock.lock();
         try {
             freeConnection.add(connection);

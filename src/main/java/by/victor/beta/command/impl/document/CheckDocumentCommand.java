@@ -4,24 +4,18 @@ import by.victor.beta.command.*;
 import by.victor.beta.service.ServiceException;
 import by.victor.beta.service.ServiceFacade;
 
-import java.io.File;
-
-public class CheckDocumentCommand implements AbstractCommand {//todo
+public class CheckDocumentCommand implements Command {
     @Override
     public Router execute(RequestSessionContent content) throws CommandException {
-        Router router = new Router(PagePathProvider.RESULT);
-        String username = (String) content.getSessionAttribute(AttributeNameProvider.USERNAME);
-        int id = Integer.parseInt((String) content.getRequestParameter(AttributeNameProvider.DOCUMENT_ID));
+        Router router = new Router(PagePath.RESULT);
+        String username = (String) content.getSessionAttribute(AttributeName.USERNAME);
+        int id = Integer.parseInt((String) content.getRequestParameter(AttributeName.DOCUMENT_ID));
         try {
             ServiceFacade.instance.checkDocument(id, username);
-            content.setRequestAttribute(AttributeNameProvider.COMMAND_RESULT, "успешно ");//todo в константы
-
-        } catch (ServiceException repositoryException) {
-            repositoryException.printStackTrace();//todo
-            content.setRequestAttribute(AttributeNameProvider.COMMAND_RESULT, "провал ");//todo в константы
-
+            content.setRequestAttribute(AttributeName.COMMAND_RESULT, PageContentKey.SUCCESSFULLY);
+        } catch (ServiceException ex) {
+            content.setRequestAttribute(AttributeName.COMMAND_RESULT, PageContentKey.FAILED);
         }
-
         return router;
     }
 }

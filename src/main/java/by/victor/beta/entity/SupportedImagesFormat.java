@@ -1,7 +1,7 @@
 package by.victor.beta.entity;
 
 public enum SupportedImagesFormat {
-    BE("be_BY"),EN("en_UK");
+    BE(".jpg"),EN(".png");
     private String extension;
 
     SupportedImagesFormat(String extension){
@@ -22,7 +22,7 @@ public enum SupportedImagesFormat {
 
     public  static boolean isSupported(String v){
         for (SupportedImagesFormat ext: SupportedImagesFormat.values()) {
-            if (ext.extension.equals(v)) {
+            if (ext.extension.equalsIgnoreCase(v)) {
                 return true;
             }
         }

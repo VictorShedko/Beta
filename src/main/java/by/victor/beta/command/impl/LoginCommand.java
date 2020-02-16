@@ -1,55 +1,32 @@
 package by.victor.beta.command.impl;
 
-import by.victor.beta.command.AttributeNameProvider;
-import by.victor.beta.command.PagePathProvider;
-import by.victor.beta.command.AbstractCommand;
-import by.victor.beta.command.CommandException;
-import by.victor.beta.command.Router;
-import by.victor.beta.command.RequestSessionContent;
+import by.victor.beta.command.*;
 import by.victor.beta.entity.User;
+import by.victor.beta.service.ServiceException;
 import by.victor.beta.service.ServiceFacade;
 
 import java.util.Optional;
 
 
-public class LoginCommand implements AbstractCommand {
+public class LoginCommand implements Command {
     @Override
     public Router execute(RequestSessionContent content) throws CommandException {
         Router router;
-        String login = (String) content.getRequestParameter(AttributeNameProvider.LOGIN);
-        String password = (String) content.getRequestParameter(AttributeNameProvider.PASSWORD);
-        Optional<User> userOptional = ServiceFacade.instance.login(login, password);
+        String login = (String) content.getRequestParameter(AttributeName.LOGIN);
+        String password = (String) content.getRequestParameter(AttributeName.PASSWORD);
+        Optional<User> userOptional = null;
+        try {
+            userOptional = ServiceFacade.instance.login(login, password);
+        } catch (ServiceException e) {
+            throw new CommandException(e);
+        }
         if (userOptional.isPresent()) {
             User user=userOptional.get();
-            content.setRequestAttribute("lol","d,");
-            switch (user.getRole()) {
-                case ADMIN:
-                case CUSTOMER:
-                case EXECUTOR: {
-                    router = new Router(PagePathProvider.USER_MAIN_PAGE);
-                    content.setSessionAttribute(AttributeNameProvider.USERNAME,user.getUsername());
-                    content.setSessionAttribute(AttributeNameProvider.ROLE,user.getRole());
-                    content.setSessionAttribute(AttributeNameProvider.BALANCE,user.getBalance());
-                    content.setSessionAttribute(AttributeNameProvider.STATUS,user.getStatus());
-                    if(user.getPhotoPath()!=null) {//todo optional
-                        content.setSessionAttribute(AttributeNameProvider.PHOTO_PATH, user.getPhotoPath());
-                    }else {
-                        content.setSessionAttribute(AttributeNameProvider.PHOTO_PATH,
-                                AttributeNameProvider.DEFAULT_PHOTO_PATH );
-                    }
-                    break;
-                }
-                case DEFAULT: {
-                    router = new Router(PagePathProvider.LOGIN_PAGE);
-                    content.setRequestAttribute("loginErrorMessage", "Не верный логин или пароль");
-                    break;
-                }
-                default:
-                    throw new CommandException();
-            }
+            content.addUserToSession(user);
+            router=new Router(PagePath.USER_MAIN_MENU);
         }else {
-            router = new Router(PagePathProvider.LOGIN_PAGE);
-            content.setRequestAttribute(AttributeNameProvider.FEEDBACK, "неверное имя пользователя или паролб");
+            router = new Router(PagePath.LOGIN);
+            content.setRequestAttribute(AttributeName.FEEDBACK, PageContentKey.INVALID_LOGIN_OR_PASSWORD);
         }
 
         return router;

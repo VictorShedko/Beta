@@ -1,6 +1,6 @@
 package by.victor.beta.service.impl;
 
-import by.victor.beta.command.PagePathProvider;
+import by.victor.beta.command.PagePath;
 import by.victor.beta.entity.Role;
 import by.victor.beta.entity.SupportedImagesFormat;
 import by.victor.beta.entity.User;
@@ -8,8 +8,8 @@ import by.victor.beta.entity.UserStatus;
 import by.victor.beta.repository.impl.UserRepository;
 import by.victor.beta.repository.RepositoryException;
 import by.victor.beta.repository.specification.impl.userspecification.*;
-import by.victor.beta.service.AbstractUserService;
-import by.victor.beta.service.FileManager;
+import by.victor.beta.service.IUserService;
+import by.victor.beta.service.util.FileManager;
 import by.victor.beta.service.ServiceException;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
@@ -18,7 +18,7 @@ import org.apache.log4j.Logger;
 import java.io.File;
 import java.util.List;
 
-public class UserService implements AbstractUserService {
+public class UserService implements IUserService {
     private static final Logger logger = LogManager.getLogger(UserService.class);
     private static final String AVATAR_FILE_NAME = "avt";
 
@@ -115,12 +115,12 @@ public class UserService implements AbstractUserService {
     @Override
     public void setUserPhoto(File file, String username) throws ServiceException {
         User user = findUserByUsername(username).get(0);
-        FileManager fileManager=new FileManager();
+
         String extension=file.getName().substring(file.getName().lastIndexOf('.'));
         if(SupportedImagesFormat.isSupported(extension)) {
-            File dest = fileManager.moveFileToUserDir(file, username, AVATAR_FILE_NAME + extension);
-            user.setPhotoPath(PagePathProvider.USER_FILES + PagePathProvider.SEPARATOR +
-                    user.getUsername() + PagePathProvider.SEPARATOR + dest.getName());
+            File dest = FileManager.INSTANCE.moveFileToUserDir(file, username, AVATAR_FILE_NAME + extension);
+            user.setPhotoPath(PagePath.USER_FILES + PagePath.SEPARATOR +
+                    user.getUsername() + PagePath.SEPARATOR + dest.getName());
             ChangeUserSpecification specification = new ChangeUserSpecification(user);
             try {
                 UserRepository.getInstance().updateQuery(specification);
@@ -128,6 +128,7 @@ public class UserService implements AbstractUserService {
                 throw new ServiceException();
             }
         }else {
+            logger.log(Level.ERROR,"image type doesnt suppoting");
             throw new ServiceException();
         }
     }
@@ -144,6 +145,19 @@ public class UserService implements AbstractUserService {
         }
 
 
+    }
+
+    @Override
+    public void emailVerify(User user) throws ServiceException {
+
+        switch (user.getRole()){
+            case ADMIN:
+            case CUSTOMER:
+                setUserStatus(UserStatus.VERIFIED,user.getUsername());
+                break;
+            case EXECUTOR:
+                setUserStatus(UserStatus.EMAIL_VERIFIED,user.getUsername());
+        }
     }
 
 }

@@ -10,38 +10,38 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class CreateOrderCommand implements AbstractCommand {
+public class CreateOrderCommand implements Command {
     @Override
     public Router execute(RequestSessionContent content) {
-        String address = (String) content.getRequestParameter(AttributeNameProvider.ADDRESS);
-        String description = (String) content.getRequestParameter(AttributeNameProvider.DESCRIPTION);
-        String username = (String) content.getSessionAttribute(AttributeNameProvider.USERNAME);
+        String address = (String) content.getRequestParameter(AttributeName.ADDRESS);
+        String description = (String) content.getRequestParameter(AttributeName.DESCRIPTION);
+        String username = (String) content.getSessionAttribute(AttributeName.USERNAME);
         DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm");
         Date startTime = null;
         Date endTime = null;
         try {
-            startTime = formatter.parse((String) content.getRequestParameter(AttributeNameProvider.START_TIME));
-            endTime = formatter.parse((String) content.getRequestParameter(AttributeNameProvider.END_TIME));
+            startTime = formatter.parse((String) content.getRequestParameter(AttributeName.START_TIME));
+            endTime = formatter.parse((String) content.getRequestParameter(AttributeName.END_TIME));
         } catch (ParseException e) {
-            content.setRequestAttribute(AttributeNameProvider.FEEDBACK,"не верный формат даты");
-            return new Router(PagePathProvider.CREDIT_FORM);  //todo допустимо?
+            content.setRequestAttribute(AttributeName.FEEDBACK, PageContentKey.INVALID_DATE_FORMAT);
+            return new Router(PagePath.CREDIT_FORM);
         }
-        int price = Integer.parseInt((String) content.getRequestParameter(AttributeNameProvider.PRICE));
+
+        int price = Integer.parseInt((String) content.getRequestParameter(AttributeName.PRICE));
         try {
             Validator validator=new Validator();
             if(validator.isValidOrderForm(startTime,endTime,address,description)) {
                 ServiceFacade.instance.createOrder(address, description, username, startTime, endTime, price);
-                content.setRequestAttribute(AttributeNameProvider.CREATE_ORDER_RESULT_MESSAGE, "заказ создан успешно");
-                content.setRequestAttribute(AttributeNameProvider.CREATE_ORDER_RESULT_MESSAGE, "ошибка при создании");
+                content.setRequestAttribute(AttributeName.COMMAND_RESULT, PageContentKey.SUCCESSFULLY);
             }else {
-                content.setRequestAttribute(AttributeNameProvider.FEEDBACK,"не верный формат даты");
-                return new Router(PagePathProvider.CREDIT_FORM);
+                content.setRequestAttribute(AttributeName.FEEDBACK,validator.getInvalidFeedback());
+                return new Router(PagePath.CREATE_ORDER_FORM);
             }
         } catch (ServiceException e) {
-            content.setRequestAttribute(AttributeNameProvider.FEEDBACK,"не верный формат даты");
-            return new Router(PagePathProvider.CREDIT_FORM);
+            content.setRequestAttribute(AttributeName.FEEDBACK, PageContentKey.SERVER_ERROR);
+            return new Router(PagePath.CREATE_ORDER_FORM);
         }
 
-        return new Router(PagePathProvider.CREATE_ORDER_RESULT);
+        return new Router(PagePath.CREATE_ORDER_RESULT);
     }
 }

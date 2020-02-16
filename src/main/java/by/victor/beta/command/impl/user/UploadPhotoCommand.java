@@ -7,20 +7,18 @@ import by.victor.beta.service.ServiceFacade;
 
 import java.io.File;
 
-public class UploadPhotoCommand implements AbstractCommand {
+public class UploadPhotoCommand implements Command {
     @Override
     public Router execute(RequestSessionContent content) throws CommandException {
-        Router router=new Router(PagePathProvider.USER_MAIN_PAGE);
-        String username=(String)  content.getSessionAttribute(AttributeNameProvider.USERNAME);
+        Router router=new Router(PagePath.USER_MAIN_MENU);
+        String username=(String)  content.getSessionAttribute(AttributeName.USERNAME);
         File file=content.getFile();
         try {
            User user= ServiceFacade.instance.uploadPhoto(file, username);
-            content.setRequestAttribute(AttributeNameProvider.PHOTO_PATH,user.getPhotoPath());//todo в константы
+            content.setRequestAttribute(AttributeName.PHOTO_PATH,user.getPhotoPath());
 
         } catch (ServiceException ex) {
-            ex.printStackTrace();//todo
-
-
+            router=new Router(PagePath.ERROR);
         }
 
         return router;

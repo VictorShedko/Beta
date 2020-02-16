@@ -1,16 +1,17 @@
 package by.victor.beta.validator;
 
+import by.victor.beta.command.PageContentKey;
+
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class Validator {
-    private StringBuilder invalidFeedback = new StringBuilder();//todo error message to constant
+    private String invalidFeedback ;
 
     private static final String VALID_USERNAME_REGEXP = "[a-zA-Z0-9/-]+([ ]*[a-zA-Z0-9/-]+)";
     private static final String VALID_LOGIN_REGEXP = "[a-zA-Z0-9/-]+";
     private static final String TEXT_WITH_NUMBERS_REGEXP = "[a-zA-Z0-9/-]+([0-9]*[a-zA-Z0-9/-]+)";
-    private static final String VALID_DESCRIPTION_REGEXP = "[a-zA-Z0-9/-/(/)]+)";
-
+    private static final String TEXT_WITH_NUMBERS_AND_SPACES_REGEXP = "[a-z\\sA-Zа-яА-Я0-9/-]+";
     private static final int MAX_USERNAME_SIZE = 30;
     private static final int MIN_USERNAME_SIZE = 8;
     private static final int MAX_LOGIN_SIZE = 30;
@@ -25,23 +26,22 @@ public class Validator {
     private static final long ONE_HOUR = TimeUnit.HOURS.toMillis(1);
     private static final long ONE_YEAR = TimeUnit.DAYS.toMillis(365);
 
-    private void addToFeedBack(String errorMessage) {
-        invalidFeedback.append(errorMessage);
-        invalidFeedback.append(" ");
+    private void setFeedBackKey(String errorKey) {
+        invalidFeedback=errorKey;
     }
 
     private boolean isValidName(String username) {
         boolean result = true;
         if (!username.matches(VALID_USERNAME_REGEXP)) {
-            addToFeedBack("не корректное имя");//todo вынести в константы а еще лучше в ключи сообщений об ошибке
+            setFeedBackKey(PageContentKey.INVALID_USERNAME);//todo вынести в константы а еще лучше в ключи сообщений об ошибке
             result = false;
         }
         if ( username.length() > MAX_USERNAME_SIZE) {
-            addToFeedBack("превышена максимальная длинна имени");
+            setFeedBackKey(PageContentKey.USERNAME_MAXIMUM_LENGTH_EXCEEDED);
             result = false;
         }
         if (username.length() < MIN_USERNAME_SIZE) {
-            addToFeedBack("имя должено быть длинее 7 символов");
+            setFeedBackKey(PageContentKey.TOO_SHORT_USERNAME);
             result = false;
         }
         return result;
@@ -50,15 +50,15 @@ public class Validator {
     private boolean isValidLogin(String login) {
         boolean result = true;
         if (!login.matches(VALID_LOGIN_REGEXP)) {
-            addToFeedBack("логин должен содержать циферы и буквы ");
+            setFeedBackKey("логин должен содержать циферы и буквы ");
             result = false;
         }
         if ( login.length() > MAX_LOGIN_SIZE) {
-            addToFeedBack("превышена максимальная длинна логина");
+            setFeedBackKey("превышена максимальная длинна логина");
             result = false;
         }
         if (login.length() < MIN_LOGIN_SIZE) {
-            addToFeedBack("логин должен быть длинее 7 символов");
+            setFeedBackKey("логин должен быть длинее 7 символов");
             result = false;
         }
         return result;
@@ -68,15 +68,15 @@ public class Validator {
         boolean result = true;
 
         if (!password.matches(TEXT_WITH_NUMBERS_REGEXP)) {
-            addToFeedBack("пароль должен содержать циферы и буквы ");
+            setFeedBackKey("пароль должен содержать циферы и буквы ");
             result = false;
         }
         if ( password.length() > MAX_PASSWORD_SIZE) {
-            addToFeedBack("превышена максимальная длинна пароля");
+            setFeedBackKey("превышена максимальная длинна пароля");
             result = false;
         }
         if (password.length() < MIN_PASSWORD_SIZE) {
-            addToFeedBack("пароль должен быть длинее 7 символов");
+            setFeedBackKey("пароль должен быть длинее 7 символов");
             result = false;
         }
         return result;
@@ -97,15 +97,15 @@ public class Validator {
         Date currentDate = new Date();
 
         if (currentDate.getTime() - startDate.getTime() > ONE_HOUR) {
-            addToFeedBack("bad time ");
+            setFeedBackKey("bad time ");
             result = false;
         }
         if (startDate.after(endDate)) {
-            addToFeedBack("start time must be before end time ");
+            setFeedBackKey("start time must be before end time ");
             result = false;
         }
         if (endDate.getTime() > startDate.getTime() + ONE_YEAR) {
-            addToFeedBack("bad time ");
+            setFeedBackKey("bad time ");
             result = false;
         }
         return result;
@@ -113,26 +113,35 @@ public class Validator {
 
     private boolean isValidAddress(String address) {
         boolean result = true;
-        if (!address.matches(VALID_USERNAME_REGEXP)) {
-            addToFeedBack("exceeded max notify size");
+        if (!address.matches(TEXT_WITH_NUMBERS_AND_SPACES_REGEXP)) {
+            setFeedBackKey("exceeded max notify size");
             result = false;
         }
 
         if (address.length() > MAX_ADDRESS_SIZE) {
-            addToFeedBack("exceeded max description size");
+            setFeedBackKey("exceeded max description size");
             result = false;
         }
         return result;
     }
 
-    private boolean isValidCreditSum(long sum) {
+    public boolean isValidCreditSum(String sumAsString) {
         boolean result = true;
+        int sum;
+        try {
+            sum=Integer.parseInt(sumAsString);
+        }catch (NumberFormatException e){
+            setFeedBackKey("'"+sumAsString+"'is not a number");
+            return false;
+        }
+
+
         if (sum > MAX_SUM) {
-            addToFeedBack("");
+            setFeedBackKey("");
             result = false;
         }
         if (sum <= 0) {
-            addToFeedBack("");
+            setFeedBackKey("must be positive");
             result = false;
         }
 
@@ -142,13 +151,13 @@ public class Validator {
 
     private boolean isValidDescription(String description) {
         boolean result = true;
-        if (!description.matches(VALID_USERNAME_REGEXP)) {
-            addToFeedBack("exceeded max notify size");
+        if (!description.matches(TEXT_WITH_NUMBERS_AND_SPACES_REGEXP)) {
+            setFeedBackKey("exceeded max notify size");
             result = false;
         }
 
         if (description.length() > MAX_DESCRIPTION_SIZE) {
-            addToFeedBack("exceeded max description size");
+            setFeedBackKey("exceeded max description size");
             result = false;
         }
         return result;
@@ -162,7 +171,7 @@ public class Validator {
     public boolean isValidNotify(String notifyText) {
         boolean result = true;
         if (notifyText.length() > MAX_NOTIFY_SIZE) {
-            addToFeedBack("exceeded max notify size");
+            setFeedBackKey("exceeded max notify size");
             result = false;
         }
         return result;
@@ -170,6 +179,6 @@ public class Validator {
 
 
     public String getInvalidFeedback() {
-        return invalidFeedback.toString();
+        return invalidFeedback;
     }
 }

@@ -2,18 +2,24 @@ package by.victor.beta.command.impl.order;
 
 import by.victor.beta.command.*;
 import by.victor.beta.entity.Order;
+import by.victor.beta.service.ServiceException;
 import by.victor.beta.service.ServiceFacade;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShowExecutorOrderHistory implements AbstractCommand {
+public class ShowExecutorOrderHistory implements Command {
 
     @Override
     public Router execute(RequestSessionContent content) throws CommandException {
 
-        String username = (String) content.getSessionAttribute(AttributeNameProvider.USERNAME);
-        List<Order> orderList= ServiceFacade.instance.showExecutorOrderHistory(username);
+        String username = (String) content.getSessionAttribute(AttributeName.USERNAME);
+        List<Order> orderList;
+        try {
+            orderList = ServiceFacade.instance.showExecutorOrderHistory(username);
+        } catch (ServiceException e) {
+            throw new CommandException(e);
+        }
         List<Order> activeOrders=new ArrayList<>();
         List<Order> completedOrders=new ArrayList<>();
         List<Order> workInProgressOrders=new ArrayList<>();
@@ -24,9 +30,9 @@ public class ShowExecutorOrderHistory implements AbstractCommand {
                 case COMPLETED:completedOrders.add(t);
             }
         });
-        content.setRequestAttribute(AttributeNameProvider.ACTIVE_ORDERS_LIST,activeOrders);
-        content.setRequestAttribute(AttributeNameProvider.COMPETED_ORDERS_LIST,completedOrders);
-        content.setRequestAttribute(AttributeNameProvider.IN_PROGRESS_ORDERS_LIST,workInProgressOrders);
-        return new Router(PagePathProvider.EXECUTOR_ORDER_HISTORY);
+        content.setRequestAttribute(AttributeName.ACTIVE_ORDERS_LIST,activeOrders);
+        content.setRequestAttribute(AttributeName.COMPETED_ORDERS_LIST,completedOrders);
+        content.setRequestAttribute(AttributeName.IN_PROGRESS_ORDERS_LIST,workInProgressOrders);
+        return new Router(PagePath.EXECUTOR_ORDER_HISTORY);
     }
 }

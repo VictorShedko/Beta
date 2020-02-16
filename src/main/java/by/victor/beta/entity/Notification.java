@@ -72,7 +72,7 @@ public class Notification implements Entity {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(Object o) {//todo
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Notification notification = (Notification) o;

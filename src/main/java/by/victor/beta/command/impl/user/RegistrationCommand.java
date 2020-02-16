@@ -1,66 +1,55 @@
 package by.victor.beta.command.impl.user;
 
-import by.victor.beta.command.AttributeNameProvider;
-import by.victor.beta.command.PagePathProvider;
-import by.victor.beta.command.AbstractCommand;
+import by.victor.beta.command.AttributeName;
+import by.victor.beta.command.PagePath;
+import by.victor.beta.command.Command;
 import by.victor.beta.command.CommandException;
 import by.victor.beta.command.Router;
 import by.victor.beta.command.RequestSessionContent;
 import by.victor.beta.entity.Role;
 import by.victor.beta.entity.User;
-import by.victor.beta.repository.RepositoryException;
 import by.victor.beta.service.ServiceException;
 import by.victor.beta.service.ServiceFacade;
 import by.victor.beta.validator.Validator;
 
-import java.util.Optional;
 
-
-public class RegistrationCommand implements AbstractCommand {
+public class RegistrationCommand implements Command {
 
     @Override
     public Router execute(RequestSessionContent content) throws CommandException {
         Router router;
-        String username=(String)content.getRequestParameter(AttributeNameProvider.USERNAME);
-        String password=(String)content.getRequestParameter(AttributeNameProvider.PASSWORD);
-        Role role=Role.fromValue((String) content.getRequestParameter(AttributeNameProvider.ROLE));
-        String login=(String)content.getRequestParameter(AttributeNameProvider.LOGIN);
-        String email=(String)content.getRequestParameter(AttributeNameProvider.EMAIL);
+        String username = (String) content.getRequestParameter(AttributeName.USERNAME);
+        String password = (String) content.getRequestParameter(AttributeName.PASSWORD);
+        Role role = Role.fromValue((String) content.getRequestParameter(AttributeName.ROLE));
+        String login = (String) content.getRequestParameter(AttributeName.LOGIN);
+        String email = (String) content.getRequestParameter(AttributeName.EMAIL);
         User user;
         try {
-            Validator validator=new Validator();
-            if(validator.isValidRegistrationForm(username,password,login)) {
+            Validator validator = new Validator();
+            if (validator.isValidRegistrationForm(username, password, login)) {
                 user = ServiceFacade.instance.registerUser(username, password, login, role, email);
                 switch (role) {
                     case ADMIN:
                     case CUSTOMER:
                     case EXECUTOR:
-                        router = new Router(PagePathProvider.USER_MAIN_PAGE);
+                        router = new Router(PagePath.USER_MAIN_MENU);
                         break;
-                    case DEFAULT: {
-                        router = new Router(PagePathProvider.LOGIN_PAGE);
+                    case DEFAULT: {//todo
+                        router = new Router(PagePath.LOGIN);
                         content.setRequestAttribute("loginErrorMessage", "Не верный логин или пароль");
                         break;
                     }
                     default:
                         throw new CommandException();
                 }
-                content.setSessionAttribute(AttributeNameProvider.USERNAME, user.getUsername());
-                content.setSessionAttribute(AttributeNameProvider.ROLE, user.getRole());
-                content.setSessionAttribute(AttributeNameProvider.BALANCE, user.getBalance());
-                if (user.getPhotoPath() != null) {//todo optional
-                    content.setSessionAttribute(AttributeNameProvider.PHOTO_PATH, user.getPhotoPath());
-                } else {
-                    content.setSessionAttribute(AttributeNameProvider.PHOTO_PATH,
-                            AttributeNameProvider.DEFAULT_PHOTO_PATH);
-                }
-            }else {
-                content.setSessionAttribute(AttributeNameProvider.FEEDBACK,validator.getInvalidFeedback());
-                router=new Router(PagePathProvider.REGISTRATION_PAGE);
+                content.addUserToSession(user);
+            } else {
+                content.setSessionAttribute(AttributeName.FEEDBACK, validator.getInvalidFeedback());
+                router = new Router(PagePath.REGISTRATION_FORM);
             }
         } catch (ServiceException e) {
-            content.setSessionAttribute(AttributeNameProvider.ERROR_MESSAGE_HEADER,e.getMessage());
-            router=new Router(PagePathProvider.REGISTRATION_PAGE);
+            content.setSessionAttribute(AttributeName.ERROR_MESSAGE_HEADER, e.getMessage());
+            router = new Router(PagePath.REGISTRATION_FORM);
 
         }
         return router;

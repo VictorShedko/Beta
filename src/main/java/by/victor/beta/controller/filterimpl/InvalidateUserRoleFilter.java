@@ -1,6 +1,6 @@
 package by.victor.beta.controller.filterimpl;
 
-import by.victor.beta.command.AttributeNameProvider;
+import by.victor.beta.command.AttributeName;
 import by.victor.beta.command.CommandType;
 import by.victor.beta.entity.Role;
 import org.apache.log4j.Level;
@@ -9,7 +9,6 @@ import org.apache.log4j.Logger;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
-import javax.servlet.annotation.WebInitParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -27,15 +26,16 @@ public class InvalidateUserRoleFilter implements Filter {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
 
         HttpSession session = httpServletRequest.getSession();
-        Role role=(Role) session.getAttribute(AttributeNameProvider.ROLE);
-        String command= httpServletRequest.getParameter(AttributeNameProvider.COMMAND);
+        Role role=(Role) session.getAttribute(AttributeName.ROLE);
+        String command= httpServletRequest.getParameter(AttributeName.COMMAND);
         logger.log(Level.DEBUG,"In filter role:"+role+" command:"+command);
+
         if(CommandType.LOGIN.name().equalsIgnoreCase(command )&&(role!=Role.DEFAULT)) {
-            session.setAttribute(AttributeNameProvider.ROLE,Role.DEFAULT);
+            session.setAttribute(AttributeName.ROLE,Role.DEFAULT);
             logger.log(Level.DEBUG,"login redirect role invalidation");
         }
         if(CommandType.TO_REGISTRATION.name().equalsIgnoreCase(command )&&(role!=Role.DEFAULT)) {
-            session.setAttribute(AttributeNameProvider.ROLE,Role.DEFAULT);
+            session.setAttribute(AttributeName.ROLE,Role.DEFAULT);
             logger.log(Level.DEBUG,"registration redirect role invalidation");
         }
         filterChain.doFilter(servletRequest, servletResponse);

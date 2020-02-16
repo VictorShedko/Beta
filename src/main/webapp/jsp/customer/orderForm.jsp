@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <fmt:setLocale value="${locale}"/>
 <fmt:bundle basename="pagecontent">
+    <%@ page isELIgnored="false" %>
 <html>
 <head>
     <title>Title</title>
@@ -20,7 +21,7 @@
     <div class=" row">
         <p>${feedback}</p>
     </div>
-    <form>
+    <form action="cleaning" method="POST" class="needs-validation" novalidate>
         <div class="form-row">
             <div class="form-group">
                 <label for="inputAddress">Start time</label>
@@ -37,7 +38,7 @@
         </div>
         <div class="form-group">
             <label for="inputPrice">Price</label>
-            <input type="number" class="form-control" id="inputPrice" name="price">
+            <input type="number" class="form-control" id="inputPrice" name="price" required min="1">
         </div>
         <div class="form-row">
             <div class="form-group col-md-2">

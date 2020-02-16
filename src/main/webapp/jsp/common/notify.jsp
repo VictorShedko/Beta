@@ -67,6 +67,7 @@
     </thead>
     <tbody>
     <c:forEach items="${notifyList}" var="item" varStatus="currentNumber">
+
         <ctg:notification notification="${item}"/>
     </c:forEach>
     </tbody>

@@ -20,7 +20,7 @@ public enum  MailService {
         init();
     }
 
-    public void sendMessage(String mailBody, String email){
+    private void sendMessage(String mailBody, String email){
         try {
 
             Message message = new MimeMessage(mailSession);
@@ -34,12 +34,17 @@ public enum  MailService {
             logger.log(Level.INFO,"");
 
         } catch (MessagingException e) {
-            throw new RuntimeException(e);
+            logger.log(Level.ERROR,"send message error",e);
+            throw new RuntimeException(e);//todo
         }
 
     }
     public static void init(){
         MailSessionCreator creator=new MailSessionCreator();
         mailSession=creator.createSession();
+    }
+
+    public void sendMessage(User receiver,String text){
+        sendMessage(text,receiver.getEmail());
     }
 }

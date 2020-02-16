@@ -4,18 +4,18 @@ import by.victor.beta.command.*;
 import by.victor.beta.service.ServiceException;
 import by.victor.beta.service.ServiceFacade;
 
-public class AddNotify implements AbstractCommand {
+public class AddNotify implements Command {
 
     @Override
     public Router execute(RequestSessionContent content) throws CommandException {
         Router router ;
-        String username = (String) content.getSessionAttribute(AttributeNameProvider.USERNAME);
-        String text=(String)content.getRequestAttribute(AttributeNameProvider.CREATE_NOTIFY_FORM_TEXT);
+        String username = (String) content.getSessionAttribute(AttributeName.USERNAME);
+        String text=(String)content.getRequestAttribute(AttributeName.CREATE_NOTIFY_FORM_TEXT);
         try {
              ServiceFacade.instance.addNotify(username,text);
-            router= new Router(PagePathProvider.USER_MAIN_PAGE);
+            router= new Router(PagePath.USER_MAIN_MENU);
         } catch (ServiceException ex) {
-            router= new Router(PagePathProvider.ERROR_PAGE);
+            router= new Router(PagePath.ERROR);
         }
         return router;
     }

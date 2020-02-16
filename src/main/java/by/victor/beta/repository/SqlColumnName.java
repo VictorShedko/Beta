@@ -3,13 +3,15 @@ package by.victor.beta.repository;
 public class SqlColumnName {
     public static final String LOGIN="login";
     public static final String GLOBAL_ID="global_id";
-    public static final String PASSWORD="password";
+    public static final String PASSWORD_HASH="hash_pass";
     public static final String ROLE="role";
     public static final String USERNAME="username";
     public static final String REGISTRATION_TIME="registration_time";
     public static final String USER_STATUS="status";
     public static final String BALANCE ="balance";
     public static final String PHOTO_FILE_PATH ="photo";
+    public static final String SALT ="salt";
+    public static final String EMAIL ="email";
 
     public static final String STATUS_ID="status_id";
     public static final String STATUS_NAME="status_name";
@@ -41,7 +43,11 @@ public class SqlColumnName {
     public static final String TIME_FOR_TIMER="time_before_action";
 
     public static final String NOTIFY_TYPE="type";
-    private SqlColumnName(){
 
+    public static final String TOKEN_UUID="token";
+    public static final String TOKEN_ID="id";
+    public static final String TOKEN_TIME="time";
+    public static final String TOKEN_USER_ID="user_id";
+    private SqlColumnName(){
     }
 }

@@ -7,19 +7,19 @@ import by.victor.beta.service.ServiceFacade;
 
 import java.util.List;
 
-public class ToNotifyCommand implements AbstractCommand {
+public class ToNotifyCommand implements Command {
     @Override
     public Router execute(RequestSessionContent content) throws CommandException {
         Router router ;
-        String username = (String) content.getSessionAttribute(AttributeNameProvider.USERNAME);
+        String username = (String) content.getSessionAttribute(AttributeName.USERNAME);
         List<Notification> notifies = null;
         try {
             notifies = ServiceFacade.instance.showNotifyList(username);
-            router= new Router(PagePathProvider.NOTIFY_LIST);
+            router= new Router(PagePath.NOTIFY_LIST);
         } catch (ServiceException ex) {
-            router= new Router(PagePathProvider.ERROR_PAGE);
+            router= new Router(PagePath.ERROR);
         }
-        content.setRequestAttribute(AttributeNameProvider.NOTIFY_LIST, notifies);
+        content.setRequestAttribute(AttributeName.NOTIFY_LIST, notifies);
         return router;
     }
 }

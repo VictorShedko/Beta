@@ -76,5 +76,7 @@ public class Document implements Entity{
 
         return builder.toString();
     }
+
+    //todo equals
 }
 

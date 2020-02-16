@@ -1,6 +1,6 @@
 package by.victor.beta.command;
 
-public class AttributeNameProvider {
+public class AttributeName {
     public static final String USERNAME = "username";
     public static final String ROLE = "role";
     public static final String COMMAND = "command";
@@ -18,7 +18,7 @@ public class AttributeNameProvider {
     public static final String COMPETED_ORDERS_LIST = "completedOrderList";
     public static final String NOT_CLAIMED_ORDERS_LIST = "notClaimedOrderList";
     public static final String IN_PROGRESS_ORDERS_LIST = "inProgressOrderList";
-    public static final String CREATE_ORDER_RESULT_MESSAGE="createOrderResultMessage";
+
 
     public static final String ORDER="order";
 
@@ -51,8 +51,10 @@ public class AttributeNameProvider {
     public static final String DOCUMENT_LIST="documentList";
     public static final String USER_PROFILE_PHOTO_PATH = "profilePhoto";
     public static final String DOCUMENT_ID = "documentId";
+    public static final String VERIFY_CODE = "code";
 
-    private AttributeNameProvider() {
+    public static final String ALERT_TEXT="alert";
+    private AttributeName() {
 
     }
 

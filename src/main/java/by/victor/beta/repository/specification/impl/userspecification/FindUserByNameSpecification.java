@@ -7,7 +7,11 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class FindUserByNameSpecification implements Specification {
-    private static final String sql = "SELECT user.login,user.username,user.password,user.role,user.balance,user.status,user.registration_time,user.global_id,user.photo FROM user WHERE username = ?";//todo rename
+    private static final String SELECT_BY_NAME = "SELECT user.login,user.username," +
+            "user.role,user.balance, user.status,user.registration_time,user.global_id,user.photo,user.salt," +
+            "user.hash_pass,user.email " +
+            "FROM user " +
+            "WHERE username = ?";
     private String name;
 
     public FindUserByNameSpecification(String name) {
@@ -16,7 +20,7 @@ public class FindUserByNameSpecification implements Specification {
 
     @Override
     public PreparedStatement specify(Connection connection) throws SQLException {
-       PreparedStatement ps = connection.prepareStatement(sql);
+       PreparedStatement ps = connection.prepareStatement(SELECT_BY_NAME);
             ps.setString(1, name);
             return ps;
     }

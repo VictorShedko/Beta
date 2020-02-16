@@ -4,16 +4,16 @@ import by.victor.beta.command.*;
 import by.victor.beta.service.ServiceException;
 import by.victor.beta.service.ServiceFacade;
 
-public class CancelOrderCustomerCommand implements AbstractCommand {
+public class CancelOrderCustomerCommand implements Command {
     @Override
     public Router execute(RequestSessionContent content) throws CommandException {
-        Router router=new Router(PagePathProvider.USER_MAIN_PAGE);;
-        int orderId=Integer.parseInt((String) content.getRequestParameter(AttributeNameProvider.ORDER));
+        Router router=new Router(PagePath.USER_MAIN_MENU);;
+        int orderId=Integer.parseInt((String) content.getRequestParameter(AttributeName.ORDER));
         try {
             ServiceFacade.instance.cancelOrderByCustomer(orderId);
-            content.setRequestAttribute(AttributeNameProvider.COMMAND_RESULT,"прошло хорошо");//todo в константы
+            content.setRequestAttribute(AttributeName.COMMAND_RESULT, PageContentKey.SUCCESSFULLY);
         }catch (ServiceException ex){
-            new Router(PagePathProvider.USER_MAIN_PAGE);
+            new Router(PagePath.USER_MAIN_MENU);
         }
         return router;
     }

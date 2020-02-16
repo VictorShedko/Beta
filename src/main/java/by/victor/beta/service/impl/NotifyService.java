@@ -7,13 +7,16 @@ import by.victor.beta.repository.RepositoryException;
 import by.victor.beta.repository.impl.NotifyRepository;
 import by.victor.beta.repository.specification.impl.notifyspecification.AddNotifySpecification;
 import by.victor.beta.repository.specification.impl.notifyspecification.FindNotifyByUsername;
-import by.victor.beta.service.AbstractNotifyService;
+import by.victor.beta.service.INotifyService;
 import by.victor.beta.service.CleanerEntityProvider;
+import by.victor.beta.service.util.NotifyMessageBuilder;
 import by.victor.beta.service.ServiceException;
+import by.victor.beta.service.mail.MailService;
 
 import java.util.List;
 
-public class NotifyService implements AbstractNotifyService {
+public class NotifyService implements INotifyService {
+    private NotifyMessageBuilder messageBuilder=new NotifyMessageBuilder();
     @Override
     public List<Notification> findNotifies(String username) throws ServiceException {
         FindNotifyByUsername specification = new FindNotifyByUsername(username);
@@ -30,6 +33,8 @@ public class NotifyService implements AbstractNotifyService {
         CleanerEntityProvider factory = new CleanerEntityProvider();
         Notification notification = factory.getNotify(text, receiver, type);
         AddNotifySpecification specification = new AddNotifySpecification(notification);
+        String emailText=messageBuilder.buildByPatter(messageBuilder.getNotifyValues(text),type);
+        MailService.instance.sendMessage(receiver,emailText);
         try {
             NotifyRepository.getInstance().updateQuery(specification);
         } catch (RepositoryException e) {

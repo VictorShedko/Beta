@@ -1,6 +1,7 @@
-package by.victor.beta.service;
+package by.victor.beta.service.util;
 
 import by.victor.beta.entity.User;
+import by.victor.beta.service.ServiceException;
 import org.apache.xmlbeans.impl.xb.xsdschema.Attribute;
 
 import javax.crypto.SecretKeyFactory;
@@ -13,10 +14,10 @@ import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.util.stream.Stream;
 
-public class HashGenerator {
-    private static final byte[] salt="badSalt".getBytes();
-    public String getHash(String password,User user) throws ServiceException {
-        byte[] userSalt=getUserSalt(user);
+public enum  HashGenerator {
+    instance;
+
+    public byte[] getHash(String password, byte[] userSalt) throws ServiceException {
         byte[] globalSalt=getGlobalSalt();
         byte[] resultSalt=new byte[userSalt.length + globalSalt.length];
         System.arraycopy(userSalt, 0, resultSalt, 0, userSalt.length);
@@ -26,16 +27,16 @@ public class HashGenerator {
         try {
              factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
             byte[] hash = factory.generateSecret(spec).getEncoded();
-            return new String(hash);
+            return hash;
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            throw new ServiceException();
+            throw new ServiceException(e);
         }
 
 
     }
-    private byte[] getNewSalt(){
+    public byte[] getNewSalt(){
         SecureRandom random = new SecureRandom();
-        byte[]salt = new byte[16];
+        byte[] salt = new byte[16];
         random.nextBytes(salt);
         return salt;
     }
@@ -48,6 +49,10 @@ public class HashGenerator {
     }
 
     private byte[] getUserSalt(User user){
-        return salt;
+       return user.getSalt();
+    }
+
+    public boolean isRightPassword(User user,String password) throws ServiceException {
+        return Arrays.equals(user.getPassword(),getHash(password,user.getSalt()));
     }
 }

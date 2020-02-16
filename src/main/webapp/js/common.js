@@ -1,4 +1,4 @@
-
+alert("I work")
 const form = document.querySelector('.needs-validation')
 
 form.addEventListener('submit', (e) => {
@@ -10,3 +10,4 @@ form.addEventListener('submit', (e) => {
     }
     form.classList.add('was-validated');
 })
+

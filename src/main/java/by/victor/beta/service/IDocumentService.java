@@ -6,8 +6,8 @@ import by.victor.beta.entity.User;
 import java.io.File;
 import java.util.List;
 
-public interface AbstractDocumentService {
-    void addDocument(User user, File file);
+public interface IDocumentService {
+    void addDocument(User user, File file) throws ServiceException;
 
     List<Document> getUserDocuments(String username) throws ServiceException;
 

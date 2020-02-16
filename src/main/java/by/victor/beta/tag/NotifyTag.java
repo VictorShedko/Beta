@@ -1,8 +1,8 @@
 package by.victor.beta.tag;
 
-import by.victor.beta.command.AttributeNameProvider;
+import by.victor.beta.command.AttributeName;
 import by.victor.beta.entity.Notification;
-import by.victor.beta.service.impl.NotifyMessageBuilder;
+import by.victor.beta.service.util.NotifyMessageBuilder;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -38,12 +38,12 @@ public class NotifyTag extends TagSupport {
     public int doStartTag() throws JspException {
         try {
 
-            pageContext.getOut().write("<hr/>" + notification.getDate() + "<hr/>");
+            pageContext.getOut().write("<tr><th>" + notification.getDate() + "<th/>");
             Locale locale = getLocale((String) pageContext.getSession().
-                    getAttribute(AttributeNameProvider.LOCALE));
+                    getAttribute(AttributeName.LOCALE));
             logger.log(Level.DEBUG,"notify tag"+ notification +" locale:"+locale);
             buildMessageTextWithLocale(notification, locale);
-            pageContext.getOut().write("<hr/>" + messageText + "<hr/>");
+            pageContext.getOut().write("<th>" + messageText + "<th/><tr/>");
         } catch (IOException e) {
             throw new JspException(e.getMessage());
         }

@@ -6,16 +6,16 @@ import by.victor.beta.entity.User;
 
 import java.util.List;
 
-public interface AbstractOrderService  {
+public interface IOrderService {
     void addOrder(Order order) throws ServiceException;
 
-    List<Order> findOrderByCustomer(String customerName);
+    List<Order> findOrderByCustomer(String customerName) throws ServiceException;
 
-    List<Order> findOrderByExecutor(String executorName);
+    List<Order> findOrderByExecutor(String executorName) throws ServiceException;
 
-    List<Order> findOrderById(long orderId);
+    List<Order> findOrderById(long orderId) throws ServiceException;
 
-    List<Order> findOrderByStatus(OrderStatus status);
+    List<Order> findOrderByStatus(OrderStatus status) throws ServiceException;
 
     void acceptOrder(Order order, User user) throws ServiceException;
 

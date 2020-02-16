@@ -1,11 +1,11 @@
 package by.victor.beta.command;
 
-public class PagePathProvider {
-    public static final String ERROR_PAGE="jsp/common/error.jsp";
-    public static final String LOGIN_PAGE="jsp/common/login.jsp";
-    public static final String USER_MAIN_PAGE ="jsp/common/userMenu.jsp";
+public class PagePath {
+    public static final String ERROR ="jsp/common/error.jsp";
+    public static final String LOGIN ="jsp/common/login.jsp";
+    public static final String USER_MAIN_MENU ="jsp/common/userMenu.jsp";
 
-    public static final String REGISTRATION_PAGE="jsp/common/registrationForm.jsp";
+    public static final String REGISTRATION_FORM ="jsp/common/registrationForm.jsp";
     public static final String CUSTOMER_ORDER_HISTORY ="jsp/customer/customerOrderHistory.jsp";
     public static final String EXECUTOR_ORDER_HISTORY ="jsp/executor/executorOrderHistory.jsp";
     public static final String CREATE_ORDER_FORM="jsp/customer/orderForm.jsp";
@@ -22,5 +22,5 @@ public class PagePathProvider {
     public static final String NOTIFY_FORM="jsp/admin/toNotifyForm.jsp";
     public static final String USER_FILES="userfile";
     public static final String SEPARATOR="/";
-    private PagePathProvider(){}
+    private PagePath(){}
 }

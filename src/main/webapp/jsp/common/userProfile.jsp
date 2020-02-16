@@ -147,13 +147,13 @@
                                 <td>
                                     <form action="cleaning" method="POST">
                                         <div class="form-group">
-                                            <c:if test="${userInfo.status == 'EMAIL_VERIFIED' }">
+
                                                 <input type="hidden" name="command" value="check_document"/>
                                                 <input type="hidden" name="admin" value="${username}"/>
                                                 <input type="hidden" name="documentId" value="${item.id}"/>
                                                 <button type="submit" class="btn btn-primary"><fmt:message
                                                         key="userProfile.admin.check.button"/></button>
-                                            </c:if>
+
                                         </div>
                                     </form>
                                 </td>

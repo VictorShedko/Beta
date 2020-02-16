@@ -98,6 +98,6 @@
         </div>
     </div>
     </body>
-    <script src="../../js/comon.js"/>
+    <script src="../../js/common.js"/>
     </html>
 </fmt:bundle>

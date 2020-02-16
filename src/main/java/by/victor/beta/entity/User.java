@@ -1,13 +1,22 @@
 package by.victor.beta.entity;
 
 import java.util.Date;
-import java.util.Locale;
 import java.util.Objects;
 
 
 public class User implements Entity {
     private Role role;
-    private String password;
+
+    public String getOldPassword() {
+        return oldPassword;
+    }
+
+    public void setOldPassword(String oldPassword) {
+        this.oldPassword = oldPassword;
+    }
+
+    private String oldPassword;
+    private byte[] password;
     private String login;
     private long id;
     private UserStatus status;
@@ -15,8 +24,17 @@ public class User implements Entity {
     private String email;
     private Date registrationTime;
     private String photoPath;
+    private byte[] salt;
 
-    public User(Role role, String password, String login, long id,
+    public byte[] getSalt() {
+        return salt;
+    }
+
+    public void setSalt(byte[] salt) {
+        this.salt = salt;
+    }
+
+    public User(Role role, byte[] password, String login, long id,
                 UserStatus status, long balance, String email,
                 Date registrationTime, String username) {
         this.role = role;
@@ -101,11 +119,11 @@ public class User implements Entity {
         this.role = role;
     }
 
-    public String getPassword() {
+    public byte[] getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(byte[] password) {
         this.password = password;
     }
 

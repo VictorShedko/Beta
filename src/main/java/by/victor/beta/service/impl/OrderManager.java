@@ -37,7 +37,6 @@ public enum OrderManager {
     public void update(){
         OrderService orderService=new OrderService();
         orderService.timeUpdate();
-        orderService.timeUpdate();
         startTimer();
     }
 }

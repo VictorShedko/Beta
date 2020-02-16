@@ -1,6 +1,7 @@
 package by.victor.beta.tag;
-import by.victor.beta.command.AttributeNameProvider;
+import by.victor.beta.command.AttributeName;
 import by.victor.beta.entity.Role;
+import by.victor.beta.entity.UserStatus;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
@@ -15,16 +16,19 @@ public class UserInfoTag extends TagSupport {
     public int doStartTag() throws JspException {
         try {
            Role userRole=   (Role) pageContext.getSession().
-                   getAttribute(AttributeNameProvider.ROLE);
+                   getAttribute(AttributeName.ROLE);
            pageContext.getOut().write("<p>" +userRole+ "<p/>");
 
             String locale=   (String) pageContext.getSession().
-                    getAttribute(AttributeNameProvider.LOCALE);
+                    getAttribute(AttributeName.LOCALE);
             pageContext.getOut().write("<p>" +locale+ "<p/>");
 
             String username=   (String) pageContext.getSession().
-                    getAttribute(AttributeNameProvider.USERNAME);
+                    getAttribute(AttributeName.USERNAME);
             pageContext.getOut().write("<p>" +username+ "<p/>");
+            UserStatus status=  (UserStatus) pageContext.getSession().
+                    getAttribute(AttributeName.STATUS);
+            pageContext.getOut().write("<p>" +status+ "<p/>");
         } catch (IOException e) {
             throw new JspException(e.getMessage());
         }

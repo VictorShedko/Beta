@@ -8,7 +8,10 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class FindUserByRoleSpecification implements Specification {
-    private static final String SELECT_USER_BY_ROLE = "SELECT user.login,user.username,user.password,user.role,user.balance,user.status,user.registration_time,user.global_id,user.photo FROM user WHERE role = ?";//todo rename
+    private static final String SELECT_USER_BY_ROLE = "SELECT user.login,user.username," +
+            "user.role,user.balance,user.status,user.registration_time,user.global_id,user.photo," +
+            "user.salt,user.hash_pass,user.email " +
+            "FROM user WHERE role = ?";
     private int role;
 
     public FindUserByRoleSpecification(Role role) {

@@ -1,7 +1,7 @@
 package by.victor.beta.controller.filterimpl;
 
-import by.victor.beta.command.AttributeNameProvider;
-import by.victor.beta.command.PagePathProvider;
+import by.victor.beta.command.AttributeName;
+import by.victor.beta.command.PagePath;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -20,8 +20,8 @@ public class RedirectFilter  implements Filter{
                          FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpSession session = httpServletRequest.getSession();
-        if (session.getAttribute(AttributeNameProvider.ROLE) == null) {
-            request.getRequestDispatcher(PagePathProvider.USER_MAIN_PAGE).forward(request, response);
+        if (session.getAttribute(AttributeName.ROLE) == null) {
+            request.getRequestDispatcher(PagePath.USER_MAIN_MENU).forward(request, response);
         }
         chain.doFilter(request, response);
     }

@@ -37,7 +37,7 @@ public class Test {
         Date newdate=new Date(stamp.getTime());
         MailService.init();
 
-      //todo   service.sendRegistrationNotify(());
+
     }
 
     @org.testng.annotations.Test

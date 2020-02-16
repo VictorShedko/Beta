@@ -5,9 +5,9 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
 
-public class ProxiConfection implements Connection{
+public class ProxyConfection implements Connection{
     private final Connection connection;
-    ProxiConfection(Connection connection) {
+    ProxyConfection(Connection connection) {
         this.connection = connection;
     }
     public void delete() throws SQLException {
@@ -16,7 +16,7 @@ public class ProxiConfection implements Connection{
 
     @Override
     public void close(){
-        ConnectionProvider.instance.freeConnection(this);
+        ConnectionPool.INSTANCE.freeConnection(this);
     }
 
 

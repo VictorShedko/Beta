@@ -5,5 +5,7 @@
 <html>
 <head><title>Index</title></head>
 <body>
+
+<script type="text/javascript" src="<c:url value="test.js" />"></script>
 <jsp:forward page="/jsp/common/login.jsp"/>
 </body></html>

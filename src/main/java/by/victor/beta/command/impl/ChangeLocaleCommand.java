@@ -3,10 +3,10 @@ package by.victor.beta.command.impl;
 import by.victor.beta.command.*;
 import by.victor.beta.entity.SupportedLocale;
 
-public class ChangeLocaleCommand implements AbstractCommand {
+public class ChangeLocaleCommand implements Command {
     @Override
     public Router execute(RequestSessionContent content) {
-        String localeString = (String) content.getSessionAttribute(AttributeNameProvider.LOCALE);
+        String localeString = (String) content.getSessionAttribute(AttributeName.LOCALE);
         SupportedLocale oldLocale = SupportedLocale.fromValue(localeString);
         SupportedLocale newLocale;
         if (oldLocale.ordinal() == 0) {
@@ -14,7 +14,7 @@ public class ChangeLocaleCommand implements AbstractCommand {
         } else {
              newLocale = SupportedLocale.BE;
         }
-        content.setSessionAttribute(AttributeNameProvider.LOCALE,newLocale.getLocaleName());
-        return new Router(PagePathProvider.USER_MAIN_PAGE);
+        content.setSessionAttribute(AttributeName.LOCALE,newLocale.getLocaleName());
+        return new Router(PagePath.USER_MAIN_MENU);
     }
 }

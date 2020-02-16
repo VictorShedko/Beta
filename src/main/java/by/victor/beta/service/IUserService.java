@@ -7,7 +7,7 @@ import by.victor.beta.entity.UserStatus;
 import java.io.File;
 import java.util.List;
 
-public interface AbstractUserService {
+public interface IUserService {
     void addUser(User user) throws ServiceException;
 
     List<User> findUserByLogin(String login);
@@ -25,4 +25,6 @@ public interface AbstractUserService {
     void setUserPhoto(File file, String username) throws ServiceException;
 
      void setUserStatus(UserStatus status, String username) throws ServiceException;
+
+    void emailVerify(User user) throws ServiceException;
 }

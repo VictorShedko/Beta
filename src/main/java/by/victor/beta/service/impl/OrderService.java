@@ -6,8 +6,8 @@ import by.victor.beta.repository.RepositoryException;
 import by.victor.beta.repository.impl.OrderRepository;
 import by.victor.beta.repository.impl.UserRepository;
 import by.victor.beta.repository.specification.impl.orderspecification.*;
-import by.victor.beta.service.AbstractOrderService;
-import by.victor.beta.service.CleanerEntityProvider;
+import by.victor.beta.service.IOrderService;
+import by.victor.beta.service.util.NotifyMessageBuilder;
 import by.victor.beta.service.ServiceException;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
@@ -17,8 +17,9 @@ import org.apache.log4j.Logger;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class OrderService implements AbstractOrderService {
+public class OrderService implements IOrderService {
     public static final Logger logger= LogManager.getLogger(OrderService.class);
+    private NotifyMessageBuilder notifyMessageBuilder=new NotifyMessageBuilder();
     private static final ReentrantLock orderLock=new ReentrantLock();
     @Override
     public void addOrder(Order order) throws ServiceException {
@@ -28,56 +29,56 @@ public class OrderService implements AbstractOrderService {
             OrderManager.instance.startTimer();
         } catch (RepositoryException e) {
             logger.log(Level.ERROR,"add error",e);
-            throw new ServiceException();
+            throw new ServiceException(e);
         }
 
     }
 
     @Override
-    public List<Order> findOrderByCustomer(String customerName){
+    public List<Order> findOrderByCustomer(String customerName) throws ServiceException {
         FindOrderByCustomerSpecification specification= new FindOrderByCustomerSpecification(customerName);
         try {
             List<Order> orders=OrderRepository.getInstance().findQuery(specification);
             return orders;
         } catch ( RepositoryException e) {
             logger.log(Level.ERROR,"add error",e);
-            return List.of();
+            throw new ServiceException(e);
         }
     }
 
     @Override
-    public List<Order> findOrderByExecutor(String executorName){
+    public List<Order> findOrderByExecutor(String executorName) throws ServiceException {
         FindOrderByExecutorSpecification specification=new FindOrderByExecutorSpecification(executorName);
         try {
             List<Order> orders=OrderRepository.getInstance().findQuery(specification);
             return orders;
         } catch ( RepositoryException e) {
-            e.printStackTrace();
-            return List.of();
+            logger.log(Level.ERROR,"find order by status",e);
+            throw new ServiceException(e);
         }
     }
 
     @Override
-    public List<Order> findOrderById(long orderId){
+    public List<Order> findOrderById(long orderId) throws ServiceException {
         FindOrderById specification=new FindOrderById(orderId);
         try {
             List<Order> orders=OrderRepository.getInstance().findQuery(specification);
             return orders;
         } catch ( RepositoryException e) {
-            e.printStackTrace();
-            return List.of();
+            logger.log(Level.ERROR,"find order by id",e);
+            throw new ServiceException(e);
         }
     }
 
     @Override
-    public List<Order> findOrderByStatus(OrderStatus status){
+    public List<Order> findOrderByStatus(OrderStatus status) throws ServiceException {
         FindOrderByStatusSpecification specification=new FindOrderByStatusSpecification(status.ordinal());
         try {
             List<Order> orders=OrderRepository.getInstance().findQuery(specification);
             return orders;
         } catch ( RepositoryException e) {
-            e.printStackTrace();
-            return List.of();
+            logger.log(Level.ERROR,"find order by status",e);
+            throw new ServiceException(e);
         }
     }
 
@@ -120,12 +121,9 @@ public class OrderService implements AbstractOrderService {
 
         FindDeprecatedOrdersSpecification specification=new FindDeprecatedOrdersSpecification();
         try {
-            UserService userService=new UserService();
+            UserService userService=new UserService();//todo куда что лучше выносить
             NotifyService notifyService=new NotifyService();
-            CleanerEntityProvider cleanerEntityProvider =new CleanerEntityProvider();
             List<Order> orders =OrderRepository.getInstance().findQuery(specification);
-            NotifyMessageBuilder builder=new NotifyMessageBuilder();
-            NotifyMessageBuilder notifyMessageBuilder=new NotifyMessageBuilder();
             String notifyText;
             for (Order order:orders) {
                 User customer=userService.findUserByUsername(order.getCustomer()).get(0);
@@ -139,7 +137,7 @@ public class OrderService implements AbstractOrderService {
                     break;
                     case ACCEPTED: {
                         order.setStatus(OrderStatus.IN_PROGRESS);
-                        User executor=userService.findUserByUsername(order.getCustomer()).get(0);
+                        User executor=userService.findUserByUsername(order.getExecutor()).get(0);
                         notifyText=notifyMessageBuilder.orderExecutionStartMessage(customer,executor,order);
                         notifyService.addNotify(notifyText,customer,NotifyType.ORDER_EXECUTION_START);
                     }
@@ -151,7 +149,8 @@ public class OrderService implements AbstractOrderService {
                         notifyText=notifyMessageBuilder.orderExecutionFinishMessage(customer,executor,order);
                         userService.creditUser(executor,order.getPrice());
                         notifyService.addNotify(notifyText,customer,NotifyType.ORDER_EXECUTION_FINISH);
-                    } break;
+                    }
+                    break;
                 }
                updateOrder(order);
             }

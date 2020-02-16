@@ -12,14 +12,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Repository<T> {
+public abstract class Repository<T> {//todo singleton
     private static final Logger logger= LogManager.getLogger(Repository.class);
     abstract protected  T buildEntity(ResultSet resultSet, CleanerEntityProvider factory) throws SQLException;
 
     public List<T> findQuery(Specification specification) throws RepositoryException {
 
         List<T> entities;
-        try (ProxiConfection cn = ConnectionProvider.instance.occupyConnection().orElseThrow(()-> {
+        try (ProxyConfection cn = ConnectionPool.INSTANCE.occupyConnection().orElseThrow(()-> {
              return  new RepositoryException("cant get connetion");
         })){
             try(PreparedStatement preparedStatement=specification.specify(cn)) {
@@ -41,7 +41,7 @@ public abstract class Repository<T> {
     }
 
     public int updateQuery(Specification specification) throws RepositoryException {
-        try (ProxiConfection cn = ConnectionProvider.instance.occupyConnection().orElseThrow(RepositoryException::new)) {
+        try (ProxyConfection cn = ConnectionPool.INSTANCE.occupyConnection().orElseThrow(RepositoryException::new)) {
             return specification.specify(cn).executeUpdate();
 
 
@@ -52,7 +52,7 @@ public abstract class Repository<T> {
     }
 
     public int createQuery(Specification specification) throws RepositoryException {
-        try (ProxiConfection cn = ConnectionProvider.instance.occupyConnection().orElseThrow(RepositoryException::new)) {
+        try (ProxyConfection cn = ConnectionPool.INSTANCE.occupyConnection().orElseThrow(RepositoryException::new)) {
             return specification.specify(cn).executeUpdate();
 
 

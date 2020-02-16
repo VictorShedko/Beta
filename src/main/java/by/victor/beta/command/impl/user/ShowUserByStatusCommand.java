@@ -7,14 +7,14 @@ import by.victor.beta.service.ServiceFacade;
 
 import java.util.List;
 
-public class ShowUserByStatusCommand implements AbstractCommand {
+public class ShowUserByStatusCommand implements Command {
     @Override
     public Router execute(RequestSessionContent content) throws CommandException {
-        UserStatus status=UserStatus.valueOf((String)content.getRequestParameter(AttributeNameProvider.STATUS));
+        UserStatus status=UserStatus.valueOf((String)content.getRequestParameter(AttributeName.STATUS));
         List<User> userList= ServiceFacade.instance.showUserByStatus(status);
-        content.setRequestAttribute(AttributeNameProvider.USER_LIST,userList);
-        content.setRequestAttribute(AttributeNameProvider.USER_SEARCH_PARAMETER,"Status");//todo
-        content.setRequestAttribute(AttributeNameProvider.USER_SEARCH_PARAMETER_VALUE,status.toString());
-        return new Router(PagePathProvider.USER_LIST);
+        content.setRequestAttribute(AttributeName.USER_LIST,userList);
+        content.setRequestAttribute(AttributeName.USER_SEARCH_PARAMETER,PageContentKey.STATUS);
+        content.setRequestAttribute(AttributeName.USER_SEARCH_PARAMETER_VALUE,status.toString());
+        return new Router(PagePath.USER_LIST);
     }
 }

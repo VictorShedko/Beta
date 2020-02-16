@@ -1,10 +1,12 @@
 package by.victor.beta.service;
 
-import by.victor.beta.command.PagePathProvider;
+import by.victor.beta.command.PagePath;
 import by.victor.beta.entity.*;
 import by.victor.beta.entity.UserStatus;
 import by.victor.beta.repository.SqlColumnName;
-import by.victor.beta.service.impl.NotifyMessageBuilder;
+import by.victor.beta.service.util.FileManager;
+import by.victor.beta.service.util.HashGenerator;
+import by.victor.beta.service.util.NotifyMessageBuilder;
 
 
 import java.sql.ResultSet;
@@ -16,31 +18,25 @@ import java.util.List;
 public class CleanerEntityProvider {
 
 
-    public User getUser(String username, String password, String login, Role role,String email,int balance) {
+    public User getUser(String username, String password, String login, Role role, String email, int balance) throws ServiceException {
         User user = new User();
         user.setUsername(username);
-        user.setPassword(password);
         user.setLogin(login);
+
+        user.setSalt(HashGenerator.instance.getNewSalt());
+        user.setPassword(HashGenerator.instance.getHash(password,user.getSalt()));
         user.setRole(role);
         user.setBalance(balance);
         user.setEmail(email);
-        switch (role) {
-            case CUSTOMER:
-            case ADMIN:
-                user.setStatus(UserStatus.VERIFIED);
-                break;
-            case EXECUTOR:
-                user.setStatus(UserStatus.EMAIL_VERIFIED);
-                break;
-
-        }
+        user.setStatus(UserStatus.NEW);
         return user;
     }
 
     public User getUser(ResultSet resultSet) throws SQLException {
         User user = new User();
         user.setUsername(resultSet.getString(SqlColumnName.USERNAME));
-        user.setPassword(resultSet.getString(SqlColumnName.PASSWORD));
+        user.setPassword(resultSet.getBytes(SqlColumnName.PASSWORD_HASH));
+        user.setSalt(resultSet.getBytes(SqlColumnName.SALT));
         user.setLogin(resultSet.getString(SqlColumnName.LOGIN));
         user.setRole(Role.values()[resultSet.getInt(SqlColumnName.ROLE)]);
         user.setBalance(resultSet.getInt(SqlColumnName.BALANCE));
@@ -48,11 +44,15 @@ public class CleanerEntityProvider {
         user.setId(resultSet.getLong(SqlColumnName.GLOBAL_ID));
         user.setRegistrationTime(new Date(resultSet.getTimestamp(SqlColumnName.REGISTRATION_TIME).getTime()));
         user.setPhotoPath(resultSet.getString(SqlColumnName.PHOTO_FILE_PATH));
+        user.setEmail(resultSet.getString(SqlColumnName.EMAIL));
+        if(resultSet.getString(SqlColumnName.PHOTO_FILE_PATH)!=null) {
+            FileManager.INSTANCE.moveFileToTempUserDir(resultSet.getString(SqlColumnName.PHOTO_FILE_PATH));
+        }
         return user;
     }
 
     public Order getOrder(String customerName, String executorName, int price, Date startTime,
-                          Date endTime, String address, String description,User customer) {
+                          Date endTime, String address, String description, User customer) {
 
         Order order = new Order();
         order.setPrice(price);
@@ -83,8 +83,8 @@ public class CleanerEntityProvider {
         return order;
     }
 
-    public Notification getNotify(String text, User user, NotifyType type){
-        Notification notification =new Notification();
+    public Notification getNotify(String text, User user, NotifyType type) {
+        Notification notification = new Notification();
         notification.setValuesAsString(text);
         notification.setUsername(user.getUsername());
         notification.setUserId(user.getId());
@@ -93,13 +93,12 @@ public class CleanerEntityProvider {
     }
 
 
-
     public Notification getNotify(ResultSet resultSet) throws SQLException {
-        Notification notification =new Notification();
+        Notification notification = new Notification();
         notification.setId(resultSet.getInt(SqlColumnName.NOTIFY_ID));
         notification.setType(NotifyType.values()[resultSet.getInt(SqlColumnName.NOTIFY_TYPE)]);
-        NotifyMessageBuilder builder=new NotifyMessageBuilder();
-        List<String> values=builder.getNotifyValues(resultSet.getString(SqlColumnName.NOTIFY_TEXT));
+        NotifyMessageBuilder builder = new NotifyMessageBuilder();
+        List<String> values = builder.getNotifyValues(resultSet.getString(SqlColumnName.NOTIFY_TEXT));
         notification.setValues(values);
         notification.setDate(new Date(resultSet.getTimestamp(SqlColumnName.NOTIFY_TIME).getTime()));
         notification.setUserId(resultSet.getLong(SqlColumnName.NOTIFY_RECEIVER_ID));
@@ -107,24 +106,25 @@ public class CleanerEntityProvider {
         return notification;
     }
 
-    public Document getDocument(User user, String file){
-        Document document=new Document();
+    public Document getDocument(User user, String file) {
+        Document document = new Document();
         document.setUserId(user.getId());
 
 
-        document.setFile(PagePathProvider.USER_FILES+PagePathProvider.SEPARATOR+user.getUsername()
-                +PagePathProvider.SEPARATOR+file);
+        document.setFile(PagePath.USER_FILES + PagePath.SEPARATOR + user.getUsername()
+                + PagePath.SEPARATOR + file);
         return document;
     }
 
     public Document getDocument(ResultSet resultSet) throws SQLException {
-        Document document=new Document();
+        Document document = new Document();
         document.setUserId(resultSet.getInt(SqlColumnName.DOCUMENT_USER_ID));
         document.setId(resultSet.getLong(SqlColumnName.DOCUMENT_ID));
         document.setUsername(resultSet.getString(SqlColumnName.DOCUMENT_USERNAME));
         document.setAdminId(resultSet.getInt(SqlColumnName.DOCUMENT_ADMIN_ID));
         document.setAdminName(resultSet.getString(SqlColumnName.DOCUMENT_ADMIN_NAME));
         document.setFile(resultSet.getString(SqlColumnName.DOCUMENT_FILE_PATH));
+        FileManager.INSTANCE.moveFileToTempUserDir(resultSet.getString(SqlColumnName.DOCUMENT_FILE_PATH));
         return document;
     }
 
@@ -132,14 +132,29 @@ public class CleanerEntityProvider {
         return new Timestamp(date.getTime());
     }
 
-    public Date getUtilDate(Timestamp date){
-            return new Date(date.getTime());
-    }
-    public Date getUtilDate(ResultSet resultSet) throws SQLException {
-        return  getUtilDate(resultSet.getTimestamp(SqlColumnName.TIME_FOR_TIMER));
+    public Date getUtilDate(Timestamp date) {
+        return new Date(date.getTime());
     }
 
-    public String getExtension(String filename){
-        return filename.substring(filename.lastIndexOf('.'));
+    public Date getUtilDate(ResultSet resultSet) throws SQLException {
+        return getUtilDate(resultSet.getTimestamp(SqlColumnName.TIME_FOR_TIMER));
+    }
+
+
+    public VerifyCode getToken(long id, String uuid) {
+        VerifyCode verifyCode = new VerifyCode();
+        verifyCode.setUuidAsString(uuid);
+        verifyCode.setUserId(id);
+        return verifyCode;
+    }
+
+
+    public VerifyCode getToken(ResultSet resultSet) throws SQLException {
+        VerifyCode verifyCode = new VerifyCode();
+        verifyCode.setUuidAsString(resultSet.getString(SqlColumnName.TOKEN_UUID));
+        verifyCode.setUsername(resultSet.getString(SqlColumnName.USERNAME));
+        Date time = getUtilDate(resultSet.getTimestamp(SqlColumnName.TOKEN_TIME));
+        verifyCode.setTime(time);
+        return verifyCode;
     }
 }

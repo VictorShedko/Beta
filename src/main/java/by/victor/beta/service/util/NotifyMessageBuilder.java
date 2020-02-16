@@ -1,4 +1,4 @@
-package by.victor.beta.service.impl;
+package by.victor.beta.service.util;
 
 import by.victor.beta.entity.NotifyType;
 import by.victor.beta.entity.Order;
@@ -18,19 +18,8 @@ public class NotifyMessageBuilder {
     private static final String CHAR_SEQUENCE_TO_REPLACE = "\\$\\$";
     private static final String CHAR_DELIMITER = "$";
     private static final String CHAR_DELIMITER_REGEXP = "\\$";
+    private static final Locale DEFAULT_LOCALE=new Locale("be_BY");
 
-    public String buildByPatter(List<String> strings, NotifyType type, Locale locale) {
-        ResourceBundle connectionInfo = ResourceBundle.getBundle(NOTIFY_TEXT_BUNDLE_NAME, locale);
-        String pattern = connectionInfo.getString(type.name());
-        logger.log(Level.DEBUG,"patern: "+pattern+" values "+strings);
-        for (String substring : strings) {
-
-                logger.log(Level.DEBUG,"substr: "+substring+"  pat: "+pattern);
-                pattern = pattern.replaceFirst(CHAR_SEQUENCE_TO_REPLACE, substring);
-
-        }
-        return pattern;
-    }
 
     private String addDelimiter(List<String> strings){
         StringBuilder result = new StringBuilder();
@@ -72,6 +61,19 @@ public class NotifyMessageBuilder {
         return notifyContent;
     }
 
+    public String buildByPatter(List<String> strings, NotifyType type, Locale locale) {
+        ResourceBundle connectionInfo = ResourceBundle.getBundle(NOTIFY_TEXT_BUNDLE_NAME, locale);
+        String pattern = connectionInfo.getString(type.name());
+        logger.log(Level.DEBUG,"patern: "+pattern+" values "+strings);
+        for (String substring : strings) {
+
+            logger.log(Level.DEBUG,"substr: "+substring+"  pat: "+pattern);
+            pattern = pattern.replaceFirst(CHAR_SEQUENCE_TO_REPLACE, substring);
+
+        }
+        return pattern;
+    }
+
     public List<String> getNotifyValues(String valuesAsString){
         return Arrays.stream(valuesAsString.split(CHAR_DELIMITER_REGEXP)).collect(Collectors.toList());
     }
@@ -97,14 +99,14 @@ public class NotifyMessageBuilder {
         return addDelimiter(replaceStringList);
     }
 
-    public String orderExecutionStartMessage(User customer, User executor, Order order) {//todo
+    public String orderExecutionStartMessage(User customer, User executor, Order order) {
         List<String> replaceStringList = new ArrayList<>(List.of(customer.getUsername()));
         replaceStringList.addAll(orderInfo(order));
         replaceStringList.add(executor.getUsername());
         return addDelimiter(replaceStringList);
     }
 
-    public String orderExecutionFinishMessage(User customer, User executor, Order order) {//todo
+    public String orderExecutionFinishMessage(User customer, User executor, Order order) {
         List<String> replaceStringList = new ArrayList<>(List.of(customer.getUsername()));
         replaceStringList.addAll(orderInfo(order));
         replaceStringList.add(executor.getUsername());
@@ -117,28 +119,35 @@ public class NotifyMessageBuilder {
         return addDelimiter(replaceStringList);
     }
 
-    public String orderAcceptedMessage(User customer,User executor, Order order) {//todo
+    public String orderAcceptedMessage(User customer,User executor, Order order) {
         List<String> replaceStringList = new ArrayList<>(usernameAsList(customer));
         replaceStringList.addAll(orderInfo(order));
         replaceStringList.add(executor.getUsername());//
         return addDelimiter(replaceStringList);
     }
 
-    public String orderCanceledMessageToExecutor(User newUser) {//todo
-        List<String> replaceStringList = List.of(newUser.getUsername(), newUser.getEmail());
+    public String orderCanceledMessageToExecutor(User newUser) {
+        List<String> replaceStringList = new ArrayList<>(usernameAsList(newUser));
         return addDelimiter(replaceStringList);
     }
 
-    public String orderCanceledMessageToCustomer(User newUser) {//todo
-        List<String> replaceStringList = List.of(newUser.getUsername(), newUser.getEmail());
+    public String orderCanceledMessageToCustomer(User newUser,Order order) {
+        List<String> replaceStringList = new ArrayList<>(usernameAsList(newUser));
+        replaceStringList.addAll(orderInfo(order));
         return addDelimiter(replaceStringList);
     }
 
-    public String orderCreateMessage(User customer, Order order) {//todo
+    public String orderCreateMessage(User customer, Order order) {
         List<String> replaceStringList = new ArrayList<>(usernameAsList(customer));
         replaceStringList.addAll(orderInfo(order));
         return addDelimiter(replaceStringList);
     }
 
+    public String buildByPatter(List<String> notifyValues, NotifyType type) {
+        return buildByPatter(notifyValues,type, DEFAULT_LOCALE);
+    }
 
+    public String buildEmailVerification(User user,UUID uuid){
+        return buildByPatter( List.of(user.getUsername(),uuid.toString()), NotifyType.REGISTRATION_EMAIL_VERIFY_REQUEST);
+    }
 }

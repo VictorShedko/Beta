@@ -8,7 +8,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class ConnectionCreator {
+ class ConnectionCreator {
     private static final Logger logger= LogManager.getLogger(ConnectionCreator.class);
     private static final String DB_BUNDLE_NAME = "database";
     private static final String DB_URL="db.url";
@@ -23,12 +23,12 @@ public class ConnectionCreator {
 
          }
      }
-    public static ProxiConfection getConnection() throws SQLException {
-        ResourceBundle connectionInfo = ResourceBundle.getBundle(DB_BUNDLE_NAME);
+    public static ProxyConfection getConnection() throws SQLException {
+        ResourceBundle connectionInfo = ResourceBundle.getBundle(DB_BUNDLE_NAME);//todo properties
         String url = connectionInfo.getString(DB_URL);
         String user = connectionInfo.getString(DB_USER);
         String pass = connectionInfo.getString(DB_PASSWORD);
         logger.log(Level.TRACE,"get connection param:"+url+user+pass);
-        return new ProxiConfection(DriverManager.getConnection(url, user, pass));
+        return new ProxyConfection(DriverManager.getConnection(url, user, pass));
     }
 }

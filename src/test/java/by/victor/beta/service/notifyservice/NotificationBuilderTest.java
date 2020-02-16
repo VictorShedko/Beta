@@ -3,7 +3,7 @@ package by.victor.beta.service.notifyservice;
 import by.victor.beta.entity.NotifyType;
 import by.victor.beta.entity.Order;
 import by.victor.beta.entity.User;
-import by.victor.beta.service.impl.NotifyMessageBuilder;
+import by.victor.beta.service.util.NotifyMessageBuilder;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 

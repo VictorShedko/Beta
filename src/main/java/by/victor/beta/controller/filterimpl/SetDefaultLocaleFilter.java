@@ -1,6 +1,6 @@
 package by.victor.beta.controller.filterimpl;
 
-import by.victor.beta.command.AttributeNameProvider;
+import by.victor.beta.command.AttributeName;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -22,8 +22,8 @@ public class SetDefaultLocaleFilter implements Filter {
                          FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpSession session = httpServletRequest.getSession();
-        if (locale != null && session.getAttribute(AttributeNameProvider.LOCALE) == null) {
-            session.setAttribute(AttributeNameProvider.LOCALE, locale);
+        if (locale != null && session.getAttribute(AttributeName.LOCALE) == null) {
+            session.setAttribute(AttributeName.LOCALE, locale);
         }
         chain.doFilter(request, response);
     }

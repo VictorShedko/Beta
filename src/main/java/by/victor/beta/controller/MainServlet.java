@@ -29,7 +29,7 @@ public class MainServlet extends HttpServlet {
             processRequest(request, response);
         } catch (CommandException e) {
             logger.log(Level.ERROR,"do get command ex",e);
-            throw new IllegalArgumentException(e);
+            request.getRequestDispatcher(PagePath.ERROR).forward(request, response);
         }
     }
 
@@ -39,20 +39,21 @@ public class MainServlet extends HttpServlet {
             processRequest(request, response);
         } catch (CommandException e) {
             logger.log(Level.ERROR,"do post command ex",e);
-            throw new IllegalArgumentException(e);
+            request.getRequestDispatcher(PagePath.ERROR).forward(request, response);
         }
     }
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, CommandException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+                                            throws ServletException, IOException, CommandException {
         CommandProvider commandProvider = new CommandProvider();
 
         RequestSessionContent content = new RequestSessionContent(request,getServletContext());
 
-        String requestCommand = (String)content.getRequestParameter(AttributeNameProvider.COMMAND);
-        Role requesterRole = content.getRole();
-        Optional<AbstractCommand> optionalCommand = commandProvider.findCommand(requesterRole, requestCommand);
+        String requestCommand = (String)content.getRequestParameter(AttributeName.COMMAND);
+        Role requesterRole = (Role) content.getSessionAttribute(AttributeName.ROLE);
+        Optional<Command> optionalCommand = commandProvider.findCommand(requesterRole, requestCommand);
         logger.log(Level.DEBUG,"role:"+requesterRole+" command:"+optionalCommand);
-        AbstractCommand command = optionalCommand.orElseThrow(CommandException::new);
+        Command command = optionalCommand.orElseThrow(CommandException::new);
         Router router = command.execute(content);
         content.addContent(request);
         switch (router.getRedirectType()) {
