@@ -18,10 +18,10 @@ public class FindNotifyByUsername implements Specification {
 
     @Override
     public PreparedStatement specify(Connection connection) throws SQLException {
-      PreparedStatement ps = connection.prepareStatement(SELECT_NOTIFY);
-            ps.setString(1, customerName);
+      PreparedStatement preparedStatement = connection.prepareStatement(SELECT_NOTIFY);
+            preparedStatement.setString(1, customerName);
 
-        return ps;
+        return preparedStatement;
     }
 
 }

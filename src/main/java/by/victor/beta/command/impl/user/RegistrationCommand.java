@@ -27,7 +27,7 @@ public class RegistrationCommand implements Command {
         try {
             Validator validator = new Validator();
             if (validator.isValidRegistrationForm(username, password, login)) {
-                user = ServiceFacade.instance.registerUser(username, password, login, role, email);
+                user = ServiceFacade.INSTANCE.registerUser(username, password, login, role, email);
                 switch (role) {
                     case ADMIN:
                     case CUSTOMER:

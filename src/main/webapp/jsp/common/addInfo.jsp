@@ -52,5 +52,6 @@
     </c:if>
 </div>
 </body>
+<script src="<c:url value="/js/common.js" />"></script>
 </html>
 </fmt:bundle>

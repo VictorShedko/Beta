@@ -11,7 +11,7 @@ public class RefuseOrderExecutorCommand implements Command {
         Router router = new Router(PagePath.USER_MAIN_MENU);
         int orderId = Integer.parseInt((String) content.getRequestParameter(AttributeName.ORDER));
         try {
-            ServiceFacade.instance.refuseOrderByExecutor(orderId);
+            ServiceFacade.INSTANCE.refuseOrderByExecutor(orderId);
             content.setRequestAttribute(AttributeName.COMMAND_RESULT, "прошло хорошо");
         } catch (ServiceException ex) {
             new Router(PagePath.USER_MAIN_MENU);

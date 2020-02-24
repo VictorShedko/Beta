@@ -16,9 +16,13 @@
     <head>
         <title><fmt:message key="customeOrderHistory.title"/></title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-                                            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-                                            crossorigin="anonymous">
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+              crossorigin="anonymous">
         <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="http://cdn.datatables.net/1.10.2/css/jquery.dataTables.min.css">
+        <script type="text/javascript" src="http://cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     </head>
     <body>
     <nav id="navbar-example2" class="navbar navbar-light bg-light">
@@ -55,7 +59,9 @@
     </nav>
     <div class="container">
         <div class="row">
-            <table class="table table-striped">
+
+
+            <table class="table table-striped" id="new-orders">
                 <thead>
                 <tr>
                     <th>#</th>
@@ -95,7 +101,7 @@
             </table>
         </div>
         <div class="row">
-            <table class="table table-striped">
+            <table class="table table-striped" id="completed-orders">
                 <thead>
                 <tr>
                     <th>#</th>
@@ -129,9 +135,16 @@
         </div>
     </div>
     </body>
-
-
-
+    <script>
+        $(document).ready(function(){
+            $('#new-orders').dataTable();
+        });
+    </script>
+    <script>
+        $(document).ready(function(){
+            $('#completed-orders').dataTable();
+        });
+    </script>
     </html>
 
 </fmt:bundle>

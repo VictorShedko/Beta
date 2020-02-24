@@ -18,9 +18,9 @@ public class FindUserByLoginSpecification implements Specification {
 
     @Override
     public PreparedStatement specify(Connection connection) throws SQLException {
-        PreparedStatement ps = connection.prepareStatement(FIND_USER_BY_NAME);
-        ps.setString(1, login);
-         return ps;
+        PreparedStatement preparedStatement = connection.prepareStatement(FIND_USER_BY_NAME);
+        preparedStatement.setString(1, login);
+         return preparedStatement;
     }
 
 

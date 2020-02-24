@@ -25,9 +25,9 @@ public class FindOrderByCustomerSpecification implements Specification {
 
     @Override
     public PreparedStatement specify(Connection connection) throws SQLException {//return preparestatment
-       PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, customerName);
-        return ps;
+       PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, customerName);
+        return preparedStatement;
     }
 
 

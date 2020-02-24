@@ -20,9 +20,9 @@ public class FindUserByNameSpecification implements Specification {
 
     @Override
     public PreparedStatement specify(Connection connection) throws SQLException {
-       PreparedStatement ps = connection.prepareStatement(SELECT_BY_NAME);
-            ps.setString(1, name);
-            return ps;
+       PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_NAME);
+            preparedStatement.setString(1, name);
+            return preparedStatement;
     }
 
 }

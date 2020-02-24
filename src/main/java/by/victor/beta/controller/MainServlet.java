@@ -46,23 +46,26 @@ public class MainServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
                                             throws ServletException, IOException, CommandException {
         CommandProvider commandProvider = new CommandProvider();
-
+        String encoding=request.getCharacterEncoding();
         RequestSessionContent content = new RequestSessionContent(request,getServletContext());
 
         String requestCommand = (String)content.getRequestParameter(AttributeName.COMMAND);
         Role requesterRole = (Role) content.getSessionAttribute(AttributeName.ROLE);
         Optional<Command> optionalCommand = commandProvider.findCommand(requesterRole, requestCommand);
-        logger.log(Level.DEBUG,"role:"+requesterRole+" command:"+optionalCommand);
+        logger.log(Level.TRACE,"role:"+requesterRole+" command:"+optionalCommand);
         Command command = optionalCommand.orElseThrow(CommandException::new);
         Router router = command.execute(content);
         content.addContent(request);
         switch (router.getRedirectType()) {
             case FORWARD:
                 request.getRequestDispatcher(router.getPagePath()).forward(request, response);
+                logger.log(Level.TRACE,"forward "+router.getPagePath());
                 break;
             case REDIRECT:
                 response.sendRedirect(router.getPagePath());
+                logger.log(Level.TRACE,"redirect "+router.getPagePath());
         }
+
     }
 
     @Override

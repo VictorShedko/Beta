@@ -5,6 +5,6 @@ import by.victor.beta.service.impl.OrderManager;
 public class OrderManagerTest {
     @org.testng.annotations.Test
     public void lol() {
-        OrderManager.instance.update();
+        OrderManager.INSTANCE.update();
     }
 }

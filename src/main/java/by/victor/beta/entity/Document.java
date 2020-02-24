@@ -77,6 +77,30 @@ public class Document implements Entity{
         return builder.toString();
     }
 
-    //todo equals
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Document document = (Document) o;
+
+        if (id != document.id) return false;
+        if (userId != document.userId) return false;
+        if (adminId != null ? !adminId.equals(document.adminId) : document.adminId != null) return false;
+        if (username != null ? !username.equals(document.username) : document.username != null) return false;
+        if (adminName != null ? !adminName.equals(document.adminName) : document.adminName != null) return false;
+        return filePath != null ? filePath.equals(document.filePath) : document.filePath == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (adminId != null ? adminId.hashCode() : 0);
+        result = 31 * result + (int) (userId ^ (userId >>> 32));
+        result = 31 * result + (username != null ? username.hashCode() : 0);
+        result = 31 * result + (adminName != null ? adminName.hashCode() : 0);
+        result = 31 * result + (filePath != null ? filePath.hashCode() : 0);
+        return result;
+    }
 }
 

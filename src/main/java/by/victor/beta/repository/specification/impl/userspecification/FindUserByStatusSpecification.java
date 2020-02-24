@@ -20,8 +20,8 @@ public class FindUserByStatusSpecification implements Specification {
 
     @Override
     public PreparedStatement specify(Connection connection) throws SQLException {
-        PreparedStatement ps = connection.prepareStatement(SELECT_USER_BY_STATUS);
-        ps.setInt(1, state);
-        return ps;
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_STATUS);
+        preparedStatement.setInt(1, state);
+        return preparedStatement;
     }
 }

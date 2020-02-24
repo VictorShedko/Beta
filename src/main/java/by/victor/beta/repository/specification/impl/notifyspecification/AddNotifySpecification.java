@@ -18,11 +18,11 @@ public class AddNotifySpecification implements Specification {
 
     @Override
     public PreparedStatement specify(Connection connection) throws SQLException {
-       PreparedStatement ps = connection.prepareStatement(INSERT_INTO_NOTIFY);
-            ps.setString(1, notification.getValuesAsString());
-            ps.setLong(2, notification.getUserId());
-            ps.setInt(3, notification.getType().ordinal());
-      return ps;
+       PreparedStatement preparedStatement = connection.prepareStatement(INSERT_INTO_NOTIFY);
+            preparedStatement.setString(1, notification.getValuesAsString());
+            preparedStatement.setLong(2, notification.getUserId());
+            preparedStatement.setInt(3, notification.getType().ordinal());
+      return preparedStatement;
 
     }
 

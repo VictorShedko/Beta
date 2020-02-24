@@ -10,6 +10,8 @@ public class LogoutCommand implements Command {
     @Override
     public Router execute(RequestSessionContent content) throws CommandException {
         content.setInvalidate(true);
-        return new Router(PagePath.LOGIN);
+        Router router=new Router(PagePath.INDEX);
+        router.setRedirect();
+        return router;
     }
 }

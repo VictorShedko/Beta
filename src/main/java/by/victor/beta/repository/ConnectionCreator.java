@@ -23,12 +23,12 @@ import java.util.ResourceBundle;
 
          }
      }
-    public static ProxyConfection getConnection() throws SQLException {
+    public static ProxyConnection getConnection() throws SQLException {
         ResourceBundle connectionInfo = ResourceBundle.getBundle(DB_BUNDLE_NAME);//todo properties
         String url = connectionInfo.getString(DB_URL);
         String user = connectionInfo.getString(DB_USER);
         String pass = connectionInfo.getString(DB_PASSWORD);
         logger.log(Level.TRACE,"get connection param:"+url+user+pass);
-        return new ProxyConfection(DriverManager.getConnection(url, user, pass));
+        return new ProxyConnection(DriverManager.getConnection(url, user, pass));
     }
 }

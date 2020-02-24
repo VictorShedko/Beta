@@ -23,10 +23,10 @@ public class AddSaltSpec implements Specification {
 
     @Override
     public PreparedStatement specify(Connection connection) throws SQLException, RepositoryException {
-        PreparedStatement ps = connection.prepareStatement(sql);
-        ps.setBytes(1, salt);
-        ps.setLong(2, id);
-        return ps;
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setBytes(1, salt);
+        preparedStatement.setLong(2, id);
+        return preparedStatement;
 
     }
 

@@ -5,6 +5,6 @@ import java.util.TimerTask;
 public class UpdateTimerTask extends TimerTask {
     @Override
     public void run() {
-    OrderManager.instance.update();
+    OrderManager.INSTANCE.update();
     }
 }

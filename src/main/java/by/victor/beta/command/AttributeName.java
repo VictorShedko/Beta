@@ -39,8 +39,6 @@ public class AttributeName {
     public static final String STATUS = "status";
     public static final String SEARCH_NAME = "searchName";
     public static final String USER="user";
-    public static final String USER_DOCUMENT="userDocumentList";
-    public static final String USER_BY_STATUS="userByStatusList";
     public static final String LOCALE="locale";
     public static final String USER_INFO="userInfo";
     public static final String USER_LIST="userList";
@@ -51,9 +49,11 @@ public class AttributeName {
     public static final String DOCUMENT_LIST="documentList";
     public static final String USER_PROFILE_PHOTO_PATH = "profilePhoto";
     public static final String DOCUMENT_ID = "documentId";
-    public static final String VERIFY_CODE = "code";
+    public static final String VERIFY_CODE = "uuid";
 
     public static final String ALERT_TEXT="alert";
+    public static final String LAST_PAGE = "lastPage";
+
     private AttributeName() {
 
     }

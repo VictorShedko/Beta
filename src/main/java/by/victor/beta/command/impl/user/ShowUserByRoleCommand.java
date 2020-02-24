@@ -11,7 +11,7 @@ public class ShowUserByRoleCommand implements Command {
     @Override
     public Router execute(RequestSessionContent content) throws CommandException {
         Role role=Role.fromValue((String)content.getRequestParameter(AttributeName.ROLE));
-        List<User> userList= ServiceFacade.instance.showUserByRole(role);
+        List<User> userList= ServiceFacade.INSTANCE.showUserByRole(role);
         content.setRequestAttribute(AttributeName.USER_LIST,userList);
         content.setRequestAttribute(AttributeName.USER_SEARCH_PARAMETER,PageContentKey.ROLE);
         content.setRequestAttribute(AttributeName.USER_SEARCH_PARAMETER_VALUE,role.value());

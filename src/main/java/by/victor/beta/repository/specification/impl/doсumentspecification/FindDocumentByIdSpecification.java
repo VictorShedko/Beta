@@ -20,9 +20,9 @@ public class FindDocumentByIdSpecification implements Specification {
 
     @Override
     public PreparedStatement specify(Connection connection) throws SQLException {
-        PreparedStatement ps = connection.prepareStatement(SELECT_DOCUMENT);
-        ps.setInt(1, id);
-        return ps;
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_DOCUMENT);
+        preparedStatement.setInt(1, id);
+        return preparedStatement;
     }
 
 }

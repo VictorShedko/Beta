@@ -2,13 +2,10 @@ package by.victor.beta.service.mail;
 
 
 
-import by.victor.beta.service.impl.UserService;
-
 import java.sql.Timestamp;
 import java.util.Date;
 
 import by.victor.beta.entity.*;
-import org.testng.Assert;
 
 
 public class MailTest {
@@ -22,7 +19,7 @@ public class MailTest {
             Date date=new Date();
             Timestamp stamp=new Timestamp(date.getTime());
             Date newdate=new Date(stamp.getTime());
-            MailService.init();
+            MailServiceThread.init();
 
             User user=new User();
            //todo  service.sendRegistrationNotify(user);

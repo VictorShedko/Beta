@@ -108,20 +108,18 @@ public class Order implements Entity{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         Order order = (Order) o;
-        return price == order.price &&
-                Objects.equals(customer, order.customer) &&
-                Objects.equals(executor, order.executor) &&
-                Objects.equals(address, order.address) &&
-                Objects.equals(description, order.description) &&
-                Objects.equals(startTime, order.startTime) &&
-                Objects.equals(endTime, order.endTime) &&
-                status == order.status;
+
+        if (orderId != order.orderId) return false;
+        return customerId == order.customerId;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(customer, executor, address, description, startTime, endTime, price, status);
+        int result = (int) (orderId ^ (orderId >>> 32));
+        result = 31 * result + (int) (customerId ^ (customerId >>> 32));
+        return result;
     }
 
     @Override

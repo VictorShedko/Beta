@@ -13,6 +13,7 @@ import java.util.Date;
 public class CreateOrderCommand implements Command {
     @Override
     public Router execute(RequestSessionContent content) {
+        Router router;
         String address = (String) content.getRequestParameter(AttributeName.ADDRESS);
         String description = (String) content.getRequestParameter(AttributeName.DESCRIPTION);
         String username = (String) content.getSessionAttribute(AttributeName.USERNAME);
@@ -29,19 +30,24 @@ public class CreateOrderCommand implements Command {
 
         int price = Integer.parseInt((String) content.getRequestParameter(AttributeName.PRICE));
         try {
-            Validator validator=new Validator();
-            if(validator.isValidOrderForm(startTime,endTime,address,description)) {
-                ServiceFacade.instance.createOrder(address, description, username, startTime, endTime, price);
-                content.setRequestAttribute(AttributeName.COMMAND_RESULT, PageContentKey.SUCCESSFULLY);
-            }else {
-                content.setRequestAttribute(AttributeName.FEEDBACK,validator.getInvalidFeedback());
-                return new Router(PagePath.CREATE_ORDER_FORM);
+            Validator validator = new Validator();
+            if (validator.isValidOrderForm(startTime, endTime, address, description)) {
+                if (ServiceFacade.INSTANCE.createOrder(address, description, username, startTime, endTime, price)) {
+                    content.setSessionAttribute(AttributeName.COMMAND_RESULT, PageContentKey.SUCCESSFULLY);
+                    router = new Router(PagePath.PRG_CREATE_ORDER_RESULT);
+                } else {
+                    content.setSessionAttribute(AttributeName.FEEDBACK, PageContentKey.NOT_ENOUGH_CASH);
+                    router = new Router(PagePath.PRG_CREATE_ORDER_RESULT);
+                }
+            } else {
+                content.setSessionAttribute(AttributeName.FEEDBACK, validator.getInvalidFeedback());
+                router = new Router(PagePath.PRG_CREATE_ORDER_RESULT);
             }
         } catch (ServiceException e) {
-            content.setRequestAttribute(AttributeName.FEEDBACK, PageContentKey.SERVER_ERROR);
-            return new Router(PagePath.CREATE_ORDER_FORM);
+            content.setSessionAttribute(AttributeName.FEEDBACK, PageContentKey.SERVER_ERROR);
+            router = new Router(PagePath.PRG_CREATE_ORDER_RESULT);
         }
-
-        return new Router(PagePath.CREATE_ORDER_RESULT);
+        router.setRedirect();
+        return router;
     }
 }

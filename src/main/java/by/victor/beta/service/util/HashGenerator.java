@@ -2,7 +2,6 @@ package by.victor.beta.service.util;
 
 import by.victor.beta.entity.User;
 import by.victor.beta.service.ServiceException;
-import org.apache.xmlbeans.impl.xb.xsdschema.Attribute;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -12,11 +11,9 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.util.Arrays;
 import java.util.ResourceBundle;
-import java.util.stream.Stream;
 
 public enum  HashGenerator {
-    instance;
-
+    INSTANCE;
     public byte[] getHash(String password, byte[] userSalt) throws ServiceException {
         byte[] globalSalt=getGlobalSalt();
         byte[] resultSalt=new byte[userSalt.length + globalSalt.length];
@@ -46,10 +43,6 @@ public enum  HashGenerator {
         String globalSalt=hash.getString("globalsalt");
         byte[] salt=globalSalt.getBytes();
         return salt;
-    }
-
-    private byte[] getUserSalt(User user){
-       return user.getSalt();
     }
 
     public boolean isRightPassword(User user,String password) throws ServiceException {

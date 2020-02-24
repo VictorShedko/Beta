@@ -14,7 +14,7 @@ public class UploadPhotoCommand implements Command {
         String username=(String)  content.getSessionAttribute(AttributeName.USERNAME);
         File file=content.getFile();
         try {
-           User user= ServiceFacade.instance.uploadPhoto(file, username);
+           User user= ServiceFacade.INSTANCE.uploadPhoto(file, username);
             content.setRequestAttribute(AttributeName.PHOTO_PATH,user.getPhotoPath());
 
         } catch (ServiceException ex) {

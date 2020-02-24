@@ -22,9 +22,9 @@ public class FindOrderByExecutorSpecification implements Specification {
 
     @Override
     public PreparedStatement specify(Connection connection) throws SQLException {
-        PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, executorName);
-        return ps;
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, executorName);
+        return preparedStatement;
     }
 
 

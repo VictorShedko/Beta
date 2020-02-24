@@ -5,6 +5,7 @@ import by.victor.beta.command.impl.DebugCommand;
 import by.victor.beta.command.impl.LoginCommand;
 import by.victor.beta.command.impl.LogoutCommand;
 import by.victor.beta.command.impl.document.CheckDocumentCommand;
+import by.victor.beta.command.impl.document.ShowMyDocumentsCommand;
 import by.victor.beta.command.impl.document.UploadDocumentCommand;
 import by.victor.beta.command.impl.notify.ToNotifyCommand;
 import by.victor.beta.command.impl.order.*;
@@ -47,8 +48,10 @@ public enum CommandType {
     CHANGE_LOCALE(new ChangeLocaleCommand()),
     REFRESH(new RefreshSessionCommand()),
     RESEND_EMAIL(new ResendVerificationEmailCommand()),
-    EMAIL_VERIFY(new EmailVerifyCommand());
-
+    EMAIL_VERIFY(new EmailVerifyCommand()),
+    SHOW_MY_DOCUMENTS(new ShowMyDocumentsCommand()),
+    SHOW_ALL_USERS(new ShowAllUserCommand());
+    
     private Command command;
     CommandType(Command command){
         this.command=command;

@@ -11,7 +11,7 @@ public class CheckDocumentCommand implements Command {
         String username = (String) content.getSessionAttribute(AttributeName.USERNAME);
         int id = Integer.parseInt((String) content.getRequestParameter(AttributeName.DOCUMENT_ID));
         try {
-            ServiceFacade.instance.checkDocument(id, username);
+            ServiceFacade.INSTANCE.checkDocument(id, username);
             content.setRequestAttribute(AttributeName.COMMAND_RESULT, PageContentKey.SUCCESSFULLY);
         } catch (ServiceException ex) {
             content.setRequestAttribute(AttributeName.COMMAND_RESULT, PageContentKey.FAILED);

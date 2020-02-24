@@ -10,7 +10,7 @@ public class DeleteUserCommand implements Command {
         Router router=new Router(PagePath.CREATE_ORDER_RESULT);;
         String username=(String)  content.getSessionAttribute(AttributeName.USERNAME);
         try {
-            ServiceFacade.instance.deleteUser(username);
+            ServiceFacade.INSTANCE.deleteUser(username);
             content.setRequestAttribute(AttributeName.COMMAND_RESULT, PageContentKey.SUCCESSFULLY);
         } catch (ServiceException ex) {
             content.setRequestAttribute(AttributeName.COMMAND_RESULT, PageContentKey.FAILED);

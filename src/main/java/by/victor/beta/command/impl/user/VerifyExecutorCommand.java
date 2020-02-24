@@ -10,7 +10,7 @@ public class VerifyExecutorCommand implements Command {
         Router router=new Router(PagePath.RESULT);
         String username=(String)  content.getRequestParameter(AttributeName.USERNAME);
         try {
-            ServiceFacade.instance.validateUser(username);
+            ServiceFacade.INSTANCE.validateUser(username);
             content.setRequestAttribute(AttributeName.COMMAND_RESULT,PageContentKey.SUCCESSFULLY);
         } catch (ServiceException ex) {
             content.setRequestAttribute(AttributeName.COMMAND_RESULT,PageContentKey.FAILED);

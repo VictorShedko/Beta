@@ -8,7 +8,7 @@ import java.io.UnsupportedEncodingException;
 
 @WebFilter(urlPatterns = {"/*"},
         initParams = {
-                @WebInitParam(name = "encoding", value = "UTF-8", description = "Encoding Param")})
+                @WebInitParam(name = "encoding", value = "utf-8", description = "Encoding Param")})
 public class EndCodingFilter implements Filter {
 
     private String code;
@@ -23,9 +23,11 @@ public class EndCodingFilter implements Filter {
         String codeRequest = servletRequest.getCharacterEncoding();
         if (code != null && !code.equalsIgnoreCase(codeRequest)) {
             servletRequest.setCharacterEncoding(code);
+
             servletResponse.setCharacterEncoding(code);
             filterChain.doFilter(servletRequest, servletResponse);
         }
+
     }
 
     @Override

@@ -15,7 +15,7 @@ public class CreditAccountCommand implements Command {
             Validator validator=new Validator();
             if(validator.isValidCreditSum(sumAsString)) {
                 int sum=Integer.parseInt(sumAsString);
-                ServiceFacade.instance.creditAccount(username, sum);
+                ServiceFacade.INSTANCE.creditAccount(username, sum);
                 content.setRequestAttribute(AttributeName.COMMAND_RESULT, PageContentKey.SUCCESSFULLY);
             }else {
                 router=new Router(PagePath.CREDIT_FORM);

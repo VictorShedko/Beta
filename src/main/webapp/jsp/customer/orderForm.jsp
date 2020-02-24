@@ -5,12 +5,15 @@
   Time: 18:40
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8"  %>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <fmt:setLocale value="${locale}"/>
 <fmt:bundle basename="pagecontent">
     <%@ page isELIgnored="false" %>
 <html>
 <head>
+    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
     <title>Title</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
@@ -21,7 +24,7 @@
     <div class=" row">
         <p>${feedback}</p>
     </div>
-    <form action="cleaning" method="POST" class="needs-validation" novalidate>
+    <form action="cleaning" method="POST" class="needs-validation" novalidate accept-charset="utf-8">
         <div class="form-row">
             <div class="form-group">
                 <label for="inputAddress">Start time</label>

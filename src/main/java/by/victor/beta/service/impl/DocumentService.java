@@ -14,6 +14,7 @@ import by.victor.beta.service.util.FileManager;
 import by.victor.beta.service.ServiceException;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 public class DocumentService implements IDocumentService {
@@ -22,7 +23,13 @@ public class DocumentService implements IDocumentService {
     @Override
     public void addDocument(User user, File file) throws ServiceException {
         String uuid=FileManager.INSTANCE.generateUUIDNameWithSameExtension(file);
-        File movedFile=FileManager.INSTANCE.moveFileToUserDir(file,user.getUsername(),uuid);
+        File movedFile= null;
+        try {
+            movedFile = FileManager.INSTANCE.moveFileToUserDir(file,user.getUsername(),uuid);
+        } catch (IOException e) {
+            e.printStackTrace();//todo
+            throw new ServiceException(e);
+        }
         Document document=factory.getDocument(user,movedFile.getName());
         AddDocumentSpecification specification=new AddDocumentSpecification(document);
         try {

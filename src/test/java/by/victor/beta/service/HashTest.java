@@ -19,18 +19,7 @@ public class HashTest {
             users.addAll(UserRepository.getInstance().findQuery(specification));
         }
 
-        for (User user:users) {
-
-
-            byte[] salt= HashGenerator.instance.getHash(user.getOldPassword(),user.getSalt());
-            AddSaltSpec saltSpec=new AddSaltSpec(salt,user.getId());
-            try {
-                UserRepository.getInstance().updateQuery(saltSpec);
-            } catch (RepositoryException e) {
-                e.printStackTrace();
-            }
-        }
-        //    String result1=generator.getHash("lol");
+  //ing result1=generator.getHash("lol");
           //  String result2=generator.getHash("lol");
            // Assert.assertEquals(result1, result1);
 

@@ -21,21 +21,21 @@ public class ChangeUserSpecification implements Specification {
 
     @Override
     public PreparedStatement specify(Connection connection) throws SQLException, RepositoryException {
-        PreparedStatement ps = connection.prepareStatement(sql);
-        ps.setString(1, user.getLogin());
-        ps.setLong(2, user.getId());
-        ps.setLong(3, user.getRole().ordinal());
-        ps.setString(4, user.getUsername());
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, user.getLogin());
+        preparedStatement.setLong(2, user.getId());
+        preparedStatement.setLong(3, user.getRole().ordinal());
+        preparedStatement.setString(4, user.getUsername());
 
         Timestamp registrationTime = new Timestamp(user.getRegistrationTime().getTime());
-        ps.setTimestamp(5, registrationTime);
-        ps.setLong(6, user.getStatus().ordinal());
-        ps.setLong(7, user.getBalance());
-        ps.setString(8, user.getEmail());
-        ps.setString(9,user.getPhotoPath());
-        ps.setBytes(10,user.getPassword());
-        ps.setLong(11,user.getId());
-        return ps;
+        preparedStatement.setTimestamp(5, registrationTime);
+        preparedStatement.setLong(6, user.getStatus().ordinal());
+        preparedStatement.setLong(7, user.getBalance());
+        preparedStatement.setString(8, user.getEmail());
+        preparedStatement.setString(9,user.getPhotoPath());
+        preparedStatement.setBytes(10,user.getPassword());
+        preparedStatement.setLong(11,user.getId());
+        return preparedStatement;
 
     }
 

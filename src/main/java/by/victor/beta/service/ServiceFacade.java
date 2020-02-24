@@ -3,9 +3,10 @@ package by.victor.beta.service;
 import by.victor.beta.entity.*;
 import by.victor.beta.entity.UserStatus;
 import by.victor.beta.service.impl.*;
-import by.victor.beta.service.mail.MailService;
+import by.victor.beta.service.mail.MailServiceThread;
 import by.victor.beta.service.util.HashGenerator;
 import by.victor.beta.service.util.NotifyMessageBuilder;
+import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -18,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
 public enum ServiceFacade {
-    instance;
+    INSTANCE;
     private static final Logger logger=LogManager.getLogger(ServiceFacade.class);
     private final IUserService userService = new UserService();
     private final IOrderService orderService = new OrderService();
@@ -36,7 +37,7 @@ public enum ServiceFacade {
         if (orders.size() == 1) {
             return orders.get(0);
         } else {
-            throw new ServiceException("order not founded");
+            throw new ServiceException("order not found");
         }
     }
 
@@ -47,7 +48,7 @@ public enum ServiceFacade {
         if (users.size() == 1) {
             return users.get(0);
         } else {
-            throw new ServiceException();
+            throw new ServiceException("ser not found");
         }
     }
 
@@ -61,7 +62,7 @@ public enum ServiceFacade {
         VerifyCode verifyCode = entityProvider.getToken(user.getId(), uuid.toString());
         verifyCodeService.addToken(verifyCode);
         String emailText = notifyMessageBuilder.buildEmailVerification(user, uuid);
-        MailService.instance.sendMessage(user, emailText);
+        MailServiceThread.sendMessage(user, emailText);
     }
 
     public void resendVerifyMail(String username) throws ServiceException {
@@ -74,7 +75,6 @@ public enum ServiceFacade {
             User user = findSingleUser(verifyCode.get().getUsername());
             if (verifyCodeService.isValidToken(verifyCode.get())) {
                 userService.emailVerify(user);
-
             }
             return findSingleUser(user.getUsername()).getStatus()!=UserStatus.NEW;
         }else {
@@ -86,7 +86,7 @@ public enum ServiceFacade {
     public Optional<User> login(String login, String password) throws ServiceException {
         List<User> users = userService.findUserByLogin(login);
 
-        if (users.size() == 1 && HashGenerator.instance.isRightPassword(users.get(0), password) &&
+        if (users.size() == 1 && HashGenerator.INSTANCE.isRightPassword(users.get(0), password) &&
                 users.get(0).getStatus() != UserStatus.DELETED) {
             return Optional.of(users.get(0));
         } else {
@@ -103,6 +103,8 @@ public enum ServiceFacade {
             userService.addUser(user);
             user = findSingleUser(username);
             sendVerificationMessage(user);
+            String notifyText=notifyMessageBuilder.registrationMessage(user);
+            notifyService.addNotify(notifyText,user,NotifyType.REGISTRATION);
             return user;
         } else {
             throw new ServiceException();
@@ -131,17 +133,18 @@ public enum ServiceFacade {
         try {
             paymentLock.lock();
 
-            if (users.size() == 1) {
+            if (users.size() == 1) {//todo single user
                 User user = users.get(0);
                 if (userService.debitUser(user, price)) {
-                    CleanerEntityProvider factory = new CleanerEntityProvider();
-                    Order order = factory.getOrder(username, null, price, startTime, endTime, address, description, user);
+                    logger.log(Level.TRACE,"debit user "+price);
+                    Order order = entityProvider.getOrder(username, null, price, startTime, endTime, address, description, user);
                     orderService.addOrder(order);
-
+                    logger.log(Level.TRACE,"added user "+order);
                     String notifyText = notifyMessageBuilder.orderCreateMessage(user, order);
                     notifyService.addNotify(notifyText, user, NotifyType.ORDER_CREATED);
                     return true;
                 } else {
+                    logger.log(Level.TRACE,"debit user fail "+price);
                     return false;
                 }
             } else {
@@ -208,7 +211,6 @@ public enum ServiceFacade {
     }
 
     public List<Document> showUserDocument(String username) throws ServiceException {
-
         return documentService.getUserDocuments(username);
     }
 
@@ -219,7 +221,7 @@ public enum ServiceFacade {
     }
 
     public List<Notification> showNotifyList(String username) throws ServiceException {
-        List<Notification> notifies = null;
+        List<Notification> notifies;
         notifies = notifyService.findNotifies(username);
         return notifies;
     }
@@ -265,5 +267,13 @@ public enum ServiceFacade {
     public void addDocument(File file, String username) throws ServiceException {
         User user = findSingleUser(username);
         documentService.addDocument(user, file);
+    }
+
+    public List<User> showAllUserByRole()  {
+        return userService.findAll();
+    }
+
+    public List<Document> showUserDocuments(String username) throws ServiceException {
+        return documentService.getUserDocuments(username);
     }
 }

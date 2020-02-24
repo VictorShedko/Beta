@@ -19,8 +19,8 @@ public class FindVerifyCodeByUuidSpecification implements Specification {
 
     @Override
     public PreparedStatement specify(Connection connection) throws SQLException, RepositoryException {
-        PreparedStatement ps = connection.prepareStatement(sql);
-        ps.setString(1,uuid);
-        return ps;
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1,uuid);
+        return preparedStatement;
     }
 }

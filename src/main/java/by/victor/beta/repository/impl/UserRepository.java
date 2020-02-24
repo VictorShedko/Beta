@@ -6,30 +6,24 @@ import by.victor.beta.service.CleanerEntityProvider;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class UserRepository extends Repository<User> {
-    private static AtomicBoolean created=new AtomicBoolean(false);
-    private static UserRepository userRepositoryInstance=null;
-    private static final Logger logger = LogManager.getLogger(UserRepository.class);
-
+    private static final UserRepository userRepositoryInstance=new UserRepository();
 
     private UserRepository() {
 
     }
 
     public static UserRepository getInstance(){
-        if (created.compareAndSet(false,true)){
-            userRepositoryInstance=new UserRepository();
-        }
         return userRepositoryInstance;
     }
 
-
     @Override
-    protected User buildEntity(ResultSet resultSet, CleanerEntityProvider factory) throws SQLException {
+    protected User buildEntity(ResultSet resultSet, CleanerEntityProvider factory) throws SQLException, IOException {
         return factory.getUser(resultSet);
     }
 }

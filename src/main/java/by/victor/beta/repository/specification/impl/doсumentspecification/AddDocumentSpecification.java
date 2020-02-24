@@ -22,10 +22,10 @@ public class AddDocumentSpecification implements Specification {
 
     @Override
     public PreparedStatement specify(Connection connection) throws SQLException, RepositoryException {
-        PreparedStatement ps = connection.prepareStatement(INSERT_INTO_DOCUMENT);
-        ps.setString(1,document.getFile());
-        ps.setLong(2,document.getUserId());
-        return ps;
+        PreparedStatement preparedStatement = connection.prepareStatement(INSERT_INTO_DOCUMENT);
+        preparedStatement.setString(1,document.getFile());
+        preparedStatement.setLong(2,document.getUserId());
+        return preparedStatement;
     }
 
 

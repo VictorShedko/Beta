@@ -1,7 +1,6 @@
 package by.victor.beta;
 
-import by.victor.beta.entity.User;
-import by.victor.beta.service.mail.MailService;
+import by.victor.beta.service.mail.MailServiceThread;
 import javax.mail.*;
 
 import javax.mail.Session;
@@ -13,7 +12,9 @@ import java.sql.Timestamp;
 import java.util.*;
 
 public class Test {
-
+    void badmet() throws RuntimeException{
+        throw new RuntimeException();
+    }
     @org.testng.annotations.Test
     public void lol() {
         int a=0;
@@ -22,7 +23,6 @@ public class Test {
         }finally {
         a++;
         }
-
 
 
         SecureRandom random = new SecureRandom();
@@ -35,7 +35,7 @@ public class Test {
         Date date=new Date();
         Timestamp stamp=new Timestamp(date.getTime());
         Date newdate=new Date(stamp.getTime());
-        MailService.init();
+        MailServiceThread.init();
 
 
     }

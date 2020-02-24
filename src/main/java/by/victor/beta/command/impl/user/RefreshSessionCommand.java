@@ -13,7 +13,7 @@ public class RefreshSessionCommand implements Command {
 
         User user;
         try {
-                user = ServiceFacade.instance.findUserByUsername(username);
+                user = ServiceFacade.INSTANCE.findUserByUsername(username);
                 content.addUserToSession(user);
             router=new Router(PagePath.USER_MAIN_MENU);
         } catch (ServiceException e) {

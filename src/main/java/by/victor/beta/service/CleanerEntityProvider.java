@@ -9,6 +9,7 @@ import by.victor.beta.service.util.HashGenerator;
 import by.victor.beta.service.util.NotifyMessageBuilder;
 
 
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -23,8 +24,8 @@ public class CleanerEntityProvider {
         user.setUsername(username);
         user.setLogin(login);
 
-        user.setSalt(HashGenerator.instance.getNewSalt());
-        user.setPassword(HashGenerator.instance.getHash(password,user.getSalt()));
+        user.setSalt(HashGenerator.INSTANCE.getNewSalt());
+        user.setPassword(HashGenerator.INSTANCE.getHash(password,user.getSalt()));
         user.setRole(role);
         user.setBalance(balance);
         user.setEmail(email);
@@ -32,7 +33,7 @@ public class CleanerEntityProvider {
         return user;
     }
 
-    public User getUser(ResultSet resultSet) throws SQLException {
+    public User getUser(ResultSet resultSet) throws SQLException, IOException {
         User user = new User();
         user.setUsername(resultSet.getString(SqlColumnName.USERNAME));
         user.setPassword(resultSet.getBytes(SqlColumnName.PASSWORD_HASH));
@@ -116,7 +117,7 @@ public class CleanerEntityProvider {
         return document;
     }
 
-    public Document getDocument(ResultSet resultSet) throws SQLException {
+    public Document getDocument(ResultSet resultSet) throws SQLException, IOException {
         Document document = new Document();
         document.setUserId(resultSet.getInt(SqlColumnName.DOCUMENT_USER_ID));
         document.setId(resultSet.getLong(SqlColumnName.DOCUMENT_ID));
@@ -151,7 +152,7 @@ public class CleanerEntityProvider {
 
     public VerifyCode getToken(ResultSet resultSet) throws SQLException {
         VerifyCode verifyCode = new VerifyCode();
-        verifyCode.setUuidAsString(resultSet.getString(SqlColumnName.TOKEN_UUID));
+        verifyCode.setUuidAsString(resultSet.getString(SqlColumnName.CODE));
         verifyCode.setUsername(resultSet.getString(SqlColumnName.USERNAME));
         Date time = getUtilDate(resultSet.getTimestamp(SqlColumnName.TOKEN_TIME));
         verifyCode.setTime(time);

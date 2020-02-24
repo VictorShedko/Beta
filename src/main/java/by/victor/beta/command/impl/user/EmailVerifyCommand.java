@@ -1,13 +1,8 @@
 package by.victor.beta.command.impl.user;
 
-import by.victor.beta.entity.Role;
-import by.victor.beta.entity.User;
 import by.victor.beta.command.*;
 import by.victor.beta.service.ServiceException;
 import by.victor.beta.service.ServiceFacade;
-import com.sun.tools.xjc.reader.xmlschema.bindinfo.BIConversion;
-
-import java.util.Optional;
 
 
 public class EmailVerifyCommand implements Command {
@@ -17,7 +12,7 @@ public class EmailVerifyCommand implements Command {
         String verifyCode = (String) content.getRequestParameter(AttributeName.VERIFY_CODE);
         Router router = new Router(PagePath.LOGIN);
         try {
-            if(ServiceFacade.instance.emailVerify(verifyCode)) {
+            if(ServiceFacade.INSTANCE.emailVerify(verifyCode)) {
                 content.setRequestParameter(AttributeName.ALERT_TEXT,"1");//todo
 
 

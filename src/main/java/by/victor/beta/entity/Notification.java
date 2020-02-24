@@ -72,22 +72,25 @@ public class Notification implements Entity {
     }
 
     @Override
-    public boolean equals(Object o) {//todo
+    public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Notification notification = (Notification) o;
-        return id == notification.id &&
-                userId == notification.userId &&
-                Objects.equals(values, notification.values) &&
-                Objects.equals(valuesAsString, notification.valuesAsString) &&
-                Objects.equals(date, notification.date) &&
-                Objects.equals(username, notification.username) &&
-                type == notification.type;
+
+        Notification that = (Notification) o;
+
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
+        if (username != null ? !username.equals(that.username) : that.username != null) return false;
+        return type == that.type;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(values, valuesAsString, date, id, userId, username, type);
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (userId != null ? userId.hashCode() : 0);
+        result = 31 * result + (username != null ? username.hashCode() : 0);
+        result = 31 * result + (type != null ? type.hashCode() : 0);
+        return result;
     }
 
     @Override

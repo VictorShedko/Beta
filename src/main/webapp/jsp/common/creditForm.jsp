@@ -40,18 +40,8 @@
             <c:out value="${feedback}"/>
         </div>
     </div>
-    </body>
-    <script type="text/javascript">
-        form.addEventListener('submit', (e) => {
-            if (form.checkValidity() === false) {
-                e.preventDefault();
-            }
-            if (form.license.checked === false) {
-                e.preventDefault();
-            }
-            form.classList.add('was-validated');
-        })
 
-    </script>
+    </body>
+    <script src="<c:url value="/js/common.js" />"></script>
     </html>
 </fmt:bundle>

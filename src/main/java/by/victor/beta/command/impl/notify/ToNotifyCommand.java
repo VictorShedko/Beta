@@ -14,7 +14,7 @@ public class ToNotifyCommand implements Command {
         String username = (String) content.getSessionAttribute(AttributeName.USERNAME);
         List<Notification> notifies = null;
         try {
-            notifies = ServiceFacade.instance.showNotifyList(username);
+            notifies = ServiceFacade.INSTANCE.showNotifyList(username);
             router= new Router(PagePath.NOTIFY_LIST);
         } catch (ServiceException ex) {
             router= new Router(PagePath.ERROR);

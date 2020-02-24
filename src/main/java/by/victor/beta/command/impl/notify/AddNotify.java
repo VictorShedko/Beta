@@ -4,6 +4,7 @@ import by.victor.beta.command.*;
 import by.victor.beta.service.ServiceException;
 import by.victor.beta.service.ServiceFacade;
 
+@Deprecated
 public class AddNotify implements Command {
 
     @Override
@@ -12,7 +13,7 @@ public class AddNotify implements Command {
         String username = (String) content.getSessionAttribute(AttributeName.USERNAME);
         String text=(String)content.getRequestAttribute(AttributeName.CREATE_NOTIFY_FORM_TEXT);
         try {
-             ServiceFacade.instance.addNotify(username,text);
+             ServiceFacade.INSTANCE.addNotify(username,text);
             router= new Router(PagePath.USER_MAIN_MENU);
         } catch (ServiceException ex) {
             router= new Router(PagePath.ERROR);

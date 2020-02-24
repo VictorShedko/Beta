@@ -14,19 +14,22 @@ public class LoginCommand implements Command {
         Router router;
         String login = (String) content.getRequestParameter(AttributeName.LOGIN);
         String password = (String) content.getRequestParameter(AttributeName.PASSWORD);
-        Optional<User> userOptional = null;
+        Optional<User> userOptional ;
         try {
-            userOptional = ServiceFacade.instance.login(login, password);
+            userOptional = ServiceFacade.INSTANCE.login(login, password);
         } catch (ServiceException e) {
             throw new CommandException(e);
         }
         if (userOptional.isPresent()) {
             User user=userOptional.get();
             content.addUserToSession(user);
-            router=new Router(PagePath.USER_MAIN_MENU);
+            content.setSessionAttribute(AttributeName.FEEDBACK, PageContentKey.EMPTY);
+            router=new Router(PagePath.PRG_TO_USER_MENU);
+            router.setRedirect();
         }else {
-            router = new Router(PagePath.LOGIN);
-            content.setRequestAttribute(AttributeName.FEEDBACK, PageContentKey.INVALID_LOGIN_OR_PASSWORD);
+            router = new Router(PagePath.INDEX);
+            content.setSessionAttribute(AttributeName.FEEDBACK, PageContentKey.INVALID_LOGIN_OR_PASSWORD);
+            router.setRedirect();
         }
 
         return router;

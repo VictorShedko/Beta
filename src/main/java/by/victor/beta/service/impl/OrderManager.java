@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Timer;
 
 public enum OrderManager {
-    instance;
+    INSTANCE;
     private static final Logger logger= LogManager.getLogger(OrderManager.class);
     private Timer updateTimer=new Timer();
     public void startTimer(){

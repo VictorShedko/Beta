@@ -11,9 +11,7 @@ import java.sql.SQLException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class OrderRepository extends Repository<Order> {
-    private static AtomicBoolean created=new AtomicBoolean(false);
-    private static OrderRepository userRepositoryInstance=null;
-    private static final Logger logger = LogManager.getLogger(OrderRepository.class);
+    private static final OrderRepository userRepositoryInstance=new OrderRepository();
 
 
     private OrderRepository() {
@@ -21,9 +19,6 @@ public class OrderRepository extends Repository<Order> {
     }
 
     public static OrderRepository getInstance(){
-        if (created.compareAndSet(false,true)){
-            userRepositoryInstance=new OrderRepository();
-        }
         return userRepositoryInstance;
     }
 

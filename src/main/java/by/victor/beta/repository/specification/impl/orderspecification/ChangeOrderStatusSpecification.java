@@ -20,10 +20,10 @@ public class ChangeOrderStatusSpecification implements Specification {
 
     @Override
     public PreparedStatement specify(Connection connection) throws SQLException, RepositoryException {
-       PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setInt(1, newStatus);
-            ps.setLong(2, id);
-        return ps;
+       PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, newStatus);
+            preparedStatement.setLong(2, id);
+        return preparedStatement;
 
     }
 

@@ -20,8 +20,8 @@ public class FindUserByRoleSpecification implements Specification {
 
     @Override
     public PreparedStatement specify(Connection connection) throws SQLException {
-        PreparedStatement ps = connection.prepareStatement(SELECT_USER_BY_ROLE);
-        ps.setInt(1, role);
-        return ps;
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_ROLE);
+        preparedStatement.setInt(1, role);
+        return preparedStatement;
     }
 }

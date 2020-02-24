@@ -28,15 +28,15 @@ public class InvalidateUserRoleFilter implements Filter {
         HttpSession session = httpServletRequest.getSession();
         Role role=(Role) session.getAttribute(AttributeName.ROLE);
         String command= httpServletRequest.getParameter(AttributeName.COMMAND);
-        logger.log(Level.DEBUG,"In filter role:"+role+" command:"+command);
+        logger.log(Level.TRACE,"In filter role:"+role+" command:"+command);
 
         if(CommandType.LOGIN.name().equalsIgnoreCase(command )&&(role!=Role.DEFAULT)) {
             session.setAttribute(AttributeName.ROLE,Role.DEFAULT);
-            logger.log(Level.DEBUG,"login redirect role invalidation");
+            logger.log(Level.TRACE,"login redirect role invalidation");
         }
         if(CommandType.TO_REGISTRATION.name().equalsIgnoreCase(command )&&(role!=Role.DEFAULT)) {
             session.setAttribute(AttributeName.ROLE,Role.DEFAULT);
-            logger.log(Level.DEBUG,"registration redirect role invalidation");
+            logger.log(Level.TRACE,"registration redirect role invalidation");
         }
         filterChain.doFilter(servletRequest, servletResponse);
     }

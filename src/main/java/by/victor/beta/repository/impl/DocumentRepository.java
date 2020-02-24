@@ -6,14 +6,14 @@ import by.victor.beta.service.CleanerEntityProvider;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class DocumentRepository extends Repository<Document> {
-    private static AtomicBoolean created = new AtomicBoolean(false);
-    private static DocumentRepository documentRepository;
-    private static final Logger logger = LogManager.getLogger(OrderRepository.class);
+    private static DocumentRepository documentRepository=new DocumentRepository();
+
 
 
     private DocumentRepository() {
@@ -21,15 +21,12 @@ public class DocumentRepository extends Repository<Document> {
     }
 
     public static DocumentRepository getInstance() {
-        if (created.compareAndSet(false, true)) {
-            documentRepository = new DocumentRepository();
-        }
         return documentRepository;
     }
 
 
     @Override
-    protected Document buildEntity(ResultSet resultSet, CleanerEntityProvider factory) throws SQLException {
+    protected Document buildEntity(ResultSet resultSet, CleanerEntityProvider factory) throws SQLException, IOException {
         return factory.getDocument(resultSet);
     }
 }

@@ -27,4 +27,6 @@ public interface IUserService {
      void setUserStatus(UserStatus status, String username) throws ServiceException;
 
     void emailVerify(User user) throws ServiceException;
+
+    List<User> findAll() ;
 }

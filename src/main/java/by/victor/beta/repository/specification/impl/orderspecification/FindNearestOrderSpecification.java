@@ -22,8 +22,8 @@ public class FindNearestOrderSpecification implements Specification {
 
     @Override
     public PreparedStatement specify(Connection connection) throws SQLException {//return preparestatment
-        PreparedStatement ps = connection.prepareStatement(FIND_NEAREST_ORDER);
+        PreparedStatement preparedStatement = connection.prepareStatement(FIND_NEAREST_ORDER);
 
-        return ps;
+        return preparedStatement;
     }
 }

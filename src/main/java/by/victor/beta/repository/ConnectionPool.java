@@ -20,8 +20,8 @@ public enum ConnectionPool {
     private int pool_size;
     private ReentrantLock gateOperationLock = new ReentrantLock();
     private Semaphore semaphore;
-    private Queue<ProxyConfection> freeConnection = new ArrayDeque();
-    private List<ProxyConfection> lockedConnection = new ArrayList();
+    private Queue<ProxyConnection> freeConnection = new ArrayDeque();
+    private List<ProxyConnection> lockedConnection = new ArrayList();
 
     ConnectionPool(){
         ResourceBundle connectionInfo = ResourceBundle.getBundle(DB_BUNDLE_NAME);
@@ -30,7 +30,7 @@ public enum ConnectionPool {
 
         try {
              for(int i=0;i<pool_size;i++) {
-                 ProxyConfection newConnection = ConnectionCreator.getConnection();
+                 ProxyConnection newConnection = ConnectionCreator.getConnection();
                 freeConnection.add(newConnection);
             }
         } catch (SQLException e) {
@@ -39,8 +39,8 @@ public enum ConnectionPool {
 
     }
 
-    public Optional<ProxyConfection> occupyConnection() {
-        ProxyConfection connection=null;
+    public Optional<ProxyConnection> occupyConnection() {
+        ProxyConnection connection=null;
         try {
             if(semaphore.tryAcquire(timeWait, TimeUnit.MILLISECONDS)) {
                 gateOperationLock.lock();
@@ -65,7 +65,7 @@ public enum ConnectionPool {
         return Optional.ofNullable(connection);
     }
 
-    public void freeConnection(ProxyConfection connection) {
+    public void freeConnection(ProxyConnection connection) {
         gateOperationLock.lock();
         try {
             freeConnection.add(connection);

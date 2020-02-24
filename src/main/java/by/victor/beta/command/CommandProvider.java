@@ -25,6 +25,7 @@ public class CommandProvider {
                 CommandType.CHANGE_LOCALE,CommandType.SHOW_USER_BY_STATUS,CommandType.SHOW_USER_PROFILE,
                 CommandType.CHECK_DOCUMENT,CommandType.VERIFY_USER,CommandType.TO_USER_MENU,
                 CommandType.SHOW_USER_BY_ROLE,CommandType.DELETE_USER,CommandType.RESEND_EMAIL,
+                CommandType.TO_ADD_INFO,CommandType.UPLOAD_PHOTO,CommandType.SHOW_ALL_USERS,
                 CommandType.REFRESH,CommandType.EMAIL_VERIFY);
         roleCommandMapping.put(Role.ADMIN, adminCommands);
 
@@ -41,7 +42,8 @@ public class CommandProvider {
                 CommandType.SHOW_AVAILABLE_ORDERS,CommandType.TO_ADD_INFO,  CommandType.CHANGE_LOCALE,
                 CommandType.UPLOAD_PHOTO,CommandType.CREDIT_ACCOUNT,CommandType.TO_CREDIT_FORM,
                 CommandType.TO_NOTIFY,CommandType.REFUSE_ORDER,CommandType.UPLOAD_DOCUMENT,
-                CommandType.RESEND_EMAIL, CommandType.SHOW_ORDERS_EXECUTOR, CommandType.REFRESH,CommandType.EMAIL_VERIFY);
+                CommandType.RESEND_EMAIL, CommandType.SHOW_ORDERS_EXECUTOR, CommandType.REFRESH,
+                CommandType.EMAIL_VERIFY,CommandType.SHOW_MY_DOCUMENTS);
         roleCommandMapping.put(Role.EXECUTOR, executorCommands);
     }
 

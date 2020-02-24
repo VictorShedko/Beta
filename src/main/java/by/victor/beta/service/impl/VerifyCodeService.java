@@ -2,7 +2,7 @@ package by.victor.beta.service.impl;
 
 import by.victor.beta.entity.VerifyCode;
 import by.victor.beta.repository.RepositoryException;
-import by.victor.beta.repository.impl.TokenRepository;
+import by.victor.beta.repository.impl.VerifyCodeRepository;
 import by.victor.beta.repository.specification.impl.verifycode.AddVerifyCodeSpecification;
 import by.victor.beta.repository.specification.impl.verifycode.FindVerifyCodeByUuidSpecification;
 import by.victor.beta.service.IVerifyCodeService;
@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 
 public class VerifyCodeService implements IVerifyCodeService {
     private static final Logger logger= LogManager.getLogger(VerifyCodeService.class);
-    private TokenRepository repository = new TokenRepository();
+    private VerifyCodeRepository repository = new VerifyCodeRepository();
 
     @Override
     public void addToken(VerifyCode verifyCode) throws ServiceException {

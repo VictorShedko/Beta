@@ -50,15 +50,11 @@ public class Validator {
     private boolean isValidLogin(String login) {
         boolean result = true;
         if (!login.matches(VALID_LOGIN_REGEXP)) {
-            setFeedBackKey("логин должен содержать циферы и буквы ");
+            setFeedBackKey(PageContentKey.INVALID_LOGIN);
             result = false;
         }
-        if ( login.length() > MAX_LOGIN_SIZE) {
-            setFeedBackKey("превышена максимальная длинна логина");
-            result = false;
-        }
-        if (login.length() < MIN_LOGIN_SIZE) {
-            setFeedBackKey("логин должен быть длинее 7 символов");
+        if ( login.length() > MAX_LOGIN_SIZE || login.length() < MIN_LOGIN_SIZE) {
+            setFeedBackKey(PageContentKey.INVALID_LOGIN_SIZE);
             result = false;
         }
         return result;
@@ -68,17 +64,14 @@ public class Validator {
         boolean result = true;
 
         if (!password.matches(TEXT_WITH_NUMBERS_REGEXP)) {
-            setFeedBackKey("пароль должен содержать циферы и буквы ");
+            setFeedBackKey(PageContentKey.PASSWORD);
             result = false;
         }
-        if ( password.length() > MAX_PASSWORD_SIZE) {
-            setFeedBackKey("превышена максимальная длинна пароля");
+        if ( password.length() > MAX_PASSWORD_SIZE||password.length() < MIN_PASSWORD_SIZE) {
+            setFeedBackKey(PageContentKey.PASSWORD_SIZE);
             result = false;
         }
-        if (password.length() < MIN_PASSWORD_SIZE) {
-            setFeedBackKey("пароль должен быть длинее 7 символов");
-            result = false;
-        }
+
         return result;
     }
 
@@ -86,9 +79,7 @@ public class Validator {
         return isValidLogin(login) && isValidName(username) && isValidPassword(password);
     }
 
-    public boolean isValidNotifyForm() {
-        return true;
-    }
+
 
 
     private boolean isValidOrderTime(Date startDate, Date endDate)//todo correct?
@@ -97,15 +88,15 @@ public class Validator {
         Date currentDate = new Date();
 
         if (currentDate.getTime() - startDate.getTime() > ONE_HOUR) {
-            setFeedBackKey("bad time ");
+            setFeedBackKey(PageContentKey.LESS_THEN_ONE_HOUR_TO_ORDER_START);
             result = false;
         }
         if (startDate.after(endDate)) {
-            setFeedBackKey("start time must be before end time ");
+            setFeedBackKey(PageContentKey.END_BEFORE_START);
             result = false;
         }
         if (endDate.getTime() > startDate.getTime() + ONE_YEAR) {
-            setFeedBackKey("bad time ");
+            setFeedBackKey(PageContentKey.ORDER_DURATION_MORE_THEN_ONE_YEAR);
             result = false;
         }
         return result;
@@ -114,12 +105,7 @@ public class Validator {
     private boolean isValidAddress(String address) {
         boolean result = true;
         if (!address.matches(TEXT_WITH_NUMBERS_AND_SPACES_REGEXP)) {
-            setFeedBackKey("exceeded max notify size");
-            result = false;
-        }
-
-        if (address.length() > MAX_ADDRESS_SIZE) {
-            setFeedBackKey("exceeded max description size");
+            setFeedBackKey(PageContentKey.INVALID_ADDRESS_SIZE);
             result = false;
         }
         return result;
@@ -131,17 +117,17 @@ public class Validator {
         try {
             sum=Integer.parseInt(sumAsString);
         }catch (NumberFormatException e){
-            setFeedBackKey("'"+sumAsString+"'is not a number");
+            setFeedBackKey(PageContentKey.NOT_A_NUMBER);
             return false;
         }
 
 
         if (sum > MAX_SUM) {
-            setFeedBackKey("");
+            setFeedBackKey(PageContentKey.MORE_THEN_MAX_SUM);
             result = false;
         }
         if (sum <= 0) {
-            setFeedBackKey("must be positive");
+            setFeedBackKey(PageContentKey.NEGATIVE_SUM);
             result = false;
         }
 
@@ -152,12 +138,12 @@ public class Validator {
     private boolean isValidDescription(String description) {
         boolean result = true;
         if (!description.matches(TEXT_WITH_NUMBERS_AND_SPACES_REGEXP)) {
-            setFeedBackKey("exceeded max notify size");
+            setFeedBackKey(PageContentKey.INVALID_ORDER_DESCRIPTION);
             result = false;
         }
 
         if (description.length() > MAX_DESCRIPTION_SIZE) {
-            setFeedBackKey("exceeded max description size");
+            setFeedBackKey(PageContentKey.INVALID_ORDER_DESCRIPTION_SIZE);
             result = false;
         }
         return result;
@@ -166,15 +152,6 @@ public class Validator {
 
     public boolean isValidOrderForm(Date start, Date end, String address, String description) {
         return isValidOrderTime(start, end) && (end.after(start)) && (isValidAddress(address)) && (isValidDescription(description));
-    }
-
-    public boolean isValidNotify(String notifyText) {
-        boolean result = true;
-        if (notifyText.length() > MAX_NOTIFY_SIZE) {
-            setFeedBackKey("exceeded max notify size");
-            result = false;
-        }
-        return result;
     }
 
 

@@ -16,11 +16,12 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 public class UserService implements IUserService {
     private static final Logger logger = LogManager.getLogger(UserService.class);
-    private static final String AVATAR_FILE_NAME = "avt";
 
     @Override
     public void addUser(User user) throws ServiceException {
@@ -99,7 +100,7 @@ public class UserService implements IUserService {
     @Override
     public boolean debitUser(User user, int sum) throws ServiceException {
         long startSum = user.getBalance();
-        if (user.getBalance() > sum) {
+        if (user.getBalance() >= sum) {
             ChangeBalanceSpecification modifySpecification =
                     new ChangeBalanceSpecification(startSum - sum, user.getUsername());
             try {
@@ -118,8 +119,14 @@ public class UserService implements IUserService {
 
         String extension=file.getName().substring(file.getName().lastIndexOf('.'));
         if(SupportedImagesFormat.isSupported(extension)) {
-            File dest = FileManager.INSTANCE.moveFileToUserDir(file, username, AVATAR_FILE_NAME + extension);
-            user.setPhotoPath(PagePath.USER_FILES + PagePath.SEPARATOR +
+            File dest = null;
+            try {
+                dest = FileManager.INSTANCE.moveFileToUserDir(file, username, UUID.randomUUID().toString() + extension);
+            } catch (IOException e) {
+                //todo
+                throw new ServiceException(e);
+            }
+            user.setPhotoPath(PagePath.USER_FILES + PagePath.SEPARATOR +//todo bd path mehtod
                     user.getUsername() + PagePath.SEPARATOR + dest.getName());
             ChangeUserSpecification specification = new ChangeUserSpecification(user);
             try {
@@ -157,6 +164,20 @@ public class UserService implements IUserService {
                 break;
             case EXECUTOR:
                 setUserStatus(UserStatus.EMAIL_VERIFIED,user.getUsername());
+        }
+    }
+
+    @Override
+    public List<User> findAll()  {
+        FindAllUsersSpecification specification=new FindAllUsersSpecification();
+
+
+        try {
+            List<User> users=UserRepository.getInstance().findQuery(specification);
+            return users;
+        } catch (RepositoryException e) {
+//todo
+            return List.of();
         }
     }
 

@@ -18,11 +18,11 @@ public class AddVerifyCodeSpecification implements Specification {
 
     @Override
     public PreparedStatement specify(Connection connection) throws SQLException {
-        PreparedStatement ps = connection.prepareStatement(INSERT_INTO_TOKEN);
-        ps.setString(1, verifyCode.getUuidAsString());
-        ps.setLong(2, verifyCode.getUserId() );
+        PreparedStatement preparedStatement = connection.prepareStatement(INSERT_INTO_TOKEN);
+        preparedStatement.setString(1, verifyCode.getUuidAsString());
+        preparedStatement.setLong(2, verifyCode.getUserId() );
 
-        return ps;
+        return preparedStatement;
 
     }
 

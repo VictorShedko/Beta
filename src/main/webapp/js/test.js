@@ -1,1 +1,4 @@
-alert("I work")
+function v() {
+    alert("I work")
+}
+alert("lol")

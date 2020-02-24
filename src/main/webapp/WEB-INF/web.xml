@@ -11,5 +11,12 @@
   <session-config>
     <session-timeout>30</session-timeout>
   </session-config>
-
+  <request-character-encoding>UTF-8</request-character-encoding>
+  <jsp-config>
+    <jsp-property-group>
+      <url-pattern>*.jsp</url-pattern>
+      <page-encoding>UTF-8</page-encoding>
+    </jsp-property-group>
+  </jsp-config>
+  
 </web-app>

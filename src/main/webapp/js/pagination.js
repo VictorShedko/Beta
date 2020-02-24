@@ -1,4 +1,4 @@
-getPagination('#table-id');
+getPagination('#users-table');
 $('#maxRows').trigger('change');
 function getPagination (table){
 
@@ -102,7 +102,7 @@ function FilterkeyWord_all_table() {
 
     // Declare variables
     var input, filter, table, tr, td, i;
-    input = document.getElementsByClassName("pag");
+    input = document.getElementById("search_input_all");
     var input_value =     document.getElementById("search_input_all").value;
     filter = input.value.toLowerCase();
     if(input_value !=''){

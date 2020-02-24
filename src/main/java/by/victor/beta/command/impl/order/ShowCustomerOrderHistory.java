@@ -17,7 +17,7 @@ public class ShowCustomerOrderHistory implements Command {
         String username = (String) content.getSessionAttribute(AttributeName.USERNAME);
         List<Order> orderList = null;
         try {
-            orderList = ServiceFacade.instance.showCustomerOrderHistory(username);
+            orderList = ServiceFacade.INSTANCE.showCustomerOrderHistory(username);
         } catch (ServiceException e) {
             throw new CommandException(e);
         }

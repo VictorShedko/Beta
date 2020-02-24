@@ -12,7 +12,7 @@ public class ShowAvailableOrdersCommand implements Command {
     public Router execute(RequestSessionContent content) throws CommandException {
         List<Order> orderList= null;
         try {
-            orderList = ServiceFacade.instance.showAvailableOrder();
+            orderList = ServiceFacade.INSTANCE.showAvailableOrder();
         } catch (ServiceException e) {
             throw new CommandException();
         }

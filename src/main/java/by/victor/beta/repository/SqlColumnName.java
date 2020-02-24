@@ -44,7 +44,7 @@ public class SqlColumnName {
 
     public static final String NOTIFY_TYPE="type";
 
-    public static final String TOKEN_UUID="token";
+    public static final String CODE ="code";
     public static final String TOKEN_ID="id";
     public static final String TOKEN_TIME="time";
     public static final String TOKEN_USER_ID="user_id";

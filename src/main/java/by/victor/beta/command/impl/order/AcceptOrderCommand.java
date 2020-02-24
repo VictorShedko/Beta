@@ -11,7 +11,7 @@ public class AcceptOrderCommand implements Command {
         int orderId= Integer.parseInt( (String) content.getRequestParameter(AttributeName.ORDER));
         String username=(String)  content.getSessionAttribute(AttributeName.USERNAME);
         try {
-            ServiceFacade.instance.acceptOrder(orderId,username);
+            ServiceFacade.INSTANCE.acceptOrder(orderId,username);
             content.setRequestAttribute(AttributeName.COMMAND_RESULT, PageContentKey.SUCCESSFULLY);
         } catch (ServiceException ex) {
             content.setRequestAttribute(AttributeName.COMMAND_RESULT, PageContentKey.FAILED);

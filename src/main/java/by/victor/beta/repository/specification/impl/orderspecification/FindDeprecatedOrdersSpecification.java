@@ -23,8 +23,8 @@ public class FindDeprecatedOrdersSpecification implements Specification {
 
     @Override
     public PreparedStatement specify(Connection connection) throws SQLException {//return preparestatment
-        PreparedStatement ps = connection.prepareStatement(sql);
-        return ps;
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        return preparedStatement;
     }
 
 

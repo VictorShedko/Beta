@@ -15,7 +15,7 @@ public class ShowUserProfileCommand implements Command {
         String username = (String) content.getRequestParameter(AttributeName.SEARCH_NAME);
         User user = null;
         try {
-            user = ServiceFacade.instance.findUserByUsername(username);
+            user = ServiceFacade.INSTANCE.findUserByUsername(username);
         } catch (ServiceException e) {
             throw new CommandException();
         }
@@ -31,7 +31,7 @@ public class ShowUserProfileCommand implements Command {
         if (user.getRole() == Role.EXECUTOR) {
             List<Document> documentList = null;
             try {
-                documentList = ServiceFacade.instance.showUserDocument(user.getUsername());
+                documentList = ServiceFacade.INSTANCE.showUserDocument(user.getUsername());
             } catch (ServiceException e) {
                 throw new CommandException(e);
             }

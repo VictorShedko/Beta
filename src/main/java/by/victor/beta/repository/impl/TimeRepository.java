@@ -11,19 +11,13 @@ import java.util.Date;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class TimeRepository extends Repository<Date> {
-    private static AtomicBoolean created = new AtomicBoolean(false);
-    private static TimeRepository timeRepository = null;
-    private static final Logger logger = LogManager.getLogger(TimeRepository.class);
-
+    private static final TimeRepository timeRepository = new TimeRepository();
 
     private TimeRepository() {
 
     }
 
     public static TimeRepository getInstance() {
-        if (created.compareAndSet(false, true)) {
-            timeRepository = new TimeRepository();
-        }
         return timeRepository;
     }
 

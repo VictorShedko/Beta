@@ -14,7 +14,7 @@ public class UploadDocumentCommand implements Command {
         String username = (String) content.getSessionAttribute(AttributeName.USERNAME);
         File file = content.getFile();
         try {
-            ServiceFacade.instance.addDocument(file, username);
+            ServiceFacade.INSTANCE.addDocument(file, username);
             content.setRequestAttribute(AttributeName.COMMAND_RESULT, PageContentKey.SUCCESSFULLY);
         } catch (ServiceException ex) {
             throw new CommandException();

@@ -11,20 +11,13 @@ import java.sql.SQLException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class NotifyRepository extends Repository<Notification> {
-
-    private static AtomicBoolean created = new AtomicBoolean(false);
-    private static NotifyRepository notifyRepository = null;
-    private static final Logger logger = LogManager.getLogger(OrderRepository.class);
-
+    private static final NotifyRepository notifyRepository = new NotifyRepository();
 
     private NotifyRepository() {
 
     }
 
     public static NotifyRepository getInstance() {
-        if (created.compareAndSet(false, true)) {
-            notifyRepository = new NotifyRepository();
-        }
         return notifyRepository;
     }
 

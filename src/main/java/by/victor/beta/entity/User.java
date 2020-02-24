@@ -1,21 +1,12 @@
 package by.victor.beta.entity;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
 
 
 public class User implements Entity {
     private Role role;
-
-    public String getOldPassword() {
-        return oldPassword;
-    }
-
-    public void setOldPassword(String oldPassword) {
-        this.oldPassword = oldPassword;
-    }
-
-    private String oldPassword;
     private byte[] password;
     private String login;
     private long id;
@@ -139,19 +130,20 @@ public class User implements Entity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         User user = (User) o;
-        return id == user.id &&
-                balance == user.balance &&
-                role == user.role &&
-                Objects.equals(password, user.password) &&
-                Objects.equals(login, user.login) &&
-                status == user.status &&
-                Objects.equals(username, user.username);
+
+        if (id != user.id) return false;
+        if (login != null ? !login.equals(user.login) : user.login != null) return false;
+        return username != null ? username.equals(user.username) : user.username == null;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(role, password, login, id, status, balance, username);
+        int result = login != null ? login.hashCode() : 0;
+        result = 31 * result + (int) (id ^ (id >>> 32));
+        result = 31 * result + (username != null ? username.hashCode() : 0);
+        return result;
     }
 
     @Override

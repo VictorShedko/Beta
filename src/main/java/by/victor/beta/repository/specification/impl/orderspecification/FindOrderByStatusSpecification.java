@@ -22,9 +22,9 @@ public class FindOrderByStatusSpecification implements Specification {
 
     @Override
     public PreparedStatement specify(Connection connection) throws SQLException {
-     PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setInt(1, status);
-            return ps;
+     PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, status);
+            return preparedStatement;
 
     }
 

@@ -10,7 +10,7 @@ public class CancelOrderCustomerCommand implements Command {
         Router router=new Router(PagePath.USER_MAIN_MENU);;
         int orderId=Integer.parseInt((String) content.getRequestParameter(AttributeName.ORDER));
         try {
-            ServiceFacade.instance.cancelOrderByCustomer(orderId);
+            ServiceFacade.INSTANCE.cancelOrderByCustomer(orderId);
             content.setRequestAttribute(AttributeName.COMMAND_RESULT, PageContentKey.SUCCESSFULLY);
         }catch (ServiceException ex){
             new Router(PagePath.USER_MAIN_MENU);

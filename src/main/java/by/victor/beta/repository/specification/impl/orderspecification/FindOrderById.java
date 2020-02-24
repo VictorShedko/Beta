@@ -22,9 +22,9 @@ public class FindOrderById implements Specification {
 
     @Override
     public PreparedStatement specify(Connection connection) throws SQLException {
-        PreparedStatement ps = connection.prepareStatement(sql);
-        ps.setLong(1, status);
-        return ps;
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setLong(1, status);
+        return preparedStatement;
 
     }
 
