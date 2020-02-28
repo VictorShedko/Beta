@@ -18,6 +18,7 @@ public class CommandProvider {
         roleCommandMapping = new EnumMap<>(Role.class);
 
         List<CommandType> defaultUserCommands = List.of(CommandType.TO_REGISTRATION,
+                CommandType.CHANGE_LOCALE,
                 CommandType.LOGIN, CommandType.REGISTER,CommandType.EMAIL_VERIFY);
         roleCommandMapping.put(Role.DEFAULT, defaultUserCommands);
 
@@ -26,6 +27,7 @@ public class CommandProvider {
                 CommandType.CHECK_DOCUMENT,CommandType.VERIFY_USER,CommandType.TO_USER_MENU,
                 CommandType.SHOW_USER_BY_ROLE,CommandType.DELETE_USER,CommandType.RESEND_EMAIL,
                 CommandType.TO_ADD_INFO,CommandType.UPLOAD_PHOTO,CommandType.SHOW_ALL_USERS,
+                CommandType.TO_RESULT,
                 CommandType.REFRESH,CommandType.EMAIL_VERIFY);
         roleCommandMapping.put(Role.ADMIN, adminCommands);
 
@@ -34,6 +36,7 @@ public class CommandProvider {
                 CommandType.UPLOAD_PHOTO,CommandType.CREDIT_ACCOUNT,CommandType.TO_CREDIT_FORM,
                 CommandType.TO_NOTIFY,  CommandType.CHANGE_LOCALE,CommandType.RESEND_EMAIL,
                 CommandType.LOGOUT, CommandType.DELETE_ORDER, CommandType.TO_USER_MENU,
+                CommandType.TO_RESULT,
                 CommandType.REFRESH,CommandType.EMAIL_VERIFY);
         roleCommandMapping.put(Role.CUSTOMER, customerCommands);
 
@@ -43,6 +46,7 @@ public class CommandProvider {
                 CommandType.UPLOAD_PHOTO,CommandType.CREDIT_ACCOUNT,CommandType.TO_CREDIT_FORM,
                 CommandType.TO_NOTIFY,CommandType.REFUSE_ORDER,CommandType.UPLOAD_DOCUMENT,
                 CommandType.RESEND_EMAIL, CommandType.SHOW_ORDERS_EXECUTOR, CommandType.REFRESH,
+                CommandType.TO_RESULT,
                 CommandType.EMAIL_VERIFY,CommandType.SHOW_MY_DOCUMENTS);
         roleCommandMapping.put(Role.EXECUTOR, executorCommands);
     }

@@ -1,11 +1,6 @@
 package by.victor.beta.command.impl.user;
 
-import by.victor.beta.command.AttributeName;
-import by.victor.beta.command.PagePath;
-import by.victor.beta.command.Command;
-import by.victor.beta.command.CommandException;
-import by.victor.beta.command.Router;
-import by.victor.beta.command.RequestSessionContent;
+import by.victor.beta.command.*;
 import by.victor.beta.entity.Role;
 import by.victor.beta.entity.User;
 import by.victor.beta.service.ServiceException;
@@ -14,7 +9,7 @@ import by.victor.beta.validator.Validator;
 
 
 public class RegistrationCommand implements Command {
-
+    private static PRGParameterManager prgParameterManager=new PRGParameterManager();
     @Override
     public Router execute(RequestSessionContent content) throws CommandException {
         Router router;
@@ -28,21 +23,8 @@ public class RegistrationCommand implements Command {
             Validator validator = new Validator();
             if (validator.isValidRegistrationForm(username, password, login)) {
                 user = ServiceFacade.INSTANCE.registerUser(username, password, login, role, email);
-                switch (role) {
-                    case ADMIN:
-                    case CUSTOMER:
-                    case EXECUTOR:
-                        router = new Router(PagePath.USER_MAIN_MENU);
-                        break;
-                    case DEFAULT: {//todo
-                        router = new Router(PagePath.LOGIN);
-                        content.setRequestAttribute("loginErrorMessage", "Не верный логин или пароль");
-                        break;
-                    }
-                    default:
-                        throw new CommandException();
-                }
                 content.addUserToSession(user);
+                router = new Router(PagePath.PRG_TO_USER_MENU);
             } else {
                 content.setSessionAttribute(AttributeName.FEEDBACK, validator.getInvalidFeedback());
                 router = new Router(PagePath.REGISTRATION_FORM);

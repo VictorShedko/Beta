@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-@WebFilter( urlPatterns =  "/*" )
+//@WebFilter( urlPatterns =  "/*" )
 public class BackButtonFilter implements Filter {
     private static final String LOGIN_PAGE="login.jsp";
     @Override

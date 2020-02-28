@@ -129,6 +129,7 @@
         <th>цена</th>
         <th></th>
 
+
     </tr>
     </thead>
     <tbody>

@@ -156,7 +156,7 @@ public class UserService implements IUserService {
 
     @Override
     public void emailVerify(User user) throws ServiceException {
-
+        if(user.getStatus()==UserStatus.NEW)
         switch (user.getRole()){
             case ADMIN:
             case CUSTOMER:
@@ -170,13 +170,10 @@ public class UserService implements IUserService {
     @Override
     public List<User> findAll()  {
         FindAllUsersSpecification specification=new FindAllUsersSpecification();
-
-
         try {
             List<User> users=UserRepository.getInstance().findQuery(specification);
             return users;
         } catch (RepositoryException e) {
-//todo
             return List.of();
         }
     }

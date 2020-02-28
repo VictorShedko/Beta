@@ -102,15 +102,9 @@
                 <div class="col">
                     <form action="cleaning" method="POST">
                         <div class="form-group">
-
-                            <c:if test="${userInfo.status.toString() == 'DELETED'}">
-                                <input type="hidden" name="command" value="activate_deleted_user"/>
-                                <input type="hidden" name="user" value="${user.username}"/>
-                                <button type="submit" class="btn btn-primary">восстоновить</button>
-                            </c:if>
                             <c:if test="${userInfo.status.toString() != 'DELETED'}">
-                                <input type="hidden" name="command" value="show_user_by_status"/>
-                                <input type="hidden" name="user" value="${user.username}"/>
+                                <input type="hidden" name="command" value="delete_user"/>
+                                <input type="hidden" name="user" value="${userInfo.username}"/>
                                 <button type="submit" class="btn btn-primary">удалить</button>
                             </c:if>
                         </div>

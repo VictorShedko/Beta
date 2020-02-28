@@ -9,12 +9,8 @@ import by.victor.beta.command.impl.document.ShowMyDocumentsCommand;
 import by.victor.beta.command.impl.document.UploadDocumentCommand;
 import by.victor.beta.command.impl.notify.ToNotifyCommand;
 import by.victor.beta.command.impl.order.*;
-import by.victor.beta.command.impl.redirect.ToCreditFormCommand;
-import by.victor.beta.command.impl.redirect.ToUserMenuCommand;
-import by.victor.beta.command.impl.redirect.ToAddInfoCommand;
+import by.victor.beta.command.impl.redirect.*;
 import by.victor.beta.command.impl.user.*;
-import by.victor.beta.command.impl.redirect.ToOrderCreateFormCommand;
-import by.victor.beta.command.impl.redirect.ToRegistrationRedirectCommand;
 
 
 public enum CommandType {
@@ -50,6 +46,7 @@ public enum CommandType {
     RESEND_EMAIL(new ResendVerificationEmailCommand()),
     EMAIL_VERIFY(new EmailVerifyCommand()),
     SHOW_MY_DOCUMENTS(new ShowMyDocumentsCommand()),
+    TO_RESULT(new ToOperationResultCommand()),
     SHOW_ALL_USERS(new ShowAllUserCommand());
     
     private Command command;

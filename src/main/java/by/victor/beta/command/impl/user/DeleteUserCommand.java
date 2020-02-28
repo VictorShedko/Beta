@@ -8,7 +8,7 @@ public class DeleteUserCommand implements Command {
     @Override
     public Router execute(RequestSessionContent content) throws CommandException {
         Router router=new Router(PagePath.CREATE_ORDER_RESULT);;
-        String username=(String)  content.getSessionAttribute(AttributeName.USERNAME);
+        String username=(String)  content.getRequestParameter(AttributeName.USERNAME);
         try {
             ServiceFacade.INSTANCE.deleteUser(username);
             content.setRequestAttribute(AttributeName.COMMAND_RESULT, PageContentKey.SUCCESSFULLY);

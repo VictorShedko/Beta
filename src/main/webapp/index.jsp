@@ -13,5 +13,10 @@
 <body>
 
 <script type="text/javascript" src="<c:url value="test.js" />"></script>
+<c:if test="${role.value() == 'default'}">
 <jsp:forward page="/jsp/common/login.jsp"/>
+</c:if>
+<c:if test="${role.value() != 'default'}">
+    <jsp:forward page="cleaning?command=to_user_menu"/>
+</c:if>
 </body></html>

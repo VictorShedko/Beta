@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebFilter( urlPatterns = { "/*" },
-        initParams = { @WebInitParam(name = "locale", value = "be_BY") })
+      initParams = { @WebInitParam(name = "locale", value = "be_BY") })
 public class SetDefaultLocaleFilter implements Filter {
     private String locale;
 

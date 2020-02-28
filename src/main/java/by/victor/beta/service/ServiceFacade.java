@@ -73,7 +73,7 @@ public enum ServiceFacade {
         Optional<VerifyCode> verifyCode = verifyCodeService.getSingleTokenByUuid(uuid);
         if(verifyCode.isPresent()) {
             User user = findSingleUser(verifyCode.get().getUsername());
-            if (verifyCodeService.isValidToken(verifyCode.get())) {
+            if (verifyCodeService.isValidToken(verifyCode.get(),user)) {
                 userService.emailVerify(user);
             }
             return findSingleUser(user.getUsername()).getStatus()!=UserStatus.NEW;

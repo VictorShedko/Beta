@@ -112,13 +112,31 @@ public class Order implements Entity{
         Order order = (Order) o;
 
         if (orderId != order.orderId) return false;
-        return customerId == order.customerId;
+        if (customerId != order.customerId) return false;
+        if (executorId != order.executorId) return false;
+        if (price != order.price) return false;
+        if (customer != null ? !customer.equals(order.customer) : order.customer != null) return false;
+        if (executor != null ? !executor.equals(order.executor) : order.executor != null) return false;
+        if (address != null ? !address.equals(order.address) : order.address != null) return false;
+        if (description != null ? !description.equals(order.description) : order.description != null) return false;
+        if (startTime != null ? !startTime.equals(order.startTime) : order.startTime != null) return false;
+        if (endTime != null ? !endTime.equals(order.endTime) : order.endTime != null) return false;
+        return status == order.status;
     }
 
     @Override
     public int hashCode() {
         int result = (int) (orderId ^ (orderId >>> 32));
+        result = 31 * result + (customer != null ? customer.hashCode() : 0);
+        result = 31 * result + (executor != null ? executor.hashCode() : 0);
         result = 31 * result + (int) (customerId ^ (customerId >>> 32));
+        result = 31 * result + (int) (executorId ^ (executorId >>> 32));
+        result = 31 * result + (address != null ? address.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (startTime != null ? startTime.hashCode() : 0);
+        result = 31 * result + (endTime != null ? endTime.hashCode() : 0);
+        result = 31 * result + price;
+        result = 31 * result + (status != null ? status.hashCode() : 0);
         return result;
     }
 

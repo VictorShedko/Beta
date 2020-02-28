@@ -1,5 +1,6 @@
 package by.victor.beta.service.impl;
 
+import by.victor.beta.entity.*;
 import by.victor.beta.entity.VerifyCode;
 import by.victor.beta.repository.RepositoryException;
 import by.victor.beta.repository.impl.VerifyCodeRepository;
@@ -7,6 +8,7 @@ import by.victor.beta.repository.specification.impl.verifycode.AddVerifyCodeSpec
 import by.victor.beta.repository.specification.impl.verifycode.FindVerifyCodeByUuidSpecification;
 import by.victor.beta.service.IVerifyCodeService;
 import by.victor.beta.service.ServiceException;
+import com.sun.tools.xjc.reader.xmlschema.bindinfo.BIConversion;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -32,9 +34,10 @@ public class VerifyCodeService implements IVerifyCodeService {
     }
 
     @Override
-    public boolean isValidToken(VerifyCode verifyCode) {
+    public boolean isValidToken(VerifyCode verifyCode, User user) {
         Date now=new Date();
-        return now.getTime()- verifyCode.getTime().getTime()< TimeUnit.MINUTES.toMillis(15);//todo to properties
+        return (now.getTime()- verifyCode.getTime().getTime()< TimeUnit.MINUTES.toMillis(15))&&
+                (user.getId()==verifyCode.getUserId());//todo to properties
     }
 
     public List<VerifyCode> getTokenByUuid(String uuid) throws ServiceException {

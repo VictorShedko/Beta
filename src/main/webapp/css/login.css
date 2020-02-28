@@ -1,0 +1,62 @@
+
+
+
+body {
+    background-image: url(https://lh3.googleusercontent.com/proxy/JMWNrjAVvGBohpdxrm8nXGOVlpa_zHO8XQeQmO3oM01USCj6zDx1UN12keaebOGW1P58YU3B25756rN1fGFi0QEzw__D6zhfnJPbrBvmPSbAh1rVfJn6kQfRYwGuSztdLzGYbi9jMSyZkKcneMTmiao);
+    -moz-background-size: 100%; /* Firefox 3.6+ */
+    -webkit-background-size: 100%; /* Safari 3.1+ и Chrome 4.0+ */
+    -o-background-size: 100%; /* Opera 9.6+ */
+    background-size: 100%; /* Современные браузеры */
+}
+
+.wrapper {
+    margin-top: 40px;
+    margin-bottom: 80px;
+}
+
+.form-border{
+    max-width: 420px;
+    padding: 10px 35px 12px;
+    margin: 0 auto;
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+.form-signin {
+    padding: 10px 0px 12px;
+}
+
+.form-signin-heading{
+    margin-bottom: 30px;
+}
+
+.form-signup{
+    max-width: 420px;
+    padding: 10px ;
+
+
+}
+
+
+.form-control {
+    position: relative;
+    font-size: 16px;
+    height: auto;
+    padding: 10px;
+
+
+
+}
+
+input[type="text"] {
+    margin-bottom: -1px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+input[type="password"] {
+    margin-bottom: 20px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+

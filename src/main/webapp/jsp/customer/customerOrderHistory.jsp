@@ -60,7 +60,7 @@
     <div class="container">
         <div class="row">
 
-
+            <H2><fmt:message key="customeOrderHistory.new-orders"/> </H2>
             <table class="table table-striped" id="new-orders">
                 <thead>
                 <tr>
@@ -101,6 +101,7 @@
             </table>
         </div>
         <div class="row">
+            <H2><fmt:message key="customeOrderHistory.completed-orders"/> </H2>
             <table class="table table-striped" id="completed-orders">
                 <thead>
                 <tr>

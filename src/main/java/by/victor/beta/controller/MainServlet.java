@@ -46,7 +46,6 @@ public class MainServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
                                             throws ServletException, IOException, CommandException {
         CommandProvider commandProvider = new CommandProvider();
-        String encoding=request.getCharacterEncoding();
         RequestSessionContent content = new RequestSessionContent(request,getServletContext());
 
         String requestCommand = (String)content.getRequestParameter(AttributeName.COMMAND);

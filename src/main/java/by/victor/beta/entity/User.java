@@ -127,26 +127,6 @@ public class User implements Entity {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        User user = (User) o;
-
-        if (id != user.id) return false;
-        if (login != null ? !login.equals(user.login) : user.login != null) return false;
-        return username != null ? username.equals(user.username) : user.username == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = login != null ? login.hashCode() : 0;
-        result = 31 * result + (int) (id ^ (id >>> 32));
-        result = 31 * result + (username != null ? username.hashCode() : 0);
-        return result;
-    }
-
-    @Override
     public String toString() {
         StringBuilder builder = new StringBuilder("Order");
         builder.append("role=");
@@ -170,5 +150,42 @@ public class User implements Entity {
         builder.append("  , photoPath=");
         builder.append(status);
         return builder.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (id != user.id) return false;
+        if (balance != user.balance) return false;
+        if (role != user.role) return false;
+        if (!Arrays.equals(password, user.password)) return false;
+        if (login != null ? !login.equals(user.login) : user.login != null) return false;
+        if (status != user.status) return false;
+        if (email != null ? !email.equals(user.email) : user.email != null) return false;
+        if (registrationTime != null ? !registrationTime.equals(user.registrationTime) : user.registrationTime != null)
+            return false;
+        if (photoPath != null ? !photoPath.equals(user.photoPath) : user.photoPath != null) return false;
+        if (!Arrays.equals(salt, user.salt)) return false;
+        return username != null ? username.equals(user.username) : user.username == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = role != null ? role.hashCode() : 0;
+        result = 31 * result + Arrays.hashCode(password);
+        result = 31 * result + (login != null ? login.hashCode() : 0);
+        result = 31 * result + (int) (id ^ (id >>> 32));
+        result = 31 * result + (status != null ? status.hashCode() : 0);
+        result = 31 * result + (int) (balance ^ (balance >>> 32));
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (registrationTime != null ? registrationTime.hashCode() : 0);
+        result = 31 * result + (photoPath != null ? photoPath.hashCode() : 0);
+        result = 31 * result + Arrays.hashCode(salt);
+        result = 31 * result + (username != null ? username.hashCode() : 0);
+        return result;
     }
 }

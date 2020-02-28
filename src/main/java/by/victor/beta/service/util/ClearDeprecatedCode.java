@@ -31,6 +31,7 @@ public enum  ClearDeprecatedCode {
     public void deleteCodes(){
         try {
             VerifyCodeRepository.getINSTANCE().updateQuery(clearDeprecatedCodeSpecification);
+            logger.log(Level.ERROR,"delete deprecated order");
         } catch (RepositoryException e) {
             logger.log(Level.ERROR,"delete deprecated code error ",e);
         }

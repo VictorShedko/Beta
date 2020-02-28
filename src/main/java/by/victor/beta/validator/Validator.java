@@ -22,7 +22,7 @@ public class Validator {
     private static final int MAX_NOTIFY_SIZE = 140;
     private static final long MAX_SUM = Integer.MAX_VALUE;
     private static final long MAX_ADDRESS_SIZE = 140;
-
+private static final long MIN_ADDRESS_SIZE=8;
     private static final long ONE_HOUR = TimeUnit.HOURS.toMillis(1);
     private static final long ONE_YEAR = TimeUnit.DAYS.toMillis(365);
 
@@ -64,7 +64,7 @@ public class Validator {
         boolean result = true;
 
         if (!password.matches(TEXT_WITH_NUMBERS_REGEXP)) {
-            setFeedBackKey(PageContentKey.PASSWORD);
+            setFeedBackKey(PageContentKey.INVALID_PASSWORD);
             result = false;
         }
         if ( password.length() > MAX_PASSWORD_SIZE||password.length() < MIN_PASSWORD_SIZE) {
@@ -105,6 +105,10 @@ public class Validator {
     private boolean isValidAddress(String address) {
         boolean result = true;
         if (!address.matches(TEXT_WITH_NUMBERS_AND_SPACES_REGEXP)) {
+            setFeedBackKey(PageContentKey.INVALID_ADDRESS);
+            result = false;
+        }
+        if (address.length()>MAX_ADDRESS_SIZE||address.length()<MIN_ADDRESS_SIZE) {
             setFeedBackKey(PageContentKey.INVALID_ADDRESS_SIZE);
             result = false;
         }

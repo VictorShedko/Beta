@@ -9,6 +9,7 @@ import java.util.Optional;
 
 
 public class LoginCommand implements Command {
+    private static PRGParameterManager prgParameterManager=new PRGParameterManager();
     @Override
     public Router execute(RequestSessionContent content) throws CommandException {
         Router router;
@@ -23,12 +24,12 @@ public class LoginCommand implements Command {
         if (userOptional.isPresent()) {
             User user=userOptional.get();
             content.addUserToSession(user);
-            content.setSessionAttribute(AttributeName.FEEDBACK, PageContentKey.EMPTY);
             router=new Router(PagePath.PRG_TO_USER_MENU);
             router.setRedirect();
         }else {
-            router = new Router(PagePath.INDEX);
-            content.setSessionAttribute(AttributeName.FEEDBACK, PageContentKey.INVALID_LOGIN_OR_PASSWORD);
+            PRGParameterManager manager=new PRGParameterManager();
+            String path=manager.addParameter(PagePath.PRG_TO_LOGIN,AttributeName.FEEDBACK,PageContentKey.INVALID_LOGIN_OR_PASSWORD);
+            router = new Router(PagePath.PRG_TO_LOGIN);
             router.setRedirect();
         }
 

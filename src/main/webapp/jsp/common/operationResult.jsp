@@ -81,9 +81,13 @@
                 </div>
             </form>
         </div>
+        <div class="col">
+                    <button type="submit" class="btn btn-primary" onclick="window.history.back()"> <fmt:message key="operationResult.back.button"/></button>
+        </div>
     </div>
 
 </div>
 </body>
+
 </html>
 </fmt:bundle>

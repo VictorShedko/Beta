@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class CreateOrderCommand implements Command {
+    private static PRGParameterManager manager=new PRGParameterManager();
     @Override
     public Router execute(RequestSessionContent content) {
         Router router;
@@ -18,8 +19,8 @@ public class CreateOrderCommand implements Command {
         String description = (String) content.getRequestParameter(AttributeName.DESCRIPTION);
         String username = (String) content.getSessionAttribute(AttributeName.USERNAME);
         DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm");
-        Date startTime = null;
-        Date endTime = null;
+        Date startTime;
+        Date endTime;
         try {
             startTime = formatter.parse((String) content.getRequestParameter(AttributeName.START_TIME));
             endTime = formatter.parse((String) content.getRequestParameter(AttributeName.END_TIME));
@@ -34,18 +35,18 @@ public class CreateOrderCommand implements Command {
             if (validator.isValidOrderForm(startTime, endTime, address, description)) {
                 if (ServiceFacade.INSTANCE.createOrder(address, description, username, startTime, endTime, price)) {
                     content.setSessionAttribute(AttributeName.COMMAND_RESULT, PageContentKey.SUCCESSFULLY);
-                    router = new Router(PagePath.PRG_CREATE_ORDER_RESULT);
+                    router = new Router(PagePath.PRG_RESULT);
                 } else {
-                    content.setSessionAttribute(AttributeName.FEEDBACK, PageContentKey.NOT_ENOUGH_CASH);
-                    router = new Router(PagePath.PRG_CREATE_ORDER_RESULT);
+                    content.setSessionAttribute(AttributeName.COMMAND_RESULT, PageContentKey.NOT_ENOUGH_CASH);
+                    router = new Router(PagePath.PRG_RESULT);
                 }
             } else {
-                content.setSessionAttribute(AttributeName.FEEDBACK, validator.getInvalidFeedback());
-                router = new Router(PagePath.PRG_CREATE_ORDER_RESULT);
+                content.setSessionAttribute(AttributeName.COMMAND_RESULT, validator.getInvalidFeedback());
+                router = new Router(PagePath.PRG_RESULT);
             }
         } catch (ServiceException e) {
-            content.setSessionAttribute(AttributeName.FEEDBACK, PageContentKey.SERVER_ERROR);
-            router = new Router(PagePath.PRG_CREATE_ORDER_RESULT);
+            content.setSessionAttribute(AttributeName.COMMAND_RESULT, PageContentKey.SERVER_ERROR);
+            router = new Router(PagePath.PRG_RESULT);
         }
         router.setRedirect();
         return router;
