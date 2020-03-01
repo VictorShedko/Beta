@@ -1,17 +1,16 @@
 package by.victor.beta.command.impl;
 
-import by.victor.beta.command.PagePath;
-import by.victor.beta.command.Command;
-import by.victor.beta.command.CommandException;
-import by.victor.beta.command.RequestSessionContent;
-import by.victor.beta.command.Router;
+import by.victor.beta.command.*;
 
 public class LogoutCommand implements Command {
+    private  static PRGParameterManager prgParameterManager=new PRGParameterManager();
     @Override
     public Router execute(RequestSessionContent content) throws CommandException {
         content.setInvalidate(true);
-        Router router=new Router(PagePath.INDEX);
-        router.setRedirect();
+        if(content.getRequestParameter(AttributeName.FEEDBACK)!=null){
+        content.setRequestAttribute(AttributeName.FEEDBACK,content.getRequestParameter(AttributeName.FEEDBACK));
+        }
+        Router router=new Router(PagePath.LOGIN);
         return router;
     }
 }

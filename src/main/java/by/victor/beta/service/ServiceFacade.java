@@ -3,8 +3,8 @@ package by.victor.beta.service;
 import by.victor.beta.entity.*;
 import by.victor.beta.entity.UserStatus;
 import by.victor.beta.service.impl.*;
-import by.victor.beta.service.mail.MailServiceThread;
-import by.victor.beta.service.util.HashGenerator;
+import by.victor.beta.service.util.mail.MailServiceThread;
+import by.victor.beta.service.util.HashService;
 import by.victor.beta.service.util.NotifyMessageBuilder;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
@@ -86,7 +86,7 @@ public enum ServiceFacade {
     public Optional<User> login(String login, String password) throws ServiceException {
         List<User> users = userService.findUserByLogin(login);
 
-        if (users.size() == 1 && HashGenerator.INSTANCE.isRightPassword(users.get(0), password) &&
+        if (users.size() == 1 && HashService.INSTANCE.isRightPassword(users.get(0), password) &&
                 users.get(0).getStatus() != UserStatus.DELETED) {
             return Optional.of(users.get(0));
         } else {

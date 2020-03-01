@@ -13,6 +13,7 @@ public class RegistrationCommand implements Command {
     @Override
     public Router execute(RequestSessionContent content) throws CommandException {
         Router router;
+        String path;
         String username = (String) content.getRequestParameter(AttributeName.USERNAME);
         String password = (String) content.getRequestParameter(AttributeName.PASSWORD);
         Role role = Role.fromValue((String) content.getRequestParameter(AttributeName.ROLE));
@@ -21,7 +22,7 @@ public class RegistrationCommand implements Command {
         User user;
         try {
             Validator validator = new Validator();
-            if (validator.isValidRegistrationForm(username, password, login)) {
+            if (validator.isValidRegistrationForm(username, password, login,email)) {
                 user = ServiceFacade.INSTANCE.registerUser(username, password, login, role, email);
                 content.addUserToSession(user);
                 router = new Router(PagePath.PRG_TO_USER_MENU);
@@ -30,7 +31,8 @@ public class RegistrationCommand implements Command {
                 router = new Router(PagePath.REGISTRATION_FORM);
             }
         } catch (ServiceException e) {
-            content.setSessionAttribute(AttributeName.ERROR_MESSAGE_HEADER, e.getMessage());
+            path=prgParameterManager.addParameter(PagePath.REGISTRATION_FORM,AttributeName.ERROR_MESSAGE_HEADER, e.getMessage());
+
             router = new Router(PagePath.REGISTRATION_FORM);
 
         }

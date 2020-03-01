@@ -1,5 +1,8 @@
 package by.victor.beta.command;
 
+/**
+ *request attribute names.
+ */
 public class AttributeName {
     public static final String USERNAME = "username";
     public static final String ROLE = "role";

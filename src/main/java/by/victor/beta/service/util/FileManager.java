@@ -21,6 +21,21 @@ public enum  FileManager {
     private static final Logger logger= LogManager.getLogger(FileManager.class);
     private  ServletContext applicationContext;
     private static final ReentrantLock fileOperationLock=new ReentrantLock();
+
+    public void setApplicationContext(ServletContext applicationContext) {
+        this.applicationContext = applicationContext;
+    }
+
+
+    /**
+     * Move file from upload director to permanent directory.
+     *
+     * @param file     file in permanent directory
+     * @param user     user
+     * @param fileName the file name
+     * @return file in temp directory
+     * @throws IOException the io exception
+     */
     public File moveFileToUserDir(File file, String user,String fileName) throws IOException {
         fileOperationLock.lock();
         try {
@@ -45,6 +60,14 @@ public enum  FileManager {
         }
     }
 
+    /**
+     * Move file from permanent director to temp directory, where file can be displayed in html code in img src.
+     *
+
+     * @param fileName the file name in permanent directory
+     * @return file in temp directory
+     * @throws IOException the io exception
+     */
     public File moveFileToTempUserDir(String fileName)throws IOException  {
         fileOperationLock.lock();
         try {
@@ -65,6 +88,12 @@ public enum  FileManager {
         }
     }
 
+    /**
+     * Generate uuid name with same extension string.
+     *
+     * @param file the file
+     * @return the string
+     */
     public String generateUUIDNameWithSameExtension(File file){
         UUID uuid=UUID.randomUUID();
         StringBuilder name=new StringBuilder(uuid.toString());
@@ -73,11 +102,13 @@ public enum  FileManager {
         return name.toString();
     }
 
+    /**
+     * Gets extension.
+     *
+     * @param filename the filename
+     * @return the extension
+     */
     public String getExtension(String filename) {
         return filename.substring(filename.lastIndexOf('.'));
-    }
-
-    public void setApplicationContext(ServletContext applicationContext) {
-        this.applicationContext = applicationContext;
     }
 }

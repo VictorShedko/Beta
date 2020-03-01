@@ -14,7 +14,7 @@ import java.util.Timer;
 public enum OrderManager {
     INSTANCE;
     private static final Logger logger= LogManager.getLogger(OrderManager.class);
-    private Timer updateTimer=new Timer();
+    private Timer updateTimerTask =new Timer();
     public void startTimer(){
         FindNearestOrderSpecification specification=new FindNearestOrderSpecification();
         try {
@@ -24,7 +24,7 @@ public enum OrderManager {
                 UpdateTimerTask timerTask=new UpdateTimerTask();
                 Date currentTime=new Date();
               if(updateDate.compareTo(currentTime)>0) {
-                  updateTimer.schedule(timerTask, updateDate);// todo change name
+                  updateTimerTask.schedule(timerTask, updateDate);
               }else {
                   update();
               }

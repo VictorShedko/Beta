@@ -8,7 +8,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-
+@Deprecated
 @WebFilter( urlPatterns =  "/*" )
 public class EmptyFeedbackFilter implements Filter {
 

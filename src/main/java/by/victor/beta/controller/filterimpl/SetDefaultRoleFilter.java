@@ -9,8 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * if role is null,filter set role default.
+ */
 @WebFilter( urlPatterns =  "/*" )
-public class SetDefaultRole  implements Filter {
+public class SetDefaultRoleFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 

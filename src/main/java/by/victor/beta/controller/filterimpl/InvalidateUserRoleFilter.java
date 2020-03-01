@@ -12,7 +12,8 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-//@WebFilter( urlPatterns =  "/*" )
+
+@WebFilter( urlPatterns =  "/*" )
 public class InvalidateUserRoleFilter implements Filter {
     private final static Logger logger= LogManager.getLogger(InvalidateUserRoleFilter.class);
 

@@ -5,7 +5,7 @@ import by.victor.beta.entity.*;
 import by.victor.beta.entity.UserStatus;
 import by.victor.beta.repository.SqlColumnName;
 import by.victor.beta.service.util.FileManager;
-import by.victor.beta.service.util.HashGenerator;
+import by.victor.beta.service.util.HashService;
 import by.victor.beta.service.util.NotifyMessageBuilder;
 
 
@@ -24,8 +24,8 @@ public class CleanerEntityProvider {
         user.setUsername(username);
         user.setLogin(login);
 
-        user.setSalt(HashGenerator.INSTANCE.getNewSalt());
-        user.setPassword(HashGenerator.INSTANCE.getHash(password,user.getSalt()));
+        user.setSalt(HashService.INSTANCE.getNewSalt());
+        user.setPassword(HashService.INSTANCE.getHash(password,user.getSalt()));
         user.setRole(role);
         user.setBalance(balance);
         user.setEmail(email);

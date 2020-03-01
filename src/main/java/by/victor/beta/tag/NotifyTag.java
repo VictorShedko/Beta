@@ -13,6 +13,9 @@ import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
 import java.util.Locale;
 
+/**
+ * create notification considering current locale.
+ */
 public class NotifyTag extends TagSupport {
     private final static Logger logger= LogManager.getLogger(NotifyTag.class);
     private String messageText;
@@ -23,7 +26,7 @@ public class NotifyTag extends TagSupport {
 
         NotifyMessageBuilder builder = new NotifyMessageBuilder();
 
-        messageText = builder.buildByPatter(notification.getValues(), notification.getType(), locale);
+        messageText = builder.buildByPattern(notification.getValues(), notification.getType(), locale);
 
 
     }

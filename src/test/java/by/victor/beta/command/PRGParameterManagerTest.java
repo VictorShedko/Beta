@@ -23,7 +23,7 @@ public class PRGParameterManagerTest {
                 {PagePath.PRG_RESULT,AttributeName.COMMAND_RESULT,PageContentKey.SUCCESSFULLY,
                         "cleaning?command=to_result&commandResult=feedback.success"},
                 {PagePath.PRG_RESULT,AttributeName.FEEDBACK,PageContentKey.INVALID_ADDRESS,
-                        "cleaning?command=to_result&feedback=feedback.invalid-address"}
+                        "cleaning?command=to_result&feedback=feedback.invalid.address"}
                };
     }
 

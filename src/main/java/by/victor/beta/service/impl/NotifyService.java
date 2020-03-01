@@ -9,7 +9,7 @@ import by.victor.beta.service.INotifyService;
 import by.victor.beta.service.CleanerEntityProvider;
 import by.victor.beta.service.util.NotifyMessageBuilder;
 import by.victor.beta.service.ServiceException;
-import by.victor.beta.service.mail.MailServiceThread;
+import by.victor.beta.service.util.mail.MailServiceThread;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -36,7 +36,7 @@ public class NotifyService implements INotifyService {
         Notification notification = factory.getNotify(text, receiver, type);
         logger.log(Level.TRACE,"add notify :"+text+" to user :"+receiver.getUsername()+" type"+type);
         AddNotifySpecification specification = new AddNotifySpecification(notification);
-        String emailText=messageBuilder.buildByPatter(messageBuilder.getNotifyValues(text),type);
+        String emailText=messageBuilder.buildByPattern(messageBuilder.getNotifyValues(text),type);
         MailServiceThread.sendMessage(receiver,emailText);
         try {
             NotifyRepository.getInstance().updateQuery(specification);
@@ -45,7 +45,7 @@ public class NotifyService implements INotifyService {
         }
     }
 
-
+    @Deprecated
     public void addNotify(NotifyType type, Entity... entity){
         switch (type){
             case ORDER_EXECUTION_START:{
@@ -76,7 +76,7 @@ public class NotifyService implements INotifyService {
             case ORDER_CANCEL_TO_EXECUTOR:{
                 messageBuilder.orderCanceledMessageToExecutor((User) entity[0]);
             }break;
-            case ORDER_EXECUTION_FINISH_TO_CUSTOER:{
+            case ORDER_EXECUTION_FINISH_TO_CUSTOMER:{
                 messageBuilder.orderExecutionFinishToCustomer((User) entity[0],(User)entity[1],(Order) entity[3]);
 
             }break;

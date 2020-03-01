@@ -27,7 +27,7 @@ public class VerifyCodeService implements IVerifyCodeService {
         AddVerifyCodeSpecification specification = new AddVerifyCodeSpecification(verifyCode);
         logger.log(Level.TRACE,"add verify code"+verifyCode);
         try {
-            repository.createQuery(specification);
+            repository.updateQuery(specification);
         } catch (RepositoryException e) {
             throw new ServiceException(e);
         }

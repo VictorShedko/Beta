@@ -1,27 +1,35 @@
-package by.victor.beta.service.mail;
+package by.victor.beta.service.util.mail;
 
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
 class MailSessionCreator {
-    static final String EMAIL_BUNDLE_NAME = "mailparameters";
+    static final String EMAIL_BUNDLE_NAME = "C:\\Users\\ACER\\Documents\\Beta\\src\\main\\resources\\mailparameters.properties";
 
     Session createSession() {
-        ResourceBundle connectionInfo = ResourceBundle.getBundle(EMAIL_BUNDLE_NAME);
-        final String username = connectionInfo.getString("mail.user.name");
-        final String password = connectionInfo.getString("mail.user.password");
-        final String smtpPort = connectionInfo.getString("mail.smtp.port");
-        final String smtpHost = connectionInfo.getString("mail.smtp.host");
+        File file = new File(EMAIL_BUNDLE_NAME);
+        Properties properties = new Properties();
+        try {
+            properties.load(new FileReader(file));
+        } catch (IOException e) {
+            throw new IllegalStateException();//todo
+        }
+
+        final String username = properties.getProperty("mail.user.name");
+        final String password = properties.getProperty("mail.user.password");
+        final String smtpPort = properties.getProperty("mail.smtp.port");
+        final String smtpHost = properties.getProperty("mail.smtp.host");
 
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", smtpPort);
-
-// загрузка параметров почтового сервера в свойства почтовой сессии
 
         props.setProperty("mail.transport.protocol", "smtp");
         props.setProperty("mail.host", smtpHost);

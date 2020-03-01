@@ -2,96 +2,60 @@ package by.victor.beta.service.util;
 
 
 import by.victor.beta.entity.*;
-import by.victor.beta.service.CleanerEntityProvider;
+import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
-import static org.testng.Assert.*;
 
 public class NotifyMessageBuilderTest {
 
 
     private  NotifyMessageBuilder notifyMessageBuilder;
 
-    @DataProvider(name = "TetrahedronList")
-    public Object[][] parameterXoZTestProvider() {
-        User executor ;
-        User customer ;
-        Order order;
+    @BeforeClass
+    void setup(){
+        notifyMessageBuilder=new NotifyMessageBuilder();
+    }
+
+
+    @DataProvider(name = "build")
+    public Object[][] build(){
+        Locale be=new Locale("be_BY");
+        Locale en=new Locale("en_EN");
         return new Object[][]{
-                //{executor,customer,order},
+                {List.of("1","2"),be,NotifyType.ORDER_EXECUTION_START,""},
+                {List.of("1","2","3","4","5","6","7","8","9","10","11","12","13"),
+                        be,NotifyType.ORDER_ACCEPTED,""},
+                {List.of("1","2"),be,NotifyType.ORDER_EXECUTION_START,""},
+                {List.of("1","2"),be,NotifyType.ORDER_EXECUTION_START,""}
         };
     }
 
-    @Test
-    public void buildMessageTest(List<String> strings,NotifyType type) {
-        Locale locale=new Locale("en");
-        List<String> lol=notifyMessageBuilder.getNotifyValues("Alpharius$1$$1$");
-
-        notifyMessageBuilder.buildByPatter(lol,type,locale);
-
+    @Test(dataProvider = "build")
+    public void testBuildByPatter(List<String> strings,Locale locale,NotifyType  type,String excepted) {
+       String result=notifyMessageBuilder.buildByPattern(strings,type,locale);
+       Assert.assertEquals(result,excepted);
     }
 
-    @Test
-    public void testBuildByPatter() {
+
+    @DataProvider(name = "values")
+    public Object[][] values(){
+        return new Object[][]{
+                {"a$b",List.of("a","b")},
+                {"a$$b",List.of("a","","b")},
+                {"ab",List.of("ab")},
+                {"a$b$cdef$ght",List.of("a","b","cdef","fght")}
+        };
     }
 
-    @Test
-    public void testGetNotifyValues() {
+    @Test(dataProvider = "values")
+    public void testGetNotifyValues(String str,List<String> expected) {
+       List<String> result = notifyMessageBuilder.getNotifyValues(str);
+        Assert.assertEquals(expected,result);
     }
 
-    @Test
-    public void testRegistrationMessage() {
-    }
-
-    @Test
-    public void testAdminValidateMessage() {
-    }
-
-    @Test
-    public void testOrderNotClaimedMessage() {
-    }
-
-    @Test
-    public void testOrderExecutionStartMessage() {
-    }
-
-    @Test
-    public void testOrderExecutionFinishToCustomer() {
-    }
-
-    @Test
-    public void testOrderExecutionFinishToExecutor() {
-    }
-
-    @Test
-    public void testOrderRefuseMessage() {
-    }
-
-    @Test
-    public void testOrderAcceptedMessage() {
-    }
-
-    @Test
-    public void testOrderCanceledMessageToExecutor() {
-    }
-
-    @Test
-    public void testOrderCanceledMessageToCustomer() {
-    }
-
-    @Test
-    public void testOrderCreateMessage() {
-    }
-
-    @Test
-    public void testTestBuildByPatter() {
-    }
-
-    @Test
-    public void testBuildEmailVerification() {
-    }
 }

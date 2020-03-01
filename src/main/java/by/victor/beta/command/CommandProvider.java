@@ -10,6 +10,9 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * provide command object only if user role is suitable.
+ */
 public class CommandProvider {
     private static final Logger logger = LogManager.getLogger(CommandProvider.class);
     private EnumMap<Role, List<CommandType>> roleCommandMapping;
@@ -18,7 +21,7 @@ public class CommandProvider {
         roleCommandMapping = new EnumMap<>(Role.class);
 
         List<CommandType> defaultUserCommands = List.of(CommandType.TO_REGISTRATION,
-                CommandType.CHANGE_LOCALE,
+                CommandType.CHANGE_LOCALE,CommandType.LOGOUT,
                 CommandType.LOGIN, CommandType.REGISTER,CommandType.EMAIL_VERIFY);
         roleCommandMapping.put(Role.DEFAULT, defaultUserCommands);
 
@@ -51,6 +54,13 @@ public class CommandProvider {
         roleCommandMapping.put(Role.EXECUTOR, executorCommands);
     }
 
+    /**
+     * Find command optional.
+     *
+     * @param userRole    the user role
+     * @param commandName the command name
+     * @return the optional
+     */
     public Optional<Command> findCommand(Role userRole, String commandName) {
         logger.log(Level.DEBUG, " role " + userRole + " " + commandName);
         return roleCommandMapping.get(userRole)

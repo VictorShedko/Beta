@@ -1,6 +1,5 @@
 package by.victor.beta.service.util;
 
-import by.victor.beta.entity.Entity;
 import by.victor.beta.entity.NotifyType;
 import by.victor.beta.entity.Order;
 import by.victor.beta.entity.User;
@@ -11,8 +10,6 @@ import org.apache.log4j.Logger;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.function.BiFunction;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class NotifyMessageBuilder {
@@ -57,7 +54,15 @@ public class NotifyMessageBuilder {
         return List.of(user.getUsername());
     }
 
-    public String buildByPatter(List<String> strings, NotifyType type, Locale locale) {
+    /**
+     * insert into pattern string from resource bundle concrete value.
+     *
+     * @param strings the strings
+     * @param type    the notification type
+     * @param locale  the locale
+     * @return the string
+     */
+    public String buildByPattern(List<String> strings, NotifyType type, Locale locale) {
         ResourceBundle connectionInfo = ResourceBundle.getBundle(NOTIFY_TEXT_BUNDLE_NAME, locale);
         String pattern = connectionInfo.getString(type.name());
         logger.log(Level.DEBUG,"patern: "+pattern+" values "+strings);
@@ -71,9 +76,16 @@ public class NotifyMessageBuilder {
         return pattern;
     }
 
+    /**
+     * Get notify values list.
+     *
+     * @param valuesAsString the values as string
+     * @return the list
+     */
     public List<String> getNotifyValues(String valuesAsString){
         return Arrays.stream(valuesAsString.split(CHAR_DELIMITER_REGEXP)).collect(Collectors.toList());
     }
+
 
     public String registrationMessage(User newUser) {
         List<String> replaceStringList = List.of(newUser.getUsername(), newUser.getEmail());
@@ -136,23 +148,24 @@ public class NotifyMessageBuilder {
         return addDelimiter(replaceStringList);
     }
 
-    Function<Entity[],List<String>> orderCanceledToCustomer=(entities)->{//todo ooo
-        User customer=(User) entities[0];
-        Order order=(Order) entities[1];
-       return null;
-    };
-
     public String orderCreateMessage(User customer, Order order) {
         List<String> replaceStringList = new ArrayList<>(usernameAsList(customer));
         replaceStringList.addAll(orderInfo(order));
         return addDelimiter(replaceStringList);
     }
 
-    public String buildByPatter(List<String> notifyValues, NotifyType type) {
-        return buildByPatter(notifyValues,type, DEFAULT_LOCALE);
+    /**
+     * Build string from values .
+     *
+     * @param notifyValues the notify values
+     * @param type         the type
+     * @return the string
+     */
+    public String buildByPattern(List<String> notifyValues, NotifyType type) {
+        return buildByPattern(notifyValues,type, DEFAULT_LOCALE);
     }
 
     public String buildEmailVerification(User user,UUID uuid){
-        return buildByPatter( List.of(user.getUsername(),uuid.toString()), NotifyType.REGISTRATION_EMAIL_VERIFY_REQUEST);
+        return buildByPattern( List.of(user.getUsername(),uuid.toString()), NotifyType.REGISTRATION_EMAIL_VERIFY_REQUEST);
     }
 }

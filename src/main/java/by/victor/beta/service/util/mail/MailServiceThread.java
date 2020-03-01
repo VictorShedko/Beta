@@ -1,4 +1,4 @@
-package by.victor.beta.service.mail;
+package by.victor.beta.service.util.mail;
 
 import by.victor.beta.entity.User;
 import org.apache.log4j.Level;
@@ -30,11 +30,12 @@ public class MailServiceThread extends Thread {
             }
 
             Message message = new MimeMessage(mailSession);
+            message.setContent(mailBody, "text/html");
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(email));
             message.setSubject("Cleaning service");
 
-            message.setText(mailBody);
+
 
             Transport.send(message);
 

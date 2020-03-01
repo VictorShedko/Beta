@@ -86,6 +86,6 @@
 
     </body>
     </html>
-
+    <script src="<c:url value="/js/common.js" />"></script>
 
 </fmt:bundle>

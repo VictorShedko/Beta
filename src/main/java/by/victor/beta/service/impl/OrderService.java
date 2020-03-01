@@ -25,7 +25,7 @@ public class OrderService implements IOrderService {
     public void addOrder(Order order) throws ServiceException {
         AddOrderSpecification specification=new AddOrderSpecification(order);
         try {
-            UserRepository.getInstance().createQuery(specification);
+            UserRepository.getInstance().updateQuery(specification);
             logger.log(Level.TRACE,"add order "+order);
             OrderManager.INSTANCE.startTimer();
         } catch (RepositoryException e) {
@@ -165,7 +165,7 @@ public class OrderService implements IOrderService {
                         userService.creditUser(executor,order.getPrice());
                         notifyService.addNotify(notifyText,customer,NotifyType.ORDER_EXECUTION_FINISH_TO_EXECUTOR);
                         notifyText=notifyMessageBuilder.orderExecutionFinishToExecutor(customer,executor,order);//todo
-                        notifyService.addNotify(notifyText,customer,NotifyType.ORDER_EXECUTION_FINISH_TO_CUSTOER);
+                        notifyService.addNotify(notifyText,executor,NotifyType.ORDER_EXECUTION_FINISH_TO_CUSTOMER);
                         logger.log(Level.DEBUG,"change status order accepted->completed"+order.toString());
                     }
                     break;

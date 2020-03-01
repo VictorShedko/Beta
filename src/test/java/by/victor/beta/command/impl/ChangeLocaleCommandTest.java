@@ -13,5 +13,6 @@ public class ChangeLocaleCommandTest {
 
     @Test
     public void testExecute() {
+
     }
 }

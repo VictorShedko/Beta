@@ -12,12 +12,17 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Remove from bd not valid verify code.
+ */
 public enum  ClearDeprecatedCode {
+
     INSTANCE;
     private static final Logger logger= LogManager.getLogger(ClearDeprecatedCode.class);
     private final Timer timer=new Timer();
     private final long DELAY= TimeUnit.MINUTES.toMillis(5);
     private Specification clearDeprecatedCodeSpecification =new ClearCodeSpecification();
+
     ClearDeprecatedCode()
     {
         timer.schedule(new TimerTask() {
@@ -28,6 +33,10 @@ public enum  ClearDeprecatedCode {
         }, DELAY);
 
     }
+
+    /**
+     * call update method in repository
+     */
     public void deleteCodes(){
         try {
             VerifyCodeRepository.getINSTANCE().updateQuery(clearDeprecatedCodeSpecification);

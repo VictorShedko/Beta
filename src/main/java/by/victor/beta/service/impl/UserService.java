@@ -27,7 +27,7 @@ public class UserService implements IUserService {
     public void addUser(User user) throws ServiceException {
         AddUserSpecification specification = new AddUserSpecification(user);
         try {
-            UserRepository.getInstance().createQuery(specification);
+            UserRepository.getInstance().updateQuery(specification);
         } catch (RepositoryException e) {
             throw new ServiceException(e);
         }

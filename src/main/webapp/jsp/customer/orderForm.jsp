@@ -51,15 +51,11 @@
                 <input type="text" class="form-control" id="inputDescription" name="description">
             </div>
         </div>
-
-        <div class="form-group col-md-6">
-            <label for="inputPassword">Password</label>
-            <input type="password" class="form-control" id="inputPassword" placeholder="Password" name="password">
-        </div>
         <input type="hidden" name="command" value="create_order">
         <button type="submit" class="btn btn-primary">Create</button>
     </form>
 </div>
 </body>
+<script src="<c:url value="/js/common.js" />"></script>
 </html>
 </fmt:bundle>

@@ -15,6 +15,7 @@ public class CreateOrderCommand implements Command {
     @Override
     public Router execute(RequestSessionContent content) {
         Router router;
+        String path;
         String address = (String) content.getRequestParameter(AttributeName.ADDRESS);
         String description = (String) content.getRequestParameter(AttributeName.DESCRIPTION);
         String username = (String) content.getSessionAttribute(AttributeName.USERNAME);
@@ -25,28 +26,29 @@ public class CreateOrderCommand implements Command {
             startTime = formatter.parse((String) content.getRequestParameter(AttributeName.START_TIME));
             endTime = formatter.parse((String) content.getRequestParameter(AttributeName.END_TIME));
         } catch (ParseException e) {
-            content.setRequestAttribute(AttributeName.FEEDBACK, PageContentKey.INVALID_DATE_FORMAT);
-            return new Router(PagePath.CREDIT_FORM);
+            path=manager.addParameter(PagePath.CREDIT_FORM,AttributeName.COMMAND_RESULT, PageContentKey.INVALID_DATE_FORMAT);
+            return new Router(path);
         }
 
-        int price = Integer.parseInt((String) content.getRequestParameter(AttributeName.PRICE));
+        String priceAsString = (String) content.getRequestParameter(AttributeName.PRICE);
         try {
             Validator validator = new Validator();
-            if (validator.isValidOrderForm(startTime, endTime, address, description)) {
+            if (validator.isValidOrderForm(startTime, endTime, address, description,priceAsString)) {
+                int price = Integer.parseInt((String) content.getRequestParameter(AttributeName.PRICE));
                 if (ServiceFacade.INSTANCE.createOrder(address, description, username, startTime, endTime, price)) {
-                    content.setSessionAttribute(AttributeName.COMMAND_RESULT, PageContentKey.SUCCESSFULLY);
-                    router = new Router(PagePath.PRG_RESULT);
+                    path=manager.addParameter(PagePath.CREDIT_FORM,AttributeName.COMMAND_RESULT, PageContentKey.SUCCESSFULLY);
+                    router= new Router(path);
                 } else {
-                    content.setSessionAttribute(AttributeName.COMMAND_RESULT, PageContentKey.NOT_ENOUGH_CASH);
-                    router = new Router(PagePath.PRG_RESULT);
+                    path=manager.addParameter(PagePath.CREDIT_FORM,AttributeName.COMMAND_RESULT, PageContentKey.NOT_ENOUGH_CASH);
+                    router= new Router(path);
                 }
             } else {
-                content.setSessionAttribute(AttributeName.COMMAND_RESULT, validator.getInvalidFeedback());
-                router = new Router(PagePath.PRG_RESULT);
+                path=manager.addParameter(PagePath.CREDIT_FORM,AttributeName.COMMAND_RESULT, validator.getInvalidFeedback());
+                router= new Router(path);
             }
         } catch (ServiceException e) {
-            content.setSessionAttribute(AttributeName.COMMAND_RESULT, PageContentKey.SERVER_ERROR);
-            router = new Router(PagePath.PRG_RESULT);
+            path=manager.addParameter(PagePath.CREDIT_FORM,AttributeName.COMMAND_RESULT, PageContentKey.SERVER_ERROR);
+            router= new Router(path);
         }
         router.setRedirect();
         return router;

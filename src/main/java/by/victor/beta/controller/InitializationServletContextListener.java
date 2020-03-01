@@ -14,8 +14,8 @@ public class InitializationServletContextListener implements ServletContextListe
 
     public void contextInitialized(ServletContextEvent sce) {
         ConnectionPool provider= ConnectionPool.INSTANCE;
-        OrderManager.INSTANCE.update();
         FileManager.INSTANCE.setApplicationContext(sce.getServletContext());
+        OrderManager.INSTANCE.update();
         ClearDeprecatedCode clearDeprecatedCode=ClearDeprecatedCode.INSTANCE;
    }
 

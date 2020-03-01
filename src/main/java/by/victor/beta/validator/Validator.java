@@ -6,12 +6,11 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class Validator {
-    private String invalidFeedback ;
-
     private static final String VALID_USERNAME_REGEXP = "[a-zA-Z0-9/-]+([ ]*[a-zA-Z0-9/-]+)";
     private static final String VALID_LOGIN_REGEXP = "[a-zA-Z0-9/-]+";
     private static final String TEXT_WITH_NUMBERS_REGEXP = "[a-zA-Z0-9/-]+([0-9]*[a-zA-Z0-9/-]+)";
     private static final String TEXT_WITH_NUMBERS_AND_SPACES_REGEXP = "[a-z\\sA-Zа-яА-Я0-9/-]+";
+    private static final String EMAIL_REGEXP="^(.+)@(.+)$";
     private static final int MAX_USERNAME_SIZE = 30;
     private static final int MIN_USERNAME_SIZE = 8;
     private static final int MAX_LOGIN_SIZE = 30;
@@ -19,24 +18,25 @@ public class Validator {
     private static final int MAX_PASSWORD_SIZE = 160;
     private static final int MIN_PASSWORD_SIZE = 8;
     private static final int MAX_DESCRIPTION_SIZE = 140;
-    private static final int MAX_NOTIFY_SIZE = 140;
     private static final long MAX_SUM = Integer.MAX_VALUE;
     private static final long MAX_ADDRESS_SIZE = 140;
-private static final long MIN_ADDRESS_SIZE=8;
+    private static final long MIN_ADDRESS_SIZE = 8;
     private static final long ONE_HOUR = TimeUnit.HOURS.toMillis(1);
     private static final long ONE_YEAR = TimeUnit.DAYS.toMillis(365);
 
+    private String invalidFeedback;
+
     private void setFeedBackKey(String errorKey) {
-        invalidFeedback=errorKey;
+        invalidFeedback = errorKey;
     }
 
     private boolean isValidName(String username) {
         boolean result = true;
         if (!username.matches(VALID_USERNAME_REGEXP)) {
-            setFeedBackKey(PageContentKey.INVALID_USERNAME);//todo вынести в константы а еще лучше в ключи сообщений об ошибке
+            setFeedBackKey(PageContentKey.INVALID_USERNAME);
             result = false;
         }
-        if ( username.length() > MAX_USERNAME_SIZE) {
+        if (username.length() > MAX_USERNAME_SIZE) {
             setFeedBackKey(PageContentKey.USERNAME_MAXIMUM_LENGTH_EXCEEDED);
             result = false;
         }
@@ -53,7 +53,7 @@ private static final long MIN_ADDRESS_SIZE=8;
             setFeedBackKey(PageContentKey.INVALID_LOGIN);
             result = false;
         }
-        if ( login.length() > MAX_LOGIN_SIZE || login.length() < MIN_LOGIN_SIZE) {
+        if (login.length() > MAX_LOGIN_SIZE || login.length() < MIN_LOGIN_SIZE) {
             setFeedBackKey(PageContentKey.INVALID_LOGIN_SIZE);
             result = false;
         }
@@ -67,7 +67,7 @@ private static final long MIN_ADDRESS_SIZE=8;
             setFeedBackKey(PageContentKey.INVALID_PASSWORD);
             result = false;
         }
-        if ( password.length() > MAX_PASSWORD_SIZE||password.length() < MIN_PASSWORD_SIZE) {
+        if (password.length() > MAX_PASSWORD_SIZE || password.length() < MIN_PASSWORD_SIZE) {
             setFeedBackKey(PageContentKey.PASSWORD_SIZE);
             result = false;
         }
@@ -75,11 +75,19 @@ private static final long MIN_ADDRESS_SIZE=8;
         return result;
     }
 
-    public boolean isValidRegistrationForm(String username, String password, String login) {//todo email
-        return isValidLogin(login) && isValidName(username) && isValidPassword(password);
+    public boolean isValidRegistrationForm(String username, String password, String login,String email) {//todo email
+        return isValidLogin(login) && isValidName(username) && isValidPassword(password)&&isValidEmail(email);
     }
 
+    private boolean isValidEmail(String email) {
+        boolean result = true;
 
+        if (!email.matches(EMAIL_REGEXP)) {
+            setFeedBackKey(PageContentKey.INVALID_PASSWORD);
+            result = false;
+        }
+        return result;
+    }
 
 
     private boolean isValidOrderTime(Date startDate, Date endDate)//todo correct?
@@ -108,7 +116,7 @@ private static final long MIN_ADDRESS_SIZE=8;
             setFeedBackKey(PageContentKey.INVALID_ADDRESS);
             result = false;
         }
-        if (address.length()>MAX_ADDRESS_SIZE||address.length()<MIN_ADDRESS_SIZE) {
+        if (address.length() > MAX_ADDRESS_SIZE || address.length() < MIN_ADDRESS_SIZE) {
             setFeedBackKey(PageContentKey.INVALID_ADDRESS_SIZE);
             result = false;
         }
@@ -119,8 +127,8 @@ private static final long MIN_ADDRESS_SIZE=8;
         boolean result = true;
         int sum;
         try {
-            sum=Integer.parseInt(sumAsString);
-        }catch (NumberFormatException e){
+            sum = Integer.parseInt(sumAsString);
+        } catch (NumberFormatException e) {
             setFeedBackKey(PageContentKey.NOT_A_NUMBER);
             return false;
         }
@@ -154,8 +162,9 @@ private static final long MIN_ADDRESS_SIZE=8;
 
     }
 
-    public boolean isValidOrderForm(Date start, Date end, String address, String description) {
-        return isValidOrderTime(start, end) && (end.after(start)) && (isValidAddress(address)) && (isValidDescription(description));
+    public boolean isValidOrderForm(Date start, Date end, String address, String description,String sum) {
+        return isValidOrderTime(start, end) && (end.after(start)) && (isValidAddress(address))
+                && (isValidDescription(description)&&isValidCreditSum(sum));
     }
 
 

@@ -12,12 +12,16 @@ import by.victor.beta.service.IDocumentService;
 import by.victor.beta.service.CleanerEntityProvider;
 import by.victor.beta.service.util.FileManager;
 import by.victor.beta.service.ServiceException;
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 public class DocumentService implements IDocumentService {
+    private static final Logger logger= LogManager.getLogger(DocumentService.class);
 
     private CleanerEntityProvider factory=new CleanerEntityProvider();
     @Override
@@ -33,7 +37,7 @@ public class DocumentService implements IDocumentService {
         Document document=factory.getDocument(user,movedFile.getName());
         AddDocumentSpecification specification=new AddDocumentSpecification(document);
         try {
-            DocumentRepository.getInstance().createQuery(specification);
+            DocumentRepository.getInstance().updateQuery(specification);
         } catch (RepositoryException e) {
             throw new ServiceException(e);
         }
@@ -46,7 +50,7 @@ public class DocumentService implements IDocumentService {
             List<Document> documents=DocumentRepository.getInstance().findQuery(specification);
             return documents;
         } catch (RepositoryException e) {
-            e.printStackTrace();//todo sdcs
+            logger.log(Level.ERROR,"get user documents",e);
             throw new ServiceException(e);
         }
     }
@@ -58,7 +62,7 @@ public class DocumentService implements IDocumentService {
         try {
             DocumentRepository.getInstance().updateQuery(specification);
         } catch (RepositoryException e) {
-            e.printStackTrace();//todo sdcs
+            logger.log(Level.ERROR,"check documents",e);
             throw new ServiceException(e);
         }
     }
@@ -69,9 +73,9 @@ public class DocumentService implements IDocumentService {
         try {
             List<Document> documents=DocumentRepository.getInstance().findQuery(specification);
             if (documents.size()>0) {
-                return documents.get(0);//todo или проверка
+                return documents.get(0);
             }else {
-                throw new ServiceException();//todo const
+                throw new ServiceException();
             }
         } catch (RepositoryException e) {
            throw new ServiceException(e);
