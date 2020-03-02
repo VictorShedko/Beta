@@ -75,7 +75,7 @@ public class Validator {
         return result;
     }
 
-    public boolean isValidRegistrationForm(String username, String password, String login,String email) {//todo email
+    public boolean isValidRegistrationForm(String username, String password, String login,String email) {
         return isValidLogin(login) && isValidName(username) && isValidPassword(password)&&isValidEmail(email);
     }
 
@@ -90,7 +90,7 @@ public class Validator {
     }
 
 
-    private boolean isValidOrderTime(Date startDate, Date endDate)//todo correct?
+    private boolean isValidOrderTime(Date startDate, Date endDate)
     {
         boolean result = true;
         Date currentDate = new Date();

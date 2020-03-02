@@ -28,6 +28,7 @@ public class RequestSessionContent {
     private Map<String, Object> requestParameter = new HashMap<>();
     private Map<String, Object> sessionAttribute = new HashMap<>();
     private boolean invalidate;
+    private static final String TEMP_FOLDER_NAME="temp";
     private File file;
     private static AtomicInteger tempNumber = new AtomicInteger(0);
     private ServletContext servletContext;
@@ -219,7 +220,7 @@ public class RequestSessionContent {
                         String name = part.getName();
                         if ("file".equals(name)) {
 
-                            String newFileName = "temp" + tempNumber.addAndGet(1) +//todo temp
+                            String newFileName = TEMP_FOLDER_NAME+ tempNumber.addAndGet(1) +
                                     fileName.substring(fileName.lastIndexOf("."));
                             downloadedFile = new File(
                                     ApplicationParameter.FILE_UPLOAD_PATH + File.separator + newFileName);

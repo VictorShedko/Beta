@@ -9,7 +9,7 @@ import java.util.Optional;
 
 
 public class LoginCommand implements Command {
-    private static PRGParameterManager prgParameterManager=new PRGParameterManager();
+
     @Override
     public Router execute(RequestSessionContent content) throws CommandException {
         Router router;
@@ -30,8 +30,6 @@ public class LoginCommand implements Command {
             PRGParameterManager manager=new PRGParameterManager();
             String path=manager.addParameter(PagePath.PRG_TO_LOGIN,AttributeName.FEEDBACK,PageContentKey.INVALID_LOGIN_OR_PASSWORD);
             router = new Router(path);
-            content.setRequestAttribute("lol1","lol1");
-            content.setRequestParameter("lol1","lol1");
             router.setRedirect();
         }
 

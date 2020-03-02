@@ -13,7 +13,7 @@ public enum  SupportedLocale {
                 return locale;
             }
         }
-        throw new IllegalArgumentException(v);
+        return BE;
     }
 
     public String getLocaleName() {

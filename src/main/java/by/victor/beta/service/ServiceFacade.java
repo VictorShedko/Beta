@@ -22,10 +22,10 @@ public enum ServiceFacade {
     INSTANCE;
     private static final Logger logger=LogManager.getLogger(ServiceFacade.class);
     private final IUserService userService = new UserService();
-    private final IOrderService orderService = new OrderService();
     private final INotifyService notifyService = new NotifyService();
     private final IDocumentService documentService = new DocumentService();
     private final NotifyMessageBuilder notifyMessageBuilder = new NotifyMessageBuilder();
+    private final IOrderService orderService = new OrderService(notifyMessageBuilder,userService,notifyService);
     private final IVerifyCodeService verifyCodeService = new VerifyCodeService();
     private final CleanerEntityProvider entityProvider = new CleanerEntityProvider();
 
@@ -128,28 +128,25 @@ public enum ServiceFacade {
         userService.setUserStatus(UserStatus.VERIFIED, username);
     }
 
-    public boolean createOrder(String address, String description, String username, Date startTime, Date endTime, int price) throws ServiceException {//todo
-        List<User> users = userService.findUserByUsername(username);
+    public boolean createOrder(String address, String description, String username,
+                               Date startTime, Date endTime, int price) throws ServiceException {
+
         try {
             paymentLock.lock();
-
-            if (users.size() == 1) {//todo single user
-                User user = users.get(0);
+                User user = findSingleUser(username);
                 if (userService.debitUser(user, price)) {
                     logger.log(Level.TRACE,"debit user "+price);
-                    Order order = entityProvider.getOrder(username, null, price, startTime, endTime, address, description, user);
+                    Order order = entityProvider.getOrder(username, null, price, startTime, endTime,
+                            address, description, user);
                     orderService.addOrder(order);
                     logger.log(Level.TRACE,"added user "+order);
                     String notifyText = notifyMessageBuilder.orderCreateMessage(user, order);
                     notifyService.addNotify(notifyText, user, NotifyType.ORDER_CREATED);
                     return true;
                 } else {
-                    logger.log(Level.TRACE,"debit user fail "+price);
+                    logger.log(Level.TRACE, "debit user fail " + price);
                     return false;
                 }
-            } else {
-                throw new ServiceException();
-            }
         } finally {
             paymentLock.unlock();
         }
@@ -275,5 +272,9 @@ public enum ServiceFacade {
 
     public List<Document> showUserDocuments(String username) throws ServiceException {
         return documentService.getUserDocuments(username);
+    }
+
+    public void initOrderAutoUpdate(){
+        OrderUpdateManager.INSTANCE.update(orderService);
     }
 }

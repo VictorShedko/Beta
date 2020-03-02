@@ -20,7 +20,7 @@ import java.util.List;
  */
 public abstract class Repository<T> {
     private static final Logger logger= LogManager.getLogger(Repository.class);
-
+    private static CleanerEntityProvider factory = new CleanerEntityProvider();
     /**
      * Build entity t.
      *
@@ -48,7 +48,7 @@ public abstract class Repository<T> {
             try(PreparedStatement preparedStatement=specification.specify(connection)) {
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     entities = new ArrayList<>();
-                    CleanerEntityProvider factory = new CleanerEntityProvider();
+
                     while (resultSet.next()) {
                         T entity = buildEntity(resultSet,factory);
                         entities.add(entity);

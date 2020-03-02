@@ -43,7 +43,7 @@ public class MailServiceThread extends Thread {
 
         } catch (MessagingException e) {
             logger.log(Level.ERROR, "send message error", e);
-            throw new RuntimeException(e);//todo
+            throw new RuntimeException(e);
         }
 
     }

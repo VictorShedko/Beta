@@ -1,7 +1,8 @@
 package by.victor.beta.controller;
 
 import by.victor.beta.repository.ConnectionPool;
-import by.victor.beta.service.impl.OrderManager;
+import by.victor.beta.service.ServiceFacade;
+import by.victor.beta.service.impl.OrderUpdateManager;
 import by.victor.beta.service.util.ClearDeprecatedCode;
 import by.victor.beta.service.util.FileManager;
 
@@ -15,7 +16,7 @@ public class InitializationServletContextListener implements ServletContextListe
     public void contextInitialized(ServletContextEvent sce) {
         ConnectionPool provider= ConnectionPool.INSTANCE;
         FileManager.INSTANCE.setApplicationContext(sce.getServletContext());
-        OrderManager.INSTANCE.update();
+        ServiceFacade.INSTANCE.initOrderAutoUpdate();
         ClearDeprecatedCode clearDeprecatedCode=ClearDeprecatedCode.INSTANCE;
    }
 

@@ -1,18 +1,74 @@
 package by.victor.beta.service;
+
+import by.victor.beta.entity.User;
+import by.victor.beta.entity.UserStatus;
+import by.victor.beta.service.impl.NotifyService;
+import by.victor.beta.service.impl.OrderService;
+import by.victor.beta.service.impl.UserService;
+import org.junit.Before;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Mockito.*;
+import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.testng.Assert.*;
 
+@PrepareForTest({UserService.class,OrderService.class,NotifyService.class})
 public class ServiceFacadeTest {
 
-    @Test
-    public void testFindUserByUsername() {
+    UserService userService=null;
+    @Mock
+    OrderService orderService;
+    @Mock
+    NotifyService notifyService;
+
+    @BeforeMethod
+    public void setUpMethod() {
+        MockitoAnnotations.initMocks(this);
+    }
+
+    @DataProvider(name = "names")
+    public Object[][] names() {
+        return new Object[][]{
+                {"be_BY",true,"  "},
+                {"test",false,"test"},
+                {"test1",true,"   "}
+        };
+    }
+
+    @Test(dataProvider = "names")
+    public void testFindUserByUsername(String username,boolean isException,String login) {
+        try {
+
+            PowerMockito.whenNew(UserService.class).withNoArguments().thenReturn(userService);
+            PowerMockito.whenNew(OrderService.class).withAnyArguments().thenReturn(orderService);
+            PowerMockito.whenNew(NotifyService.class).withAnyArguments().thenReturn(notifyService);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            UserService ser=new UserService();
+            User user=ServiceFacade.INSTANCE.findUserByUsername(username);
+            Mockito.verify(userService.findUserByUsername(username));
+            Assert.assertEquals(user.getLogin(),login);
+        } catch (ServiceException e) {
+            Assert.assertTrue(isException);
+        }
+
+
     }
 
     @Test
@@ -110,4 +166,5 @@ public class ServiceFacadeTest {
     @Test
     public void testShowUserDocuments() {
     }
+
 }

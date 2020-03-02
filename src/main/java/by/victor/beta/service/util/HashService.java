@@ -2,6 +2,9 @@ package by.victor.beta.service.util;
 
 import by.victor.beta.entity.User;
 import by.victor.beta.service.ServiceException;
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -28,6 +31,7 @@ public enum HashService {
      * @return the byte [ ]
      * @throws ServiceException the service exception
      */
+    private static final Logger logger= LogManager.getLogger(HashService.class);
     private static final String GLOBAL_SALT_KEY="globalsalt";
     private static final String HASH_PROPERTIES_FILENAME="C:\\Users\\ACER\\Documents\\Beta\\src\\main\\resources\\hash.properties";
     public byte[] getHash(String password, byte[] userSalt) throws ServiceException {
@@ -60,13 +64,14 @@ public enum HashService {
         return salt;
     }
 
-    private byte[] getGlobalSalt(){
+    private byte[] getGlobalSalt() throws ServiceException {
         File file = new File(HASH_PROPERTIES_FILENAME);
         Properties properties = new Properties();
         try {
             properties.load(new FileReader(file));
         } catch (IOException e) {
-            throw new IllegalStateException();//todo
+            logger.log(Level.ERROR,"read global salt error",e);
+            throw new ServiceException(e);
         }
         String globalSalt=properties.getProperty(GLOBAL_SALT_KEY);
         byte[] salt=globalSalt.getBytes();

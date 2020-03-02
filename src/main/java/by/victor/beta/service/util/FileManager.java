@@ -80,7 +80,7 @@ public enum  FileManager {
                     logger.log(Level.ERROR, "tmp dir create error " + tmpDir.getName());
                 }
             }
-            logger.log(Level.TRACE,"file :"+realFile.toString()+"was moved to "+tmpFile.toString());//todo refactor
+            logger.log(Level.TRACE,"file :"+realFile.toString()+"was moved to "+tmpFile.toString());
             Files.copy(realFile.toPath(),tmpFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
             return tmpFile;
         } finally {

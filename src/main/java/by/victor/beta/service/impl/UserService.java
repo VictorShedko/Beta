@@ -123,10 +123,10 @@ public class UserService implements IUserService {
             try {
                 dest = FileManager.INSTANCE.moveFileToUserDir(file, username, UUID.randomUUID().toString() + extension);
             } catch (IOException e) {
-                //todo
+                logger.log(Level.ERROR,"add user photo error ",e);
                 throw new ServiceException(e);
             }
-            user.setPhotoPath(PagePath.USER_FILES + PagePath.SEPARATOR +//todo bd path mehtod
+            user.setPhotoPath(PagePath.USER_FILES + PagePath.SEPARATOR +
                     user.getUsername() + PagePath.SEPARATOR + dest.getName());
             ChangeUserSpecification specification = new ChangeUserSpecification(user);
             try {

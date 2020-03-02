@@ -9,7 +9,7 @@ public class ChangeLocaleCommand implements Command {
         String localeString = (String) content.getSessionAttribute(AttributeName.LOCALE);
         SupportedLocale oldLocale = SupportedLocale.fromValue(localeString);
         SupportedLocale newLocale;
-        if (oldLocale.ordinal() == 0) {
+        if (oldLocale==SupportedLocale.BE) {
              newLocale = SupportedLocale.EN;
         } else {
              newLocale = SupportedLocale.BE;

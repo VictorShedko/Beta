@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class OrderRepository extends Repository<Order> {
-    private static final OrderRepository userRepositoryInstance=new OrderRepository();
+    private static  OrderRepository userRepositoryInstance=new OrderRepository();
 
 
     private OrderRepository() {

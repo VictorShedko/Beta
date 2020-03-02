@@ -17,7 +17,7 @@ class MailSessionCreator {
         try {
             properties.load(new FileReader(file));
         } catch (IOException e) {
-            throw new IllegalStateException();//todo
+            throw new ExceptionInInitializerError();
         }
 
         final String username = properties.getProperty("mail.user.name");

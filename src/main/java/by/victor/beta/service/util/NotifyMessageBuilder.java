@@ -92,11 +92,6 @@ public class NotifyMessageBuilder {
         return addDelimiter(replaceStringList);
     }
 
-    public String adminValidateMessage(User newUser, User admin) {//todo
-        List<String> replaceStringList = List.of(newUser.getUsername(), newUser.getEmail(), admin.getUsername());
-        return addDelimiter(replaceStringList);
-    }
-
     public String orderNotClaimedMessage(User customer, Order order) {
         List<String> replaceStringList = new ArrayList<>(List.of(customer.getUsername()));
         replaceStringList.addAll(orderInfo(order));

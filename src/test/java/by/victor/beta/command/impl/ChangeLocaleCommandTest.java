@@ -1,18 +1,46 @@
 package by.victor.beta.command.impl;
 
+import by.victor.beta.command.AttributeName;
+import by.victor.beta.command.RequestSessionContent;
+import by.victor.beta.command.Router;
+import by.victor.beta.entity.SupportedLocale;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
+import java.util.concurrent.locks.ReentrantLock;
 
 import static org.testng.Assert.*;
 
 public class ChangeLocaleCommandTest {
+    private ChangeLocaleCommand command;
+    @Mock
+    private RequestSessionContent content;
 
-    @BeforeMethod
-    public void setUp() {
+    @BeforeTest
+    void setup(){
+        MockitoAnnotations.initMocks(this);
+        command=new ChangeLocaleCommand();
+    }
+    @DataProvider(name = "content")
+    public Object[][] content() {
+        return new Object[][]{
+                {"be_BY","en_EN"},
+                {"en_EN","be_BY"},
+                {"asd", "be_BY"}
+        };
     }
 
-    @Test
-    public void testExecute() {
-
+    @Test(dataProvider = "content")
+    public void testExecute(String oldLocale,String newLocale) {
+        Mockito.when(content.getSessionAttribute(AttributeName.LOCALE)).thenReturn(oldLocale);
+        Router router=command.execute(content);
+        Mockito.verify(content).setSessionAttribute(AttributeName.LOCALE,newLocale);
+        Assert.assertEquals(router.getPagePath(),"jsp/common/userMenu.jsp");
     }
 }

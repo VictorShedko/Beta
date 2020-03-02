@@ -37,7 +37,7 @@ public class VerifyCodeService implements IVerifyCodeService {
     public boolean isValidToken(VerifyCode verifyCode, User user) {
         Date now=new Date();
         return (now.getTime()- verifyCode.getTime().getTime()< TimeUnit.MINUTES.toMillis(15))&&
-                (user.getId()==verifyCode.getUserId());//todo to properties
+                (user.getId()==verifyCode.getUserId());
     }
 
     public List<VerifyCode> getTokenByUuid(String uuid) throws ServiceException {

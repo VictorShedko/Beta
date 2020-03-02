@@ -31,7 +31,7 @@ public class DocumentService implements IDocumentService {
         try {
             movedFile = FileManager.INSTANCE.moveFileToUserDir(file,user.getUsername(),uuid);
         } catch (IOException e) {
-            e.printStackTrace();//todo
+            logger.log(Level.ERROR,"add document error ",e);
             throw new ServiceException(e);
         }
         Document document=factory.getDocument(user,movedFile.getName());
