@@ -1,7 +1,6 @@
 package by.victor.beta.command.impl.user;
 
 import by.victor.beta.command.*;
-import by.victor.beta.entity.Role;
 import by.victor.beta.entity.User;
 import by.victor.beta.service.ServiceFacade;
 

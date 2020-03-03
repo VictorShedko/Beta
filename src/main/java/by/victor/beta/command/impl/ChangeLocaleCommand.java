@@ -1,7 +1,7 @@
 package by.victor.beta.command.impl;
 
 import by.victor.beta.command.*;
-import by.victor.beta.entity.SupportedLocale;
+import by.victor.beta.entity.util.SupportedLocale;
 
 public class ChangeLocaleCommand implements Command {
     @Override

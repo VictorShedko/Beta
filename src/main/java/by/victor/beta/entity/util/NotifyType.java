@@ -1,4 +1,4 @@
-package by.victor.beta.entity;
+package by.victor.beta.entity.util;
 
 public enum NotifyType {
     SIMPLE_TEXT,REGISTRATION,EMAIL_CONFIRMED,ADMIN_VALIDATION,ORDER_NOT_CLAIMED,ORDER_EXECUTION_START, ORDER_EXECUTION_FINISH_TO_EXECUTOR,

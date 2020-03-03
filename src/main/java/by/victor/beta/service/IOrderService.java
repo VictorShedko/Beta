@@ -1,7 +1,7 @@
 package by.victor.beta.service;
 
 import by.victor.beta.entity.Order;
-import by.victor.beta.entity.OrderStatus;
+import by.victor.beta.entity.util.OrderStatus;
 import by.victor.beta.entity.User;
 
 import java.util.List;

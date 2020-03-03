@@ -1,8 +1,8 @@
 package by.victor.beta.service;
 
-import by.victor.beta.entity.Role;
+import by.victor.beta.entity.util.Role;
 import by.victor.beta.entity.User;
-import by.victor.beta.entity.UserStatus;
+import by.victor.beta.entity.util.UserStatus;
 
 import java.io.File;
 import java.util.List;

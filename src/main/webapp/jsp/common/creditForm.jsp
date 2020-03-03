@@ -23,7 +23,7 @@
     <body>
     <div class="container">
         <div class="row">
-            <form action="cleaning" method="POST" class="needs-validation" novalidate>
+            <form action="cleaning" method="GET" class="needs-validation" novalidate>
                 <div class="form-row">
                     <div class="form-group">
                         <label for="creditSum"><fmt:message key="creditForm.price.lable"/></label>

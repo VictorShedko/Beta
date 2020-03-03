@@ -1,7 +1,7 @@
 package by.victor.beta.command;
 
 
-import by.victor.beta.entity.Role;
+import by.victor.beta.entity.util.Role;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -30,7 +30,7 @@ public class CommandProvider {
                 CommandType.CHECK_DOCUMENT,CommandType.VERIFY_USER,CommandType.TO_USER_MENU,
                 CommandType.SHOW_USER_BY_ROLE,CommandType.DELETE_USER,CommandType.RESEND_EMAIL,
                 CommandType.TO_ADD_INFO,CommandType.UPLOAD_PHOTO,CommandType.SHOW_ALL_USERS,
-                CommandType.TO_RESULT,
+                CommandType.TO_RESULT,CommandType.TO_NOTIFY,
                 CommandType.REFRESH,CommandType.EMAIL_VERIFY);
         roleCommandMapping.put(Role.ADMIN, adminCommands);
 

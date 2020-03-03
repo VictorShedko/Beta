@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 public class Validator {
     private static final String VALID_USERNAME_REGEXP = "[a-zA-Z0-9/-]+([ ]*[a-zA-Z0-9/-]+)";
     private static final String VALID_LOGIN_REGEXP = "[a-zA-Z0-9/-]+";
-    private static final String TEXT_WITH_NUMBERS_REGEXP = "[a-zA-Z0-9/-]+([0-9]*[a-zA-Z0-9/-]+)";
+    private static final String TEXT_WITH_NUMBERS_REGEXP = "[a-zA-Z0-9/-]+([0-9]+[a-zA-Z0-9/-]*)";
     private static final String TEXT_WITH_NUMBERS_AND_SPACES_REGEXP = "[a-z\\sA-Zа-яА-Я0-9/-]+";
     private static final String EMAIL_REGEXP="^(.+)@(.+)$";
     private static final int MAX_USERNAME_SIZE = 30;

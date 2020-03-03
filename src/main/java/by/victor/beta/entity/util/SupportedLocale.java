@@ -1,4 +1,4 @@
-package by.victor.beta.entity;
+package by.victor.beta.entity.util;
 
 public enum  SupportedLocale {
     BE("be_BY"),EN("en_EN");

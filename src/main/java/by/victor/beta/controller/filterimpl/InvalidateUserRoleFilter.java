@@ -2,7 +2,7 @@ package by.victor.beta.controller.filterimpl;
 
 import by.victor.beta.command.AttributeName;
 import by.victor.beta.command.CommandType;
-import by.victor.beta.entity.Role;
+import by.victor.beta.entity.util.Role;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;

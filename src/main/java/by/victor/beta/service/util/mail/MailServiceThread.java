@@ -30,7 +30,7 @@ public class MailServiceThread extends Thread {
             }
 
             Message message = new MimeMessage(mailSession);
-            message.setContent(mailBody, "text/html");
+            message.setContent(mailBody, "text/html;charset=UTF-8");
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(email));
             message.setSubject("Cleaning service");

@@ -1,7 +1,10 @@
 package by.victor.beta.service;
 
 import by.victor.beta.entity.*;
-import by.victor.beta.entity.UserStatus;
+import by.victor.beta.entity.util.UserStatus;
+import by.victor.beta.entity.util.NotifyType;
+import by.victor.beta.entity.util.OrderStatus;
+import by.victor.beta.entity.util.Role;
 import by.victor.beta.service.impl.*;
 import by.victor.beta.service.util.mail.MailServiceThread;
 import by.victor.beta.service.util.HashService;
@@ -104,7 +107,7 @@ public enum ServiceFacade {
             user = findSingleUser(username);
             sendVerificationMessage(user);
             String notifyText=notifyMessageBuilder.registrationMessage(user);
-            notifyService.addNotify(notifyText,user,NotifyType.REGISTRATION);
+            notifyService.addNotify(notifyText,user, NotifyType.REGISTRATION);
             return user;
         } else {
             throw new ServiceException();

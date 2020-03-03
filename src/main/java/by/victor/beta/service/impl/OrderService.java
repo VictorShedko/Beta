@@ -2,6 +2,8 @@ package by.victor.beta.service.impl;
 
 import by.victor.beta.entity.*;
 
+import by.victor.beta.entity.util.NotifyType;
+import by.victor.beta.entity.util.OrderStatus;
 import by.victor.beta.repository.RepositoryException;
 import by.victor.beta.repository.impl.OrderRepository;
 import by.victor.beta.repository.impl.UserRepository;

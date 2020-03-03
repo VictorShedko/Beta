@@ -1,8 +1,10 @@
 package by.victor.beta.entity;
 
+import by.victor.beta.entity.util.Role;
+import by.victor.beta.entity.util.UserStatus;
+
 import java.util.Arrays;
 import java.util.Date;
-import java.util.Objects;
 
 
 public class User implements Entity {

@@ -1,7 +1,6 @@
 package by.victor.beta.command;
 
 import by.victor.beta.command.impl.ChangeLocaleCommand;
-import by.victor.beta.command.impl.DebugCommand;
 import by.victor.beta.command.impl.LoginCommand;
 import by.victor.beta.command.impl.LogoutCommand;
 import by.victor.beta.command.impl.document.CheckDocumentCommand;
@@ -16,7 +15,7 @@ import by.victor.beta.command.impl.user.*;
 public enum CommandType {
     LOGIN(new LoginCommand()),
     REGISTER(new RegistrationCommand()),
-    TO_REGISTRATION(new ToRegistrationRedirectCommand()),
+    TO_REGISTRATION(new ToRegistrationCommand()),
     TO_NOTIFY(new ToNotifyCommand()),
     TO_USER_MENU(new ToUserMenuCommand()),
     TO_CREDIT_FORM(new ToCreditFormCommand()),
@@ -28,8 +27,6 @@ public enum CommandType {
     LOGOUT(new LogoutCommand()),
     VERIFY_USER(new VerifyExecutorCommand()),
     CHECK_DOCUMENT(new CheckDocumentCommand()),
-    TO_ADD_NOTIFY_FORM(new DebugCommand()),
-    ADD_NOTIFY(new DebugCommand()),
     DELETE_USER(new DeleteUserCommand()),
     SHOW_ORDERS_CUSTOMER(new ShowCustomerOrderHistory()),
     SHOW_ORDERS_EXECUTOR(new ShowExecutorOrderHistory()),

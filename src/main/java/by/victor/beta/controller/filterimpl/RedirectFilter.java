@@ -2,15 +2,13 @@ package by.victor.beta.controller.filterimpl;
 
 import by.victor.beta.command.AttributeName;
 import by.victor.beta.command.PagePath;
-import by.victor.beta.entity.Role;
+import by.victor.beta.entity.util.Role;
 
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.net.http.HttpResponse;
 
 //@WebFilter( urlPatterns =  "/jsp/login.jsp" )
 public class RedirectFilter  implements Filter{

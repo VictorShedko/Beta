@@ -10,12 +10,13 @@ import java.io.File;
 public class UploadPhotoCommand implements Command {
     @Override
     public Router execute(RequestSessionContent content) throws CommandException {
-        Router router=new Router(PagePath.USER_MAIN_MENU);
+        Router router=new Router(PagePath.PRG_TO_USER_MENU);
+        router.setRedirect();
         String username=(String)  content.getSessionAttribute(AttributeName.USERNAME);
         File file=content.getFile();
         try {
            User user= ServiceFacade.INSTANCE.uploadPhoto(file, username);
-            content.setRequestAttribute(AttributeName.PHOTO_PATH,user.getPhotoPath());
+            content.setSessionAttribute(AttributeName.PHOTO_PATH,user.getPhotoPath());
 
         } catch (ServiceException ex) {
             router=new Router(PagePath.ERROR);

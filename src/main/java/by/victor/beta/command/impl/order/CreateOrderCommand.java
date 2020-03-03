@@ -36,20 +36,17 @@ public class CreateOrderCommand implements Command {
             if (validator.isValidOrderForm(startTime, endTime, address, description,priceAsString)) {
                 int price = Integer.parseInt((String) content.getRequestParameter(AttributeName.PRICE));
                 if (ServiceFacade.INSTANCE.createOrder(address, description, username, startTime, endTime, price)) {
-                    path=manager.addParameter(PagePath.CREDIT_FORM,AttributeName.COMMAND_RESULT, PageContentKey.SUCCESSFULLY);
-                    router= new Router(path);
+                    path=manager.addParameter(PagePath.PRG_RESULT,AttributeName.COMMAND_RESULT, PageContentKey.SUCCESSFULLY);
                 } else {
-                    path=manager.addParameter(PagePath.CREDIT_FORM,AttributeName.COMMAND_RESULT, PageContentKey.NOT_ENOUGH_CASH);
-                    router= new Router(path);
+                    path=manager.addParameter(PagePath.PRG_RESULT,AttributeName.COMMAND_RESULT, PageContentKey.NOT_ENOUGH_CASH);
                 }
             } else {
-                path=manager.addParameter(PagePath.CREDIT_FORM,AttributeName.COMMAND_RESULT, validator.getInvalidFeedback());
-                router= new Router(path);
+                path=manager.addParameter(PagePath.PRG_RESULT,AttributeName.COMMAND_RESULT, validator.getInvalidFeedback());
             }
         } catch (ServiceException e) {
-            path=manager.addParameter(PagePath.CREDIT_FORM,AttributeName.COMMAND_RESULT, PageContentKey.SERVER_ERROR);
-            router= new Router(path);
+            path=manager.addParameter(PagePath.PRG_RESULT,AttributeName.COMMAND_RESULT, PageContentKey.SERVER_ERROR);
         }
+        router= new Router(path);
         router.setRedirect();
         return router;
     }

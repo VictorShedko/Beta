@@ -1,9 +1,10 @@
 package by.victor.beta.entity;
 
 
+import by.victor.beta.entity.util.NotifyType;
+
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 public class Notification implements Entity {
     private List<String> values;
@@ -78,6 +79,10 @@ public class Notification implements Entity {
 
         Notification that = (Notification) o;
 
+        if (values != null ? !values.equals(that.values) : that.values != null) return false;
+        if (valuesAsString != null ? !valuesAsString.equals(that.valuesAsString) : that.valuesAsString != null)
+            return false;
+        if (date != null ? !date.equals(that.date) : that.date != null) return false;
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
         if (username != null ? !username.equals(that.username) : that.username != null) return false;
@@ -86,7 +91,10 @@ public class Notification implements Entity {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = values != null ? values.hashCode() : 0;
+        result = 31 * result + (valuesAsString != null ? valuesAsString.hashCode() : 0);
+        result = 31 * result + (date != null ? date.hashCode() : 0);
+        result = 31 * result + (id != null ? id.hashCode() : 0);
         result = 31 * result + (userId != null ? userId.hashCode() : 0);
         result = 31 * result + (username != null ? username.hashCode() : 0);
         result = 31 * result + (type != null ? type.hashCode() : 0);

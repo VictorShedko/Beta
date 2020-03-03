@@ -1,29 +1,18 @@
 package by.victor.beta.service;
 
 import by.victor.beta.entity.User;
-import by.victor.beta.entity.UserStatus;
 import by.victor.beta.service.impl.NotifyService;
 import by.victor.beta.service.impl.OrderService;
 import by.victor.beta.service.impl.UserService;
-import org.junit.Before;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.Mockito.*;
 import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import static org.testng.Assert.*;
 
 @PrepareForTest({UserService.class,OrderService.class,NotifyService.class})
 public class ServiceFacadeTest {

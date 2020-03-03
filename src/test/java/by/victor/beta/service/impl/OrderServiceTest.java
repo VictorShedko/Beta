@@ -2,26 +2,18 @@ package by.victor.beta.service.impl;
 
 
 import by.victor.beta.entity.*;
-import by.victor.beta.entity.OrderStatus;
+import by.victor.beta.entity.util.OrderStatus;
 import by.victor.beta.repository.Repository;
-import by.victor.beta.repository.RepositoryException;
-import by.victor.beta.repository.impl.OrderRepository;
 import by.victor.beta.repository.specification.Specification;
-import by.victor.beta.repository.specification.impl.orderspecification.FindDeprecatedOrdersSpecification;
-import by.victor.beta.repository.specification.impl.orderspecification.FindOrderByExecutorSpecification;
 import by.victor.beta.service.CleanerEntityProvider;
 import by.victor.beta.service.INotifyService;
 import by.victor.beta.service.IUserService;
 import by.victor.beta.service.ServiceFacade;
 import by.victor.beta.service.util.NotifyMessageBuilder;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 
 import org.powermock.api.support.membermodification.MemberModifier;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Optional;
 import org.testng.annotations.Test;
 
 import java.io.IOException;

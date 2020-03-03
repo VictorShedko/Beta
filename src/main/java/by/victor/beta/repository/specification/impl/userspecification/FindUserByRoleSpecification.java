@@ -1,6 +1,6 @@
 package by.victor.beta.repository.specification.impl.userspecification;
 
-import by.victor.beta.entity.Role;
+import by.victor.beta.entity.util.Role;
 import by.victor.beta.repository.specification.Specification;
 
 import java.sql.Connection;

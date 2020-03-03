@@ -1,6 +1,7 @@
 package by.victor.beta.service.impl;
 
 import by.victor.beta.entity.*;
+import by.victor.beta.entity.util.NotifyType;
 import by.victor.beta.repository.RepositoryException;
 import by.victor.beta.repository.impl.NotifyRepository;
 import by.victor.beta.repository.specification.impl.notifyspecification.AddNotifySpecification;

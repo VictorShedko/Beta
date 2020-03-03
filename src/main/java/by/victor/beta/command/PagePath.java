@@ -31,6 +31,7 @@ public class PagePath {
     public static final String PRG_TO_USER_MENU = "cleaning?command=to_user_menu";
     public static final String PRG_RESULT = "cleaning?command=to_result";
     public static final String PRG_TO_LOGIN = "cleaning?command=logout";
+    public static final String PRG_TO_REGISTRATION = "cleaning?command=to_registration";
 
     private PagePath(){}
 }

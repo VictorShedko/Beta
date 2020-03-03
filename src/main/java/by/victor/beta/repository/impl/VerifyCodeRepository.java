@@ -7,7 +7,7 @@ import by.victor.beta.service.CleanerEntityProvider;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class VerifyCodeRepository extends Repository<VerifyCode> {//todo singleton
+public class VerifyCodeRepository extends Repository<VerifyCode> {
     private static final VerifyCodeRepository INSTANCE=new VerifyCodeRepository();
     @Override
     protected VerifyCode buildEntity(ResultSet resultSet, CleanerEntityProvider factory) throws SQLException {

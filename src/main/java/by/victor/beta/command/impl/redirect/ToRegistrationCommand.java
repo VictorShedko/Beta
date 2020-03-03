@@ -6,7 +6,7 @@ package by.victor.beta.command.impl.redirect;
         import by.victor.beta.command.Router;
 
 
-public class ToRegistrationRedirectCommand implements Command {
+public class ToRegistrationCommand implements Command {
 
     @Override
     public Router execute(RequestSessionContent parameters) {

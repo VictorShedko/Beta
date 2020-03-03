@@ -1,13 +1,12 @@
 package by.victor.beta.service.util;
 
 
-import by.victor.beta.entity.*;
+import by.victor.beta.entity.util.NotifyType;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -27,7 +26,7 @@ public class NotifyMessageBuilderTest {
         Locale be=new Locale("be_BY");
         Locale en=new Locale("en_EN");
         return new Object[][]{
-                {List.of("1","2"),be,NotifyType.ORDER_EXECUTION_START,""},
+                {List.of("1","2"),be, NotifyType.ORDER_EXECUTION_START,""},
                 {List.of("1","2","3","4","5","6","7","8","9","10","11","12","13"),
                         be,NotifyType.ORDER_ACCEPTED,""},
                 {List.of("1","2"),be,NotifyType.ORDER_EXECUTION_START,""},

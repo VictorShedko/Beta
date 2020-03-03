@@ -2,7 +2,10 @@ package by.victor.beta.service;
 
 import by.victor.beta.command.PagePath;
 import by.victor.beta.entity.*;
-import by.victor.beta.entity.UserStatus;
+import by.victor.beta.entity.util.UserStatus;
+import by.victor.beta.entity.util.NotifyType;
+import by.victor.beta.entity.util.OrderStatus;
+import by.victor.beta.entity.util.Role;
 import by.victor.beta.repository.SqlColumnName;
 import by.victor.beta.service.util.FileManager;
 import by.victor.beta.service.util.HashService;
@@ -154,8 +157,10 @@ public class CleanerEntityProvider {
         VerifyCode verifyCode = new VerifyCode();
         verifyCode.setUuidAsString(resultSet.getString(SqlColumnName.CODE));
         verifyCode.setUsername(resultSet.getString(SqlColumnName.USERNAME));
+        verifyCode.setUserId(resultSet.getLong(SqlColumnName.TOKEN_USER_ID));
         Date time = getUtilDate(resultSet.getTimestamp(SqlColumnName.TOKEN_TIME));
         verifyCode.setTime(time);
+
         return verifyCode;
     }
 }

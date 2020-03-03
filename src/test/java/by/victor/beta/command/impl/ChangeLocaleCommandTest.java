@@ -3,19 +3,13 @@ package by.victor.beta.command.impl;
 import by.victor.beta.command.AttributeName;
 import by.victor.beta.command.RequestSessionContent;
 import by.victor.beta.command.Router;
-import by.victor.beta.entity.SupportedLocale;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
-import java.util.concurrent.locks.ReentrantLock;
-
-import static org.testng.Assert.*;
 
 public class ChangeLocaleCommandTest {
     private ChangeLocaleCommand command;

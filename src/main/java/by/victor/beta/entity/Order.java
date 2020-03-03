@@ -1,7 +1,8 @@
 package by.victor.beta.entity;
 
+import by.victor.beta.entity.util.OrderStatus;
+
 import java.util.Date;
-import java.util.Objects;
 
 public class Order implements Entity{
     private long orderId;

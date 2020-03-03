@@ -1,7 +1,7 @@
 package by.victor.beta.tag;
 import by.victor.beta.command.AttributeName;
-import by.victor.beta.entity.Role;
-import by.victor.beta.entity.UserStatus;
+import by.victor.beta.entity.util.Role;
+import by.victor.beta.entity.util.UserStatus;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;

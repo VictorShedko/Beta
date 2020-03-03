@@ -1,4 +1,4 @@
-package by.victor.beta.entity;
+package by.victor.beta.entity.util;
 
 public enum  Role {
     ADMIN("admin"), CUSTOMER("customer"),EXECUTOR("executor"),DEFAULT("default");

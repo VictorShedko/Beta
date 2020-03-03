@@ -1,10 +1,10 @@
 package by.victor.beta.service.impl;
 
 import by.victor.beta.command.PagePath;
-import by.victor.beta.entity.Role;
-import by.victor.beta.entity.SupportedImagesFormat;
+import by.victor.beta.entity.util.Role;
+import by.victor.beta.entity.util.SupportedImagesFormat;
 import by.victor.beta.entity.User;
-import by.victor.beta.entity.UserStatus;
+import by.victor.beta.entity.util.UserStatus;
 import by.victor.beta.repository.impl.UserRepository;
 import by.victor.beta.repository.RepositoryException;
 import by.victor.beta.repository.specification.impl.userspecification.*;

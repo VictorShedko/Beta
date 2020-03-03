@@ -1,7 +1,7 @@
 package by.victor.beta.command.impl.user;
 
 import by.victor.beta.command.*;
-import by.victor.beta.entity.Role;
+import by.victor.beta.entity.util.Role;
 import by.victor.beta.entity.User;
 import by.victor.beta.service.ServiceException;
 import by.victor.beta.service.ServiceFacade;
@@ -25,17 +25,17 @@ public class RegistrationCommand implements Command {
             if (validator.isValidRegistrationForm(username, password, login,email)) {
                 user = ServiceFacade.INSTANCE.registerUser(username, password, login, role, email);
                 content.addUserToSession(user);
-                router = new Router(PagePath.PRG_TO_USER_MENU);
+                path =prgParameterManager.addParameter(PagePath.PRG_TO_USER_MENU,AttributeName.FEEDBACK,
+                        PageContentKey.SUCCESSFULLY);
             } else {
-                content.setSessionAttribute(AttributeName.FEEDBACK, validator.getInvalidFeedback());
-                router = new Router(PagePath.REGISTRATION_FORM);
+                path =prgParameterManager.addParameter(PagePath.PRG_TO_REGISTRATION,AttributeName.FEEDBACK,
+                        validator.getInvalidFeedback());
             }
         } catch (ServiceException e) {
-            path=prgParameterManager.addParameter(PagePath.REGISTRATION_FORM,AttributeName.ERROR_MESSAGE_HEADER, e.getMessage());
-
-            router = new Router(PagePath.REGISTRATION_FORM);
-
+            path=prgParameterManager.addParameter(PagePath.PRG_TO_REGISTRATION,AttributeName.ERROR_MESSAGE_HEADER, e.getMessage());
         }
+        router=new Router(path);
+        router.setRedirect();
         return router;
     }
 }

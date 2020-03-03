@@ -1,6 +1,6 @@
 package by.victor.beta.command;
 
-import by.victor.beta.entity.Role;
+import by.victor.beta.entity.util.Role;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;

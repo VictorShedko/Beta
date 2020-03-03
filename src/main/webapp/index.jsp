@@ -12,7 +12,7 @@
 </head>
 <body>
 
-<script type="text/javascript" src="<c:url value="test.js" />"></script>
+
 <c:if test="${role.value() == 'default'}">
 <jsp:forward page="/jsp/common/login.jsp"/>
 </c:if>

@@ -20,6 +20,7 @@ import java.util.concurrent.TimeUnit;
 
 public class VerifyCodeService implements IVerifyCodeService {
     private static final Logger logger= LogManager.getLogger(VerifyCodeService.class);
+    private static final int VALID_TIME=15;
     private VerifyCodeRepository repository = new VerifyCodeRepository();
 
     @Override
@@ -36,20 +37,10 @@ public class VerifyCodeService implements IVerifyCodeService {
     @Override
     public boolean isValidToken(VerifyCode verifyCode, User user) {
         Date now=new Date();
-        return (now.getTime()- verifyCode.getTime().getTime()< TimeUnit.MINUTES.toMillis(15))&&
+        return (now.getTime()- verifyCode.getTime().getTime()< TimeUnit.MINUTES.toMillis(VALID_TIME))&&
                 (user.getId()==verifyCode.getUserId());
     }
 
-    public List<VerifyCode> getTokenByUuid(String uuid) throws ServiceException {
-        FindVerifyCodeByUuidSpecification specification = new FindVerifyCodeByUuidSpecification(uuid);
-        List<VerifyCode> verifyCodes;
-        try {
-            verifyCodes =repository.findQuery(specification);
-        } catch (RepositoryException e) {
-            throw new ServiceException(e);
-        }
-        return verifyCodes;
-    }
 
     @Override
     public Optional<VerifyCode> getSingleTokenByUuid(String uuid) throws ServiceException {

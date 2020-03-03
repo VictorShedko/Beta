@@ -1,4 +1,4 @@
-package by.victor.beta.entity;
+package by.victor.beta.entity.util;
 
 public enum SupportedImagesFormat {
     BE(".jpg"),EN(".png");

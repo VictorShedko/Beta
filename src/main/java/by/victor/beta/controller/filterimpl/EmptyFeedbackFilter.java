@@ -1,7 +1,6 @@
 package by.victor.beta.controller.filterimpl;
 
 import by.victor.beta.command.AttributeName;
-import by.victor.beta.entity.Role;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;

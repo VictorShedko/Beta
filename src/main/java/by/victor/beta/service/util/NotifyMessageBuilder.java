@@ -1,6 +1,6 @@
 package by.victor.beta.service.util;
 
-import by.victor.beta.entity.NotifyType;
+import by.victor.beta.entity.util.NotifyType;
 import by.victor.beta.entity.Order;
 import by.victor.beta.entity.User;
 import org.apache.log4j.Level;

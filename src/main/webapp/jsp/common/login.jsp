@@ -37,7 +37,9 @@
                 <p style="color: red">${feedback}"</p>
 
                 <h2 class="form-signin-heading"><fmt:message key="login.welcome.text"/></h2>
+                <c:if test="${feedback!= null}">
                 <p><fmt:message key="${feedback}"/></p>
+                </c:if>
                 <div class="form-group">
                     <label for="login" lass="col-sm-2 col-form-label"> <fmt:message
                             key="login.loginfield.text"/></label>
