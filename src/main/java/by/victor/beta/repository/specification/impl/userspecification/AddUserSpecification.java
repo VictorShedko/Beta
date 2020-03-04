@@ -9,7 +9,8 @@ import java.sql.SQLException;
 
 
 public class AddUserSpecification implements Specification {
-    private static final String sql = "INSERT INTO user (login,username,role,balance,status,registration_time,email,salt,hash_pass) VALUES (?,?,?,?,?,NOW(),?,?,?)";
+    private static final String sql = "INSERT INTO user (login,username,role,balance,status,registration_time," +
+            "email,salt,hash_pass) VALUES (?,?,?,?,?,NOW(),?,?,?)";
     private User user;
 
     public AddUserSpecification(User user) {

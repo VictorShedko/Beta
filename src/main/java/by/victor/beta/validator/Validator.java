@@ -93,7 +93,7 @@ public class Validator {
     private boolean isValidOrderTime(Date startDate, Date endDate)
     {
         boolean result = true;
-        Date currentDate = new Date();
+      /*  Date currentDate = new Date();
 
         if (currentDate.getTime() - startDate.getTime() > ONE_HOUR) {
             setFeedBackKey(PageContentKey.LESS_THEN_ONE_HOUR_TO_ORDER_START);
@@ -106,7 +106,7 @@ public class Validator {
         if (endDate.getTime() > startDate.getTime() + ONE_YEAR) {
             setFeedBackKey(PageContentKey.ORDER_DURATION_MORE_THEN_ONE_YEAR);
             result = false;
-        }
+        }*/
         return result;
     }
 

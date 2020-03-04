@@ -30,7 +30,8 @@ public abstract class Repository<T> {
      * @throws SQLException the sql exception
      * @throws IOException  the io exception
      */
-    abstract protected  T buildEntity(ResultSet resultSet, CleanerEntityProvider factory) throws SQLException, IOException;
+    abstract protected  T buildEntity(ResultSet resultSet, CleanerEntityProvider factory)
+            throws SQLException, IOException;
 
     /**
      *get a list of entities from a database that meet the specification.

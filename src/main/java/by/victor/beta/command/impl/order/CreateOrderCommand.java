@@ -26,7 +26,8 @@ public class CreateOrderCommand implements Command {
             startTime = formatter.parse((String) content.getRequestParameter(AttributeName.START_TIME));
             endTime = formatter.parse((String) content.getRequestParameter(AttributeName.END_TIME));
         } catch (ParseException e) {
-            path=manager.addParameter(PagePath.CREDIT_FORM,AttributeName.COMMAND_RESULT, PageContentKey.INVALID_DATE_FORMAT);
+            path=manager.addParameter(PagePath.CREDIT_FORM,AttributeName.COMMAND_RESULT,
+                    PageContentKey.INVALID_DATE_FORMAT);
             return new Router(path);
         }
 
@@ -36,15 +37,19 @@ public class CreateOrderCommand implements Command {
             if (validator.isValidOrderForm(startTime, endTime, address, description,priceAsString)) {
                 int price = Integer.parseInt((String) content.getRequestParameter(AttributeName.PRICE));
                 if (ServiceFacade.INSTANCE.createOrder(address, description, username, startTime, endTime, price)) {
-                    path=manager.addParameter(PagePath.PRG_RESULT,AttributeName.COMMAND_RESULT, PageContentKey.SUCCESSFULLY);
+                    path=manager.addParameter(PagePath.PRG_RESULT,AttributeName.COMMAND_RESULT,
+                            PageContentKey.SUCCESSFULLY);
                 } else {
-                    path=manager.addParameter(PagePath.PRG_RESULT,AttributeName.COMMAND_RESULT, PageContentKey.NOT_ENOUGH_CASH);
+                    path=manager.addParameter(PagePath.PRG_RESULT,AttributeName.COMMAND_RESULT,
+                            PageContentKey.NOT_ENOUGH_CASH);
                 }
             } else {
-                path=manager.addParameter(PagePath.PRG_RESULT,AttributeName.COMMAND_RESULT, validator.getInvalidFeedback());
+                path=manager.addParameter(PagePath.PRG_RESULT,AttributeName.COMMAND_RESULT,
+                        validator.getInvalidFeedback());
             }
         } catch (ServiceException e) {
-            path=manager.addParameter(PagePath.PRG_RESULT,AttributeName.COMMAND_RESULT, PageContentKey.SERVER_ERROR);
+            path=manager.addParameter(PagePath.PRG_RESULT,AttributeName.COMMAND_RESULT,
+                    PageContentKey.SERVER_ERROR);
         }
         router= new Router(path);
         router.setRedirect();

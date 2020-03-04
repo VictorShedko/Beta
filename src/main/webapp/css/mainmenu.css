@@ -1,0 +1,36 @@
+
+.welcome-text {
+    font-famaly: Courier;
+    text-align: center;
+}
+
+.inline_block {
+    display: inline-block;
+    width: 30%;
+}
+
+.role-operation {
+    border: 1px solid black;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 5%;
+    margin-buttom: 15%;
+}
+
+
+
+figure {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    margin-reight: 10;
+}
+figure img {
+
+    object-fit: cover;
+}
+
+.btn{
+    width: 120px;
+    height: 50px;
+}

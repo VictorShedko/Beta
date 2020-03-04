@@ -20,19 +20,27 @@ public class NotifyTag extends TagSupport {
     private final static Logger logger= LogManager.getLogger(NotifyTag.class);
     private String messageText;
     private Notification notification;
-
+    private NotifyMessageBuilder builder = new NotifyMessageBuilder();
 
     private void buildMessageTextWithLocale(Notification notification, Locale locale) {
 
-        NotifyMessageBuilder builder = new NotifyMessageBuilder();
+
 
         messageText = builder.buildByPattern(notification.getValues(), notification.getType(), locale);
 
 
     }
 
-    private Locale getLocale(String localeAsString) {
-        Locale locale = new Locale(localeAsString);
+    private Locale getLocale() {
+        Locale locale;
+        String localeAsString=(String) pageContext.getSession().
+                getAttribute(AttributeName.LOCALE);
+        if (localeAsString.equalsIgnoreCase("be_BY")){
+            locale = new Locale("ru_RU");
+        }else {
+            locale = new Locale("en_EN");
+        }
+
         return locale;
     }
 
@@ -42,8 +50,7 @@ public class NotifyTag extends TagSupport {
         try {
 
             pageContext.getOut().write("<tr><th>" + notification.getDate() + "<th/>");
-            Locale locale = getLocale((String) pageContext.getSession().
-                    getAttribute(AttributeName.LOCALE));
+            Locale locale = getLocale();
             logger.log(Level.DEBUG,"notify tag"+ notification +" locale:"+locale);
             buildMessageTextWithLocale(notification, locale);
             pageContext.getOut().write("<th>" + messageText + "<th/><tr/>");

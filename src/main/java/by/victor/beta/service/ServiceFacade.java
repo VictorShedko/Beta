@@ -23,12 +23,12 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public enum ServiceFacade {
     INSTANCE;
-    private static final Logger logger=LogManager.getLogger(ServiceFacade.class);
+    private static final Logger logger = LogManager.getLogger(ServiceFacade.class);
     private final IUserService userService = new UserService();
     private final INotifyService notifyService = new NotifyService();
     private final IDocumentService documentService = new DocumentService();
     private final NotifyMessageBuilder notifyMessageBuilder = new NotifyMessageBuilder();
-    private final IOrderService orderService = new OrderService(notifyMessageBuilder,userService,notifyService);
+    private final IOrderService orderService = new OrderService(notifyMessageBuilder, userService, notifyService);
     private final IVerifyCodeService verifyCodeService = new VerifyCodeService();
     private final CleanerEntityProvider entityProvider = new CleanerEntityProvider();
 
@@ -44,19 +44,19 @@ public enum ServiceFacade {
         }
     }
 
-
-    private User findSingleUser(String username) throws ServiceException {
+    private User findSingleUser(String username, boolean deleteSensitive) throws ServiceException {
 
         List<User> users = userService.findUserByUsername(username);
-        if (users.size() == 1) {
+        if (users.size() == 1 &&
+                (!deleteSensitive || users.get(0).getStatus() != UserStatus.DELETED)) {
             return users.get(0);
         } else {
             throw new ServiceException("ser not found");
         }
     }
 
-    public User findUserByUsername(String username) throws ServiceException {
-        User user = findSingleUser(username);
+    public User findUserByUsername(String username,boolean deleteSensitive) throws ServiceException {
+        User user = findSingleUser(username,deleteSensitive);
         return user;
     }
 
@@ -69,22 +69,21 @@ public enum ServiceFacade {
     }
 
     public void resendVerifyMail(String username) throws ServiceException {
-        sendVerificationMessage(findSingleUser(username));
+        sendVerificationMessage(findSingleUser(username,true));
     }
 
     public boolean emailVerify(String uuid) throws ServiceException {
         Optional<VerifyCode> verifyCode = verifyCodeService.getSingleTokenByUuid(uuid);
-        if(verifyCode.isPresent()) {
-            User user = findSingleUser(verifyCode.get().getUsername());
-            if (verifyCodeService.isValidToken(verifyCode.get(),user)) {
+        if (verifyCode.isPresent()) {
+            User user = findSingleUser(verifyCode.get().getUsername(),true);
+            if (verifyCodeService.isValidToken(verifyCode.get(), user)) {
                 userService.emailVerify(user);
             }
-            return findSingleUser(user.getUsername()).getStatus()!=UserStatus.NEW;
-        }else {
+            return findSingleUser(user.getUsername(),true).getStatus() != UserStatus.NEW;
+        } else {
             return false;
         }
     }
-
 
     public Optional<User> login(String login, String password) throws ServiceException {
         List<User> users = userService.findUserByLogin(login);
@@ -104,10 +103,10 @@ public enum ServiceFacade {
         if (users.isEmpty()) {
             User user = entityProvider.getUser(username, password, login, role, email, 0);
             userService.addUser(user);
-            user = findSingleUser(username);
+            user = findSingleUser(username,true);
             sendVerificationMessage(user);
-            String notifyText=notifyMessageBuilder.registrationMessage(user);
-            notifyService.addNotify(notifyText,user, NotifyType.REGISTRATION);
+            String notifyText = notifyMessageBuilder.registrationMessage(user);
+            notifyService.addNotify(notifyText, user, NotifyType.REGISTRATION);
             return user;
         } else {
             throw new ServiceException();
@@ -116,7 +115,13 @@ public enum ServiceFacade {
     }
 
     public void deleteUser(String username) throws ServiceException {
-        userService.setUserStatus(UserStatus.DELETED, username);
+        paymentLock.lock();
+        try {
+            userService.setUserStatus(UserStatus.DELETED, username);
+        }finally {
+            paymentLock.unlock();
+        }
+
     }
 
     public List<User> showUserByRole(Role role) {
@@ -136,20 +141,20 @@ public enum ServiceFacade {
 
         try {
             paymentLock.lock();
-                User user = findSingleUser(username);
-                if (userService.debitUser(user, price)) {
-                    logger.log(Level.TRACE,"debit user "+price);
-                    Order order = entityProvider.getOrder(username, null, price, startTime, endTime,
-                            address, description, user);
-                    orderService.addOrder(order);
-                    logger.log(Level.TRACE,"added user "+order);
-                    String notifyText = notifyMessageBuilder.orderCreateMessage(user, order);
-                    notifyService.addNotify(notifyText, user, NotifyType.ORDER_CREATED);
-                    return true;
-                } else {
-                    logger.log(Level.TRACE, "debit user fail " + price);
-                    return false;
-                }
+            User user = findSingleUser(username,true);
+            if (userService.debitUser(user, price)) {
+                logger.log(Level.TRACE, "debit user " + price);
+                Order order = entityProvider.getOrder(username, null, price, startTime, endTime,
+                        address, description, user);
+                orderService.addOrder(order);
+                logger.log(Level.TRACE, "added user " + order);
+                String notifyText = notifyMessageBuilder.orderCreateMessage(user, order);
+                notifyService.addNotify(notifyText, user, NotifyType.ORDER_CREATED);
+                return true;
+            } else {
+                logger.log(Level.TRACE, "debit user fail " + price);
+                return false;
+            }
         } finally {
             paymentLock.unlock();
         }
@@ -160,10 +165,10 @@ public enum ServiceFacade {
             paymentLock.lock();
 
             Order order = findSingleOrderById(orderId);
-            User executor = findSingleUser(executorName);
+            User executor = findSingleUser(executorName,true);
             orderService.acceptOrder(order, executor);
             NotifyMessageBuilder builder = new NotifyMessageBuilder();
-            User customer = findSingleUser(order.getCustomer());
+            User customer = findSingleUser(order.getCustomer(),false);
             String text = builder.orderAcceptedMessage(customer, executor, order);
             NotifyType type = NotifyType.ORDER_ACCEPTED;
             notifyService.addNotify(text, customer, type);
@@ -179,13 +184,13 @@ public enum ServiceFacade {
 
             Order order = findSingleOrderById(orderId);
             if (orderService.updateOrderStatus(order, OrderStatus.CANCELED, ONE_HOUR)) {
-                User customer = findSingleUser(order.getCustomer());
+                User customer = findSingleUser(order.getCustomer(),true);
                 userService.creditUser(customer, order.getPrice());
                 String customerNotifyText = notifyMessageBuilder.orderCanceledMessageToCustomer(customer, order);
                 notifyService.addNotify(customerNotifyText, customer, NotifyType.ORDER_CANCEL_TO_CUSTOMER);
                 if (order.getExecutor() != null) {
-                    User executor = findSingleUser(order.getExecutor());
-                    String executorNotifyText = notifyMessageBuilder.orderCanceledMessageToExecutor(executor);
+                    User executor = findSingleUser(order.getExecutor(),true);
+                    String executorNotifyText = notifyMessageBuilder.orderCanceledMessageToExecutor(executor,order);
                     notifyService.addNotify(executorNotifyText, executor, NotifyType.ORDER_CANCEL_TO_EXECUTOR);
                 }
                 return true;
@@ -197,15 +202,16 @@ public enum ServiceFacade {
         }
     }
 
-    public boolean refuseOrderByExecutor(int orderId) throws ServiceException {
+    public boolean refuseOrderByExecutor(int orderId,String username) throws ServiceException {
         Order order = findSingleOrderById(orderId);
-        if (orderService.updateOrderStatus(order, OrderStatus.NEW, ONE_HOUR)) {
-            User customer = findSingleUser(order.getCustomer());
+        User executor=findSingleUser(username,true);
+        if (order.getExecutorId()==executor.getId()&&orderService.updateOrderStatus(order, OrderStatus.NEW, ONE_HOUR)) {
+            User customer = findSingleUser(order.getCustomer(),true);
             String notifyText = notifyMessageBuilder.orderRefuseMessage(customer, order);
             notifyService.addNotify(notifyText, customer, NotifyType.ORDER_EXECUTOR_REFUSE);
             return true;
         } else {
-            return true;
+            return false;
         }
 
     }
@@ -214,8 +220,8 @@ public enum ServiceFacade {
         return documentService.getUserDocuments(username);
     }
 
-    public void checkDocument(int id, String adminname) throws ServiceException {
-        User admin = findSingleUser(adminname);
+    public void checkDocument(int id, String adminName) throws ServiceException {
+        User admin = findSingleUser(adminName,true);
         Document document = documentService.findDocumentById(id);
         documentService.checkDocument(admin, document);
     }
@@ -246,11 +252,13 @@ public enum ServiceFacade {
 
 
     public User uploadPhoto(File file, String username) throws ServiceException {
+        if (file==null){
+            throw new ServiceException();
+        }
         userService.setUserPhoto(file, username);
-        return findSingleUser(username);
+        return findSingleUser(username,true);
 
     }
-
 
     public void creditAccount(String username, int sum) throws ServiceException {
         paymentLock.lock();
@@ -259,17 +267,15 @@ public enum ServiceFacade {
         paymentLock.unlock();
     }
 
-    public void addNotify(String text, String username) throws ServiceException {
-        User user = userService.findUserByUsername(username).get(0);
-        notifyService.addNotify(text, user, NotifyType.SIMPLE_TEXT);
-    }
-
     public void addDocument(File file, String username) throws ServiceException {
-        User user = findSingleUser(username);
+        if(file==null){
+            throw new ServiceException();
+        }
+        User user = findSingleUser(username,true);
         documentService.addDocument(user, file);
     }
 
-    public List<User> showAllUserByRole()  {
+    public List<User> showAllUserByRole() {
         return userService.findAll();
     }
 
@@ -277,7 +283,7 @@ public enum ServiceFacade {
         return documentService.getUserDocuments(username);
     }
 
-    public void initOrderAutoUpdate(){
+    public void initOrderAutoUpdate() {
         OrderUpdateManager.INSTANCE.update(orderService);
     }
 }

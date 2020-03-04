@@ -17,18 +17,18 @@ public class UserInfoTag extends TagSupport {
         try {
            Role userRole=   (Role) pageContext.getSession().
                    getAttribute(AttributeName.ROLE);
-           pageContext.getOut().write("<p>" +userRole+ "<p/>");
+           pageContext.getOut().write("<li class=\"nav-item \">" +userRole+ "</li>");
 
             String locale=   (String) pageContext.getSession().
                     getAttribute(AttributeName.LOCALE);
-            pageContext.getOut().write("<p>" +locale+ "<p/>");
+            pageContext.getOut().write("<li class=\"nav-item \">" +locale+ "</li>");
 
             String username=   (String) pageContext.getSession().
                     getAttribute(AttributeName.USERNAME);
-            pageContext.getOut().write("<p>" +username+ "<p/>");
+            pageContext.getOut().write("<li class=\"nav-item \">" +username+ "</li>");
             UserStatus status=  (UserStatus) pageContext.getSession().
                     getAttribute(AttributeName.STATUS);
-            pageContext.getOut().write("<p>" +status+ "<p/>");
+            pageContext.getOut().write("<li class=\"nav-item \">" +status+ "</li>");
         } catch (IOException e) {
             throw new JspException(e.getMessage());
         }

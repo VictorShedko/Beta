@@ -26,7 +26,8 @@ public class DocumentRepository extends Repository<Document> {
 
 
     @Override
-    protected Document buildEntity(ResultSet resultSet, CleanerEntityProvider factory) throws SQLException, IOException {
+    protected Document buildEntity(ResultSet resultSet, CleanerEntityProvider factory)
+            throws SQLException, IOException {
         return factory.getDocument(resultSet);
     }
 }

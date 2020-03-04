@@ -20,11 +20,15 @@
           crossorigin="anonymous">
 </head>
 <body>
+<div class="container">
 <p>Something went wrong!</p>
 <form>
     <input type="hidden" name="command" value="logout">
-    <button class="border-primary" type="submit"/>
+    <button class="btn btn-primary" type="submit">
+        <fmt:message key="error.to-login"/>
+    </button>
 </form>
+</div>
 </body>
 </html>
 </fmt:bundle>

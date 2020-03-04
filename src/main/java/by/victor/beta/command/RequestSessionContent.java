@@ -212,13 +212,15 @@ public class RequestSessionContent {
     private void buildFile(HttpServletRequest request) {
 
         try {
-            if (request.getContentType() != null && request.getContentType().startsWith("multipart/form-data")) {
+            if (request.getContentType() != null && request.getContentType().startsWith("multipart/form-data")&&
+                    (!request.getParts().isEmpty())) {
                 request.getParts().forEach(part -> {
                     File downloadedFile;
                     try {
                         String fileName = part.getSubmittedFileName();
                         String name = part.getName();
-                        if ("file".equals(name)) {
+
+                        if ("file".equals(name)&&fileName!=null&&!"".equals(fileName)) {
 
                             String newFileName = TEMP_FOLDER_NAME+ tempNumber.addAndGet(1) +
                                     fileName.substring(fileName.lastIndexOf("."));

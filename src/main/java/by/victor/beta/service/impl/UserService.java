@@ -89,7 +89,8 @@ public class UserService implements IUserService {
     @Override
     public boolean creditUser(User user, int sum) throws ServiceException {
         long startSum = user.getBalance();
-        ChangeBalanceSpecification modifySpecification = new ChangeBalanceSpecification(startSum + sum, user.getUsername());
+        ChangeBalanceSpecification modifySpecification =
+                new ChangeBalanceSpecification(startSum + sum, user.getUsername());
         try {
             return UserRepository.getInstance().updateQuery(modifySpecification) > 0;
         } catch (RepositoryException e) {
@@ -121,7 +122,8 @@ public class UserService implements IUserService {
         if(SupportedImagesFormat.isSupported(extension)) {
             File dest = null;
             try {
-                dest = FileManager.INSTANCE.moveFileToUserDir(file, username, UUID.randomUUID().toString() + extension);
+                dest = FileManager.INSTANCE.moveFileToUserDir(file, username,
+                        UUID.randomUUID().toString() + extension);
             } catch (IOException e) {
                 logger.log(Level.ERROR,"add user photo error ",e);
                 throw new ServiceException(e);

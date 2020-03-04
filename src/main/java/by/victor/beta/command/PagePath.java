@@ -19,7 +19,7 @@ public class PagePath {
     public static final String CREDIT_FORM="jsp/common/creditForm.jsp";
     public static final String RESULT="jsp/common/operationResult.jsp";
     public static final String ADD_INFO_FORM="jsp/common/addInfo.jsp";
-    public static final String USER_PROFILE="jsp/common/userProfile.jsp";
+    public static final String USER_PROFILE="jsp/admin/userProfile.jsp";
     public static final String USER_LIST="jsp/admin/userList.jsp";
     public static final String USER_FILES="userfile";
     public static final String SEPARATOR="/";

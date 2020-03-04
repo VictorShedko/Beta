@@ -5,17 +5,21 @@ import by.victor.beta.service.ServiceException;
 import by.victor.beta.service.ServiceFacade;
 
 public class DeleteUserCommand implements Command {
+    private static PRGParameterManager parameterManager=new PRGParameterManager();
     @Override
     public Router execute(RequestSessionContent content) throws CommandException {
-        Router router=new Router(PagePath.CREATE_ORDER_RESULT);;
+        String path;
         String username=(String)  content.getRequestParameter(AttributeName.USERNAME);
         try {
             ServiceFacade.INSTANCE.deleteUser(username);
-            content.setRequestAttribute(AttributeName.COMMAND_RESULT, PageContentKey.SUCCESSFULLY);
+            path=parameterManager.addParameter(PagePath.PRG_RESULT,AttributeName.COMMAND_RESULT,
+                    PageContentKey.SUCCESSFULLY);
         } catch (ServiceException ex) {
-            content.setRequestAttribute(AttributeName.COMMAND_RESULT, PageContentKey.FAILED);
+            path=parameterManager.addParameter(PagePath.PRG_RESULT,AttributeName.COMMAND_RESULT,
+                    PageContentKey.FAILED);
         }
-
+        Router router=new Router(path);
+        router.setRedirect();
         return router;
     }
 }

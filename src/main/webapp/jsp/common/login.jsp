@@ -16,7 +16,7 @@
 <fmt:bundle basename="pagecontent">
     <html>
     <head>
-
+        <link href="https://fonts.googleapis.com/css?family=Spartan&display=swap" rel="stylesheet">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="format-detection" content="telephone=no"/>
@@ -34,11 +34,12 @@
         <div class="form-border">
             <form action="cleaning" method="POST" class="needs-validation form-signin" novalidate
                   accept-charset="utf-8">
-                <p style="color: red">${feedback}"</p>
+                <p style="color: red">${feedback}</p>
 
                 <h2 class="form-signin-heading"><fmt:message key="login.welcome.text"/></h2>
                 <c:if test="${feedback!= null}">
-                <p><fmt:message key="${feedback}"/></p>
+                    <p><fmt:message key="${feedback}"/></p>
+
                 </c:if>
                 <div class="form-group">
                     <label for="login" lass="col-sm-2 col-form-label"> <fmt:message

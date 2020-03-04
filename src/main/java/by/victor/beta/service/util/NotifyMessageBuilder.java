@@ -63,8 +63,8 @@ public class NotifyMessageBuilder {
      * @return the string
      */
     public String buildByPattern(List<String> strings, NotifyType type, Locale locale) {
-        ResourceBundle connectionInfo = ResourceBundle.getBundle(NOTIFY_TEXT_BUNDLE_NAME, locale);
-        String pattern = connectionInfo.getString(type.name());
+        ResourceBundle notificationPatterns = ResourceBundle.getBundle(NOTIFY_TEXT_BUNDLE_NAME, locale);
+        String pattern = notificationPatterns.getString(type.name());
         logger.log(Level.DEBUG,"patern: "+pattern+" values "+strings);
         for (String substring : strings) {
 
@@ -132,8 +132,9 @@ public class NotifyMessageBuilder {
         return addDelimiter(replaceStringList);
     }
 
-    public String orderCanceledMessageToExecutor(User executor) {
+    public String orderCanceledMessageToExecutor(User executor,Order order) {
         List<String> replaceStringList = new ArrayList<>(usernameAsList(executor));
+        replaceStringList.addAll(orderInfo(order));
         return addDelimiter(replaceStringList);
     }
 

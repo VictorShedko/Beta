@@ -54,8 +54,7 @@ public class AttributeName {
     public static final String DOCUMENT_ID = "documentId";
     public static final String VERIFY_CODE = "uuid";
 
-    public static final String ALERT_TEXT="alert";
-    public static final String LAST_PAGE = "lastPage";
+
 
     private AttributeName() {
 

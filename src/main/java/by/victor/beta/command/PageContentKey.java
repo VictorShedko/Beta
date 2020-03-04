@@ -11,8 +11,8 @@ public class PageContentKey {
     public static final String INVALID_DATE_FORMAT = "feedback.invalid.date";
     public static final String SERVER_ERROR = "feedback.error";
     public static final String RU_LOCALE="be_BY";
-    public static final String STATUS="entity.name.status";
-    public static final String ROLE="entity.name.role";
+    public static final String STATUS="entity.user.status";
+    public static final String ROLE="entity.user.role";
     public static final String INVALID_USERNAME="feedback.invalid.character-in-username";
     public static final String USERNAME_MAXIMUM_LENGTH_EXCEEDED ="feedback.invalid.username-long must be less than 8 characters";
     public static final String TOO_SHORT_USERNAME ="feedback.invalid.username-short must be more than 8 characters";

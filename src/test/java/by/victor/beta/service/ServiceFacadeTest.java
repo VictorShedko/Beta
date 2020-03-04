@@ -14,6 +14,9 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 @PrepareForTest({UserService.class,OrderService.class,NotifyService.class})
 public class ServiceFacadeTest {
 
@@ -50,7 +53,7 @@ public class ServiceFacadeTest {
 
         try {
             UserService ser=new UserService();
-            User user=ServiceFacade.INSTANCE.findUserByUsername(username);
+            User user=ServiceFacade.INSTANCE.findUserByUsername(username,false);
             Mockito.verify(userService.findUserByUsername(username));
             Assert.assertEquals(user.getLogin(),login);
         } catch (ServiceException e) {
@@ -118,6 +121,8 @@ public class ServiceFacadeTest {
 
     @Test
     public void testShowNotifyList() {
+
+
     }
 
     @Test

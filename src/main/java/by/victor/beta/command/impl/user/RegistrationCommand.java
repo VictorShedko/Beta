@@ -32,7 +32,8 @@ public class RegistrationCommand implements Command {
                         validator.getInvalidFeedback());
             }
         } catch (ServiceException e) {
-            path=prgParameterManager.addParameter(PagePath.PRG_TO_REGISTRATION,AttributeName.ERROR_MESSAGE_HEADER, e.getMessage());
+            path=prgParameterManager.addParameter(PagePath.PRG_TO_REGISTRATION,AttributeName.ERROR_MESSAGE_HEADER,
+                    e.getMessage());
         }
         router=new Router(path);
         router.setRedirect();

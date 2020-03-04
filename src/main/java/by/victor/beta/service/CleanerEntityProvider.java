@@ -22,7 +22,8 @@ import java.util.List;
 public class CleanerEntityProvider {
 
 
-    public User getUser(String username, String password, String login, Role role, String email, int balance) throws ServiceException {
+    public User getUser(String username, String password, String login, Role role, String email, int balance)
+            throws ServiceException {
         User user = new User();
         user.setUsername(username);
         user.setLogin(login);
@@ -84,6 +85,7 @@ public class CleanerEntityProvider {
         order.setStatus(OrderStatus.values()[resultSet.getInt(SqlColumnName.CLEANING_ORDER_STATUS)]);
         order.setExecutorId(resultSet.getLong(SqlColumnName.EXECUTOR_ID));
         order.setCustomerId(resultSet.getLong(SqlColumnName.CUSTOMER_ID));
+        order.setDescription(resultSet.getString(SqlColumnName.ORDER_DESCRIPTION));
         return order;
     }
 

@@ -25,42 +25,68 @@
         <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     </head>
     <body>
-    <nav id="navbar-example2" class="navbar navbar-light bg-light">
+    <nav id="navbar" class="navbar navbar-light bg-light">
 
-        <div class="container">
-            <div class="row">
 
-                <ul class="nav nav-pills">
-                    <div class="col">
-                        <li class="nav-item justify-content-start">
-                            <form action="cleaning" method="POST">
-                                <div class="form-group">
-                                    <input type="hidden" name="command" value="to_user_menu"/>
-                                    <button type="submit" class="btn btn-primary">User menu</button>
-                                </div>
-                            </form>
-                        </li>
+        <ul class="nav nav-pills">
+
+
+
+            <li class="nav-item justify-content-start">
+                <form action="cleaning" method="GET" style="display: inline-block">
+                    <div class="form-group">
+                        <input type="hidden" name="command" value="to_user_menu"/>
+                        <button type="submit" class="btn btn-primary"><fmt:message key="navbar.usermenu"/></button>
                     </div>
-                    <div class="col justify-content-end">
-                        <li class="nav-item">
-                            <form action="cleaning" method="POST">
-                                <div class="form-group">
-                                    <input type="hidden" name="command" value="log_out"/>
-                                    <button type="submit" class="btn btn-primary">log out</button>
-                                </div>
-                            </form>
-                        </li>
-                    </div>
-                </ul>
+                </form>
+            </li>
 
-
+            <div class="col justify-content-end">
+                <li class="nav-item">
+                    <form action="cleaning" method="GET">
+                        <div class="form-group">
+                            <input type="hidden" name="command" value="logout"/>
+                            <button type="submit" class="btn btn-primary"><fmt:message key="navbar.logout"/></button>
+                        </div>
+                    </form>
+                </li>
             </div>
-        </div>
+            <div class="col">
+                <li class="nav-item justify-content-start">
+                    <form action="cleaning" method="GET">
+                        <div class="form-group">
+                            <input type="hidden" name="command" value="to_notify"/>
+                            <button type="submit" class="btn btn-primary"><fmt:message
+                                    key="navbar.notification"/></button>
+                        </div>
+                    </form>
+                </li>
+            </div>
+
+            <div class="col">
+                <li class="nav-item justify-content-end">
+                    <form action="cleaning" method="GET">
+                        <div class="form-group">
+                            <input type="hidden" name="command" value="change_locale"/>
+                            <button type="submit" class="btn btn-primary"><fmt:message
+                                    key="navbar.changelaguge"/></button>
+                        </div>
+                    </form>
+                </li>
+            </div>
+            <div class="col">
+                <ctg:userInfo/>
+            </div>
+        </ul>
+
+
     </nav>
     <div class="container">
         <div class="row">
 
             <H2><fmt:message key="customeOrderHistory.new-orders"/> </H2>
+        </div>
+        <div class="row">
             <table class="table table-striped" id="new-orders">
                 <thead>
                 <tr>
@@ -71,6 +97,7 @@
                     <th><fmt:message key="customeOrderHistory.table.head.description"/></th>
                     <th><fmt:message key="customeOrderHistory.table.head.address"/></th>
                     <th><fmt:message key="customeOrderHistory.table.head.price"/></th>
+                    <th></th>
 
                 </tr>
                 </thead>
@@ -84,6 +111,7 @@
                                                                 value="${item.startTime}"/></td>
                         <td class="table-light"><fmt:formatDate pattern="yyyy-MM-dd hh:mm"
                                                                 value="${item.endTime}"/></td>
+                        <td class="table-light"><c:out value="${item.description}"/></td>
                         <td class="table-light"><c:out value="${item.address}"/></td>
                         <td class="table-light"><c:out value="${item.price}"/></td>
                         <td>

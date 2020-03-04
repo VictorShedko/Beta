@@ -21,9 +21,65 @@
               crossorigin="anonymous">
     </head>
     <body>
+    <nav id="navbar" class="navbar navbar-light bg-light">
+
+
+        <ul class="nav nav-pills">
+
+
+
+            <li class="nav-item justify-content-start">
+                <form action="cleaning" method="GET" style="display: inline-block">
+                    <div class="form-group">
+                        <input type="hidden" name="command" value="to_user_menu"/>
+                        <button type="submit" class="btn btn-primary"><fmt:message key="navbar.usermenu"/></button>
+                    </div>
+                </form>
+            </li>
+
+            <div class="col justify-content-end">
+                <li class="nav-item">
+                    <form action="cleaning" method="GET">
+                        <div class="form-group">
+                            <input type="hidden" name="command" value="logout"/>
+                            <button type="submit" class="btn btn-primary"><fmt:message key="navbar.logout"/></button>
+                        </div>
+                    </form>
+                </li>
+            </div>
+            <div class="col">
+                <li class="nav-item justify-content-start">
+                    <form action="cleaning" method="GET">
+                        <div class="form-group">
+                            <input type="hidden" name="command" value="to_notify"/>
+                            <button type="submit" class="btn btn-primary"><fmt:message
+                                    key="navbar.notification"/></button>
+                        </div>
+                    </form>
+                </li>
+            </div>
+
+            <div class="col">
+                <li class="nav-item justify-content-end">
+                    <form action="cleaning" method="GET">
+                        <div class="form-group">
+                            <input type="hidden" name="command" value="change_locale"/>
+                            <button type="submit" class="btn btn-primary"><fmt:message
+                                    key="navbar.changelaguge"/></button>
+                        </div>
+                    </form>
+                </li>
+            </div>
+            <div class="col">
+                <ctg:userInfo/>
+            </div>
+        </ul>
+
+
+    </nav>
     <div class="container">
         <div class="row">
-            <form action="cleaning" method="GET" class="needs-validation" novalidate>
+            <form action="cleaning" method="POST" class="needs-validation" novalidate>
                 <div class="form-row">
                     <div class="form-group">
                         <label for="creditSum"><fmt:message key="creditForm.price.lable"/></label>

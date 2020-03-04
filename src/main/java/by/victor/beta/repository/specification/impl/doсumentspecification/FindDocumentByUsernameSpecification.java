@@ -7,7 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class FindDocumentByUsernameSpecification implements Specification {
-       private String SELECT_DOCUMENT = "SELECT document.user_id,document.iddocument,document.admin_check_id,document.file,user.username as user," +
+       private String SELECT_DOCUMENT = "SELECT document.user_id,document.iddocument," +
+               "document.admin_check_id,document.file,user.username as user," +
             "admin.username as admin " +
             "FROM document JOIN user on document.user_id = user.global_id " +
             "left join user as admin on document.admin_check_id=admin.global_id " +

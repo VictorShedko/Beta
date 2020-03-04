@@ -6,7 +6,9 @@ import by.victor.beta.repository.specification.Specification;
 import java.sql.*;
 
 public class AddOrderSpecification implements Specification {
-    private static final String INSERT_CLEANING_ORDER = "INSERT INTO cleaning_order (address,start_time,end_time,price,client_id,status,description,executor_id) VALUES (?,?,?,?,?,?,?,NULL)";
+    private static final String INSERT_CLEANING_ORDER = "INSERT " +
+            "INTO cleaning_order (address,start_time,end_time,price,client_id,status,description,executor_id) " +
+            "VALUES (?,?,?,?,?,?,?,NULL)";
     private Order order;
 
 

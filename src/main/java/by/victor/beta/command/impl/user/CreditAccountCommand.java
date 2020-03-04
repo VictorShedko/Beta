@@ -6,9 +6,11 @@ import by.victor.beta.service.ServiceFacade;
 import by.victor.beta.validator.Validator;
 
 public class CreditAccountCommand implements Command {
+   private static PRGParameterManager parameterManager=new PRGParameterManager();
     @Override
     public Router execute(RequestSessionContent content) throws CommandException {
-        Router router=new Router(PagePath.CREATE_ORDER_RESULT);
+        Router router;
+        String path;
         String username=(String)  content.getSessionAttribute(AttributeName.USERNAME);
         String sumAsString=(String) content.getRequestParameter(AttributeName.CREDIT_SUM);
         try {
@@ -16,15 +18,16 @@ public class CreditAccountCommand implements Command {
             if(validator.isValidCreditSum(sumAsString)) {
                 int sum=Integer.parseInt(sumAsString);
                 ServiceFacade.INSTANCE.creditAccount(username, sum);
-                content.setRequestAttribute(AttributeName.COMMAND_RESULT, PageContentKey.SUCCESSFULLY);
+                path=parameterManager.addParameter(PagePath.PRG_RESULT,AttributeName.COMMAND_RESULT, PageContentKey.SUCCESSFULLY);
             }else {
-                router=new Router(PagePath.CREDIT_FORM);
-                content.setRequestAttribute(AttributeName.FEEDBACK,validator.getInvalidFeedback());
+                path=parameterManager.addParameter(PagePath.PRG_RESULT,AttributeName.COMMAND_RESULT, PageContentKey.SUCCESSFULLY);
             }
         } catch (ServiceException repositoryException) {
-            content.setRequestAttribute(AttributeName.FEEDBACK, PageContentKey.SERVER_ERROR);
+            path=parameterManager.addParameter(PagePath.PRG_RESULT,AttributeName.COMMAND_RESULT, PageContentKey.SUCCESSFULLY);
 
         }
+        router=new Router(path);
+        router.setRedirect();
         return router;
     }
 }

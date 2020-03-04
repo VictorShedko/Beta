@@ -31,6 +31,7 @@ public class ShowCustomerOrderHistory implements Command {
                     break;
 
                 case IN_PROGRESS:
+                case CANCELED:
                 case COMPLETED:
                 case NOT_CLAIMED:
                     completedOrders.add(t);

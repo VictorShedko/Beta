@@ -15,7 +15,7 @@ public class ShowUserProfileCommand implements Command {
         String username = (String) content.getRequestParameter(AttributeName.SEARCH_NAME);
         User user = null;
         try {
-            user = ServiceFacade.INSTANCE.findUserByUsername(username);
+            user = ServiceFacade.INSTANCE.findUserByUsername(username,false);
         } catch (ServiceException e) {
             throw new CommandException();
         }

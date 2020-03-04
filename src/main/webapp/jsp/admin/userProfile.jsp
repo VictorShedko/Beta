@@ -20,56 +20,61 @@
               crossorigin="anonymous">
     </head>
     <body>
-    <nav id="navbar-example2" class="navbar navbar-light bg-light">
-        <div class="container">
-            <div class="row">
-
-                <ul class="nav nav-pills">
-                    <div class="col">
-                        <li class="nav-item justify-content-start">
-                            <form action="cleaning" method="POST">
-                                <div class="form-group">
-                                    <input type="hidden" name="command" value="to_user_menu"/>
-                                    <button type="submit" class="btn btn-primary">User menu</button>
-                                </div>
-                            </form>
-                        </li>
-                    </div>
-                    <div class="col justify-content-end">
-                        <li class="nav-item">
-                            <form action="cleaning" method="POST">
-                                <div class="form-group">
-                                    <input type="hidden" name="command" value="logout"/>
-                                    <button type="submit" class="btn btn-primary">log out</button>
-                                </div>
-                            </form>
-                        </li>
-                    </div>
-                    <div class="col">
-                        <li class="nav-item justify-content-start">
-                            <form action="cleaning" method="POST">
-                                <div class="form-group">
-                                    <input type="hidden" name="command" value="to_notify"/>
-                                    <button type="submit" class="btn btn-primary">notification</button>
-                                </div>
-                            </form>
-                        </li>
-                    </div>
-                    <div class="col">
-                        <li class="nav-item justify-content-start">
-                            <form action="cleaning" method="POST">
-                                <div class="form-group">
-                                    <input type="hidden" name="command" value="change_locale"/>
-                                    <button type="submit" class="btn btn-primary">En</button>
-                                </div>
-                            </form>
-                        </li>
-                    </div>
-                </ul>
+    <nav id="navbar" class="navbar navbar-light bg-light">
 
 
+        <ul class="nav nav-pills">
+
+
+
+            <li class="nav-item justify-content-start">
+                <form action="cleaning" method="GET" style="display: inline-block">
+                    <div class="form-group">
+                        <input type="hidden" name="command" value="to_user_menu"/>
+                        <button type="submit" class="btn btn-primary"><fmt:message key="navbar.usermenu"/></button>
+                    </div>
+                </form>
+            </li>
+
+            <div class="col justify-content-end">
+                <li class="nav-item">
+                    <form action="cleaning" method="GET">
+                        <div class="form-group">
+                            <input type="hidden" name="command" value="logout"/>
+                            <button type="submit" class="btn btn-primary"><fmt:message key="navbar.logout"/></button>
+                        </div>
+                    </form>
+                </li>
             </div>
-        </div>
+            <div class="col">
+                <li class="nav-item justify-content-start">
+                    <form action="cleaning" method="GET">
+                        <div class="form-group">
+                            <input type="hidden" name="command" value="to_notify"/>
+                            <button type="submit" class="btn btn-primary"><fmt:message
+                                    key="navbar.notification"/></button>
+                        </div>
+                    </form>
+                </li>
+            </div>
+
+            <div class="col">
+                <li class="nav-item justify-content-end">
+                    <form action="cleaning" method="GET">
+                        <div class="form-group">
+                            <input type="hidden" name="command" value="change_locale"/>
+                            <button type="submit" class="btn btn-primary"><fmt:message
+                                    key="navbar.changelaguge"/></button>
+                        </div>
+                    </form>
+                </li>
+            </div>
+            <div class="col">
+                <ctg:userInfo/>
+            </div>
+        </ul>
+
+
     </nav>
     <div class="container">
         <div class="row">
@@ -100,23 +105,25 @@
         <c:if test="${role.value() == 'admin'}">
             <div class="row">
                 <div class="col">
-                    <form action="cleaning" method="POST">
+                    <form action="cleaning" method="get">
                         <div class="form-group">
                             <c:if test="${userInfo.status.toString() != 'DELETED'}">
                                 <input type="hidden" name="command" value="delete_user"/>
-                                <input type="hidden" name="user" value="${userInfo.username}"/>
-                                <button type="submit" class="btn btn-primary">удалить</button>
+                                <input type="hidden" name="username" value="${userInfo.username}"/>
+                                <button type="submit" class="btn btn-primary"><fmt:message key="userProfile.admin.delete.button.text"/></button>
                             </c:if>
                         </div>
                     </form>
                 </div>
                 <div class="col">
-                    <form action="cleaning" method="POST">
+                    <form action="cleaning" method="get">
                         <div class="form-group">
                             <c:if test="${userInfo.status.toString() == 'EMAIL_VERIFIED'}">
                                 <input type="hidden" name="command" value="verify_user"/>
                                 <input type="hidden" name="username" value="${userInfo.username}"/>
-                                <button type="submit" class="btn btn-primary">верифицировать</button>
+                                <button type="submit" class="btn btn-primary">
+                                    <fmt:message key="userProfile.admin.verify.button.text"/>
+                                </button>
                             </c:if>
                         </div>
                     </form>
@@ -127,7 +134,7 @@
     </div>
     <c:if test="${userInfo.role.value() == 'executor'}">
         <div class="row">
-            <table class="table table-striped">
+            <table class="table table-striped" id="doc">
                 <thead>
                 </thead>
                 <tbody>
@@ -139,7 +146,7 @@
                             <td><img alt="ups" src="<c:url value="${item.file}"/>"/></td>
                             <c:if test="${role.value() == 'admin'}">
                                 <td>
-                                    <form action="cleaning" method="POST">
+                                    <form action="cleaning" method="get">
                                         <div class="form-group">
 
                                                 <input type="hidden" name="command" value="check_document"/>
@@ -169,5 +176,10 @@
 
 
     </body>
+    <script>
+        $(document).ready(function(){
+            $('#doc').dataTable();
+        });
+    </script>
     </html>
 </fmt:bundle>

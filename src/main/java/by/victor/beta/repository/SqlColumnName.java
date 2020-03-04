@@ -22,6 +22,7 @@ public class SqlColumnName {
     public static final String START_TIME="start_time";
     public static final String END_TIME="end_time";
     public static final String EXECUTOR_ID="executor_id";
+    public static final String ORDER_DESCRIPTION="description";
 
     public static final String PRICE="price";
     public static final String CLEANING_ORDER_STATUS="status";

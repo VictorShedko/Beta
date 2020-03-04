@@ -20,7 +20,8 @@ public enum ConnectionPool {
     INSTANCE;
 
     private final Logger logger= LogManager.getLogger(ConnectionPool.class);
-    private static final String DB_PROPERTIES_FILE = "C:\\Users\\ACER\\Documents\\Beta\\src\\main\\resources\\database.properties";
+    private static final String DB_PROPERTIES_FILE = "C:\\Users\\ACER\\Documents\\Beta\\src\\main\\resources\\" +
+            "database.properties";
     private static final String DB_POOL_SIZE_PARAMETER_NAME ="db.poolsize";
     private static final int timeWait=50;
     private int pool_size;

@@ -16,6 +16,7 @@
 <html>
 <head>
     <title><fmt:message key="userList.title"/></title>
+    <link href="<c:url value="/css/background.css" />" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
           crossorigin="anonymous">
@@ -28,15 +29,68 @@
 <body>
 
 
-<p>${searchParameter}</p>
-<p>${searchParameterValue}</p>
+<nav id="navbar" class="navbar navbar-light bg-light">
+
+
+    <ul class="nav nav-pills">
 
 
 
+        <li class="nav-item justify-content-start">
+            <form action="cleaning" method="GET" style="display: inline-block">
+                <div class="form-group">
+                    <input type="hidden" name="command" value="to_user_menu"/>
+                    <button type="submit" class="btn btn-primary"><fmt:message key="navbar.usermenu"/></button>
+                </div>
+            </form>
+        </li>
 
+        <div class="col justify-content-end">
+            <li class="nav-item">
+                <form action="cleaning" method="GET">
+                    <div class="form-group">
+                        <input type="hidden" name="command" value="logout"/>
+                        <button type="submit" class="btn btn-primary"><fmt:message key="navbar.logout"/></button>
+                    </div>
+                </form>
+            </li>
+        </div>
+        <div class="col">
+            <li class="nav-item justify-content-start">
+                <form action="cleaning" method="GET">
+                    <div class="form-group">
+                        <input type="hidden" name="command" value="to_notify"/>
+                        <button type="submit" class="btn btn-primary"><fmt:message
+                                key="navbar.notification"/></button>
+                    </div>
+                </form>
+            </li>
+        </div>
+
+        <div class="col">
+            <li class="nav-item justify-content-end">
+                <form action="cleaning" method="GET">
+                    <div class="form-group">
+                        <input type="hidden" name="command" value="change_locale"/>
+                        <button type="submit" class="btn btn-primary"><fmt:message
+                                key="navbar.changelaguge"/></button>
+                    </div>
+                </form>
+            </li>
+        </div>
+        <div class="col">
+            <ctg:userInfo/>
+        </div>
+    </ul>
+
+
+</nav>
+<div class="mainContent">
 <div class="container">
 
-
+    <h2><fmt:message key="table.order.new"/> </h2>
+    <p><fmt:message key="${searchParameter}"/></p>
+    <p>${searchParameterValue}</p>
     <table class="table table-striped" id="user" >
         <thead>
         <tr>
@@ -62,7 +116,7 @@
                 <td class="table-dark"><c:out value="${item.status.toString()}"/></td>
                 <td class="table-dark"><c:out value="${item.role.toString()}"/></td>
                 <td class="table-light">
-                    <form action="cleaning" method="POST">
+                    <form action="cleaning" method="get">
                         <input type="hidden" name="command" value="show_user_profile"/>
                         <input name="searchName" type="hidden" value="${item.username}">
                         <button type="submit" class="btn btn-primary"><fmt:message key="userList.table.body.openProfile"/></button>
@@ -75,7 +129,7 @@
         </tbody>
     </table>
 </div>
-
+</div>
 </body>
 <script>
     $(document).ready(function(){
