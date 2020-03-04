@@ -118,7 +118,7 @@ public class UserService implements IUserService {
     public void setUserPhoto(File file, String username) throws ServiceException {
         User user = findUserByUsername(username).get(0);
 
-        String extension=file.getName().substring(file.getName().lastIndexOf('.'));
+        String extension=FileManager.INSTANCE.getExtension(file.getName());
         if(SupportedImagesFormat.isSupported(extension)) {
             File dest = null;
             try {
@@ -137,7 +137,7 @@ public class UserService implements IUserService {
                 throw new ServiceException();
             }
         }else {
-            logger.log(Level.ERROR,"image type doesnt suppoting");
+            logger.log(Level.ERROR,"image type doesnt supporting");
             throw new ServiceException();
         }
     }

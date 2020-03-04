@@ -109,6 +109,10 @@ public enum  FileManager {
      * @return the extension
      */
     public String getExtension(String filename) {
-        return filename.substring(filename.lastIndexOf('.'));
+        if(filename.lastIndexOf('.')!=-1) {
+            return filename.substring(filename.lastIndexOf('.'));
+        }else {
+            return "";
+        }
     }
 }

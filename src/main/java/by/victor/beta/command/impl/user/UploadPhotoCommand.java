@@ -19,6 +19,9 @@ public class UploadPhotoCommand implements Command {
             content.setSessionAttribute(AttributeName.PHOTO_PATH,user.getPhotoPath());
 
         } catch (ServiceException ex) {
+            content.setRequestAttribute(AttributeName.ERROR_MESSAGE_VALUE,"wrong file format" +
+                    "" +
+                    "");
             router=new Router(PagePath.ERROR);
         }
 

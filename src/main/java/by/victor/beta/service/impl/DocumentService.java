@@ -2,6 +2,7 @@ package by.victor.beta.service.impl;
 
 import by.victor.beta.entity.Document;
 import by.victor.beta.entity.User;
+import by.victor.beta.entity.util.SupportedImagesFormat;
 import by.victor.beta.repository.RepositoryException;
 import by.victor.beta.repository.impl.DocumentRepository;
 import by.victor.beta.repository.specification.impl.doсumentspecification.AddDocumentSpecification;
@@ -26,20 +27,27 @@ public class DocumentService implements IDocumentService {
     private CleanerEntityProvider factory=new CleanerEntityProvider();
     @Override
     public void addDocument(User user, File file) throws ServiceException {
+        String extension=FileManager.INSTANCE.getExtension(file.getName());
+        if(SupportedImagesFormat.isSupported(extension)) {
         String uuid=FileManager.INSTANCE.generateUUIDNameWithSameExtension(file);
-        File movedFile= null;
-        try {
-            movedFile = FileManager.INSTANCE.moveFileToUserDir(file,user.getUsername(),uuid);
-        } catch (IOException e) {
-            logger.log(Level.ERROR,"add document error ",e);
-            throw new ServiceException(e);
-        }
-        Document document=factory.getDocument(user,movedFile.getName());
-        AddDocumentSpecification specification=new AddDocumentSpecification(document);
-        try {
-            DocumentRepository.getInstance().updateQuery(specification);
-        } catch (RepositoryException e) {
-            throw new ServiceException(e);
+
+            File movedFile = null;
+            try {
+                movedFile = FileManager.INSTANCE.moveFileToUserDir(file, user.getUsername(), uuid);
+            } catch (IOException e) {
+                logger.log(Level.ERROR, "add document error ", e);
+                throw new ServiceException(e);
+            }
+            Document document = factory.getDocument(user, movedFile.getName());
+            AddDocumentSpecification specification = new AddDocumentSpecification(document);
+            try {
+                DocumentRepository.getInstance().updateQuery(specification);
+            } catch (RepositoryException e) {
+                throw new ServiceException(e);
+            }
+        }else {
+            logger.log(Level.ERROR,"");
+            throw new ServiceException("bad extension");
         }
     }
     @Override
